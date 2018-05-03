@@ -19,10 +19,10 @@ public abstract class User {
 
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "insert into Cart Values (" + String.valueOf(id)
-		+ ISBN + String.valueOf(price) 
-		+String.valueOf(quantity);
+		query += "insert into Cart Values (" + String.valueOf(id)+ " , " + ISBN + " , "+ String.valueOf(price) + " , "
+				+ String.valueOf(quantity) +");";
 		
+
 		return stat.executeUpdate(query);
 
 	}
@@ -36,6 +36,11 @@ public abstract class User {
 	}
 
 	void logout(int userId) throws SQLException {
+
+		Statement stat = con.createStatement();
+		String query = "";
+		query += "delete from Cart where UID =" + userId + ";";
+		stat.executeUpdate(query);
 
 	}
 

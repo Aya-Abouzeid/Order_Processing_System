@@ -11,14 +11,14 @@ public interface IManager {
 	 * 
 	 * @return true upon success,false otherwise
 	 */
-	public boolean addBook(Book book);
+	public int addBook (Book book) throws SQLException;
 
 	/*
 	 * @param book to update
 	 * 
 	 * @return true upon success,false otherwise
 	 */
-	public boolean updateBook(Book book);
+	public int updateBook(Book book) throws SQLException;
 
 	/*
 	 * Promotes customer to Manager
@@ -28,17 +28,17 @@ public interface IManager {
 	 * @return true upon success,false otherwise
 	 *
 	 */
-	public boolean promoteUser(int userId);
+	public int promoteUser(int userId)throws SQLException;
 
 	/*
 	 * 
 	 */
-	public boolean confirmOrder(String isbn);
+	public int confirmOrder(String isbn) throws SQLException;
 
 	/*
 	 * 
 	 */
-	public boolean placeOrder(String isbn, int qunatity);
+	public int placeOrder(String isbn, int qunatity) throws SQLException;
 
 	/*
 	 * @param isbn book ISBN in  table
@@ -46,19 +46,19 @@ public interface IManager {
 	 * @return Book 
 	 * 
 	 */
-	public Book SearchByIsbn(String isbn);
+	public ResultSet SearchByIsbn(String isbn)throws SQLException;
 
 	/*
 	 * @param title book title
 	 * @return Set<Book> set of books with the  title
 	 */
-	public Set<Book> searchByTitle(String title);
+	public ResultSet searchByTitle(String title)throws SQLException;
 
 	/*
 	 * @param cat Books' Category
 	 * 
 	 * @return Set<Book>  books with Category: cat
 	 */
-	public Set<Book> SearchByCategory(Category cat);
+	public ResultSet SearchByCategory(Category cat)throws SQLException;
 
 }
