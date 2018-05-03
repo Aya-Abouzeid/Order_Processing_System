@@ -18,6 +18,8 @@ public class CustomerGUI {
 	protected Button Logout = new Button();
 	protected Stage stage;
 	protected Scene MainScene;
+	protected Scene CustomerScene;
+
 	public CustomerGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;
 		MainScene = s;
@@ -27,6 +29,7 @@ public class CustomerGUI {
 			
 			Group group = new Group();
 			Scene scene = new Scene(group, 980, 630);
+			CustomerScene = scene;
 			GridPane gridPane = new GridPane();
 			
 			//Add btns to GUI
@@ -84,6 +87,15 @@ public class CustomerGUI {
 			public void handle(MouseEvent arg0) {
 				stage.setScene(MainScene);
 				stage.show();
+			}
+		});
+		
+		Edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+					InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
 			}
 		});
 	}

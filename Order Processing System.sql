@@ -14,7 +14,7 @@ CREATE TABLE `OrderProcessingSystem`.`USER` (
 
 CREATE TABLE `OrderProcessingSystem`.`BOOK` (
 	`ISBN` VARCHAR(100) NOT NULL,
-	`Title` VARCHAR(100)  NOT NULL UNIQUE,
+	`Title` VARCHAR(100)  NOT NULL,
 	`PID` INT NOT NULL,
 	`Year` date,
 	`Price` DOUBLE NOT NULL,
