@@ -1,5 +1,7 @@
 package Library;
 
+import java.sql.Date;
+
 public class Book {
 
 	// defining book attributes
@@ -15,11 +17,12 @@ public class Book {
 	private int stockQuantity;
 	private int sellingPrice;
 	private Category category;
+	private Date year;
 
 	// year ---> what type?
 	// Book's Constructor
 	public Book(String title, String isbn, int pubId, int stockQuantity
-			, int price, int threshold, Category cat) {
+			, int price, int threshold, Category cat,Date date) {
 		this.category = cat;
 		this.title = title;
 		this.isbn = isbn;
@@ -27,6 +30,7 @@ public class Book {
 		this.sellingPrice = price;
 		this.publisherId = pubId;
 		this.stockQuantity = stockQuantity;
+		this.year=date;
 		//this.year= 
 	}
 
@@ -62,10 +66,15 @@ public class Book {
 		this.isbn = isbn;
 	}
 
+	
 	// getters
 
 	public String getTitle() {
 		return title;
+	}
+	
+	public Date getYear(){
+		return this.year;
 	}
 
 	public String getIsbn() {
