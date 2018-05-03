@@ -1,5 +1,4 @@
 package GUI;
-import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -8,26 +7,21 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 
 public class LoginGUI {
-	Stage stage;
-	public LoginGUI( Stage primaryStage) {
-		
+	protected Stage stage;
+	protected Scene MainScene;
+	protected Button Back = new Button();
+
+	public LoginGUI( Stage primaryStage ,Scene s) {
+		MainScene = s;
 		stage = primaryStage;
 		LoginPage();
-		//graph = new double[number + 1][number + 1];
 	}
  public void LoginPage(){
 	// String path;
@@ -38,6 +32,7 @@ public class LoginGUI {
 
 		GridPane gridPane = new GridPane();
 		FillGUI(gridPane);
+		AddFuncionality();
 		group.getChildren().add(gridPane);
 
 		Platform.runLater(new Runnable() {
@@ -54,31 +49,51 @@ public class LoginGUI {
  public void FillGUI(GridPane gp){
 	 		Label UName = new Label("User Name: ");
 			UName.setStyle("-fx-font: normal bold 32px 'serif' ");
-			gp.add(UName, 1, 2);
+			gp.add(UName, 8, 2);
 
 			Label UPass = new Label("Password: ");
 			UPass.setStyle("-fx-font: normal bold 32px 'serif' ");
-			gp.add(UPass, 1, 5);
+			gp.add(UPass, 8, 5);
 			
 			
 			
 			
 			TextField UNameTf = new TextField();
-			gp.add(UNameTf, 3, 2);
+			gp.add(UNameTf, 12, 2);
 			
-			TextField UPassTf = new TextField();
-			gp.add(UPassTf, 3, 5);
+			PasswordField passwordField = new PasswordField();
+			gp.add(passwordField, 12, 5);
 			
 			Button Login = new Button();
 			Login.setText("Login");
 			Login.setPrefSize(119, 35);
-			gp.add(Login, 20, 20);
+			gp.add(Login, 12, 7);
+			
+			Back.setText("< Back");
+			Back.setPrefSize(119, 35);
+			gp.add(Back, 1, 9);
+			
+			Login.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+			Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+
 			
 			
-			
-			gp.setAlignment(Pos.BOTTOM_CENTER);
-			gp.setPadding(new Insets(49, 49, 56, 280));
+			gp.setAlignment(Pos.CENTER);
+			gp.setVgap(40);
+			gp.setHgap(2);
+			gp.setPadding(new Insets(49, 49, 56, 190));
 
  }
-	
+	public void AddFuncionality(){
+		
+		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				stage.setScene(MainScene);
+				stage.show();
+			}
+		});
+		
+	}
 }
