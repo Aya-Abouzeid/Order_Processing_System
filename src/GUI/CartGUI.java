@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class CartGUI {
-
+	protected Button Back = new Button();
 	protected Scene MainScene;
 	protected Scene CustomerScene;
 	protected Stage stage;
@@ -54,7 +54,22 @@ public class CartGUI {
 		});
  }
 	public void FillGUI(GridPane gp){
+		
+		Back.setText("< Back");
+		Back.setPrefSize(119, 35);
+		gp.add(Back, 1, 9);
+		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+
 	}
 	public void AddFunctionality(){
+		
+		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				stage.setScene(MainScene);
+				stage.show();
+			}
+		});
 	}
 }

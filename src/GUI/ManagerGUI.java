@@ -1,7 +1,5 @@
 package GUI;
 
-import java.io.File;
-
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,13 +7,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CustomerGUI {
+public class ManagerGUI {
+
 	protected Button Edit = new Button();
 	protected Button Search = new Button();
 	protected Button Cart = new Button();
@@ -24,12 +21,12 @@ public class CustomerGUI {
 	protected Scene MainScene;
 	protected Scene CustomerScene;
 
-	public CustomerGUI( Stage primaryStage, Scene s) {
+	public ManagerGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;
 		MainScene = s;
-		CustomerPage();
+		ManagerPage();
 	}
-	public void CustomerPage(){
+	public void ManagerPage(){
 			
 			Group group = new Group();
 			Scene scene = new Scene(group, 980, 630);
@@ -41,7 +38,7 @@ public class CustomerGUI {
 			
 			//Decide what to do with each btn click
 			AddFunctionality();
-			AddImage(group);
+
 			group.getChildren().add(gridPane);
 			gridPane.setPadding(new Insets(49, 49, 56, 280));
 			gridPane.setAlignment(Pos.CENTER);
@@ -57,15 +54,6 @@ public class CustomerGUI {
 
 			});
 	 }
-	public void AddImage(Group group){
-		File file = new File("Library2.jpg");
-		Image background = new Image(file.toURI().toString());
-        ImageView img = new ImageView(background);
-        img.setPreserveRatio(true);
-        img.setFitWidth(1000);
-        img.setFitHeight(1000);
-        group.getChildren().add(img);
-	}
 	public void FillGUI(GridPane gp){
 
 		Edit.setText("Edit Personal Info");
@@ -103,7 +91,7 @@ public class CustomerGUI {
 			}
 		});
 		
-		//User Clicked Logout Btn
+		
 		Edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -112,15 +100,5 @@ public class CustomerGUI {
 					InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
 			}
 		});
-		
-		//User Clicked Cart Btn
-				Cart.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-					@Override
-					public void handle(MouseEvent arg0) {
-						
-							CartGUI StartLogin = new CartGUI(stage , CustomerScene);
-					}
-				});
 	}
 }

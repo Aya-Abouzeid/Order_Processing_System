@@ -1,5 +1,7 @@
 package GUI;
 
+import java.io.File;
+
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -33,6 +37,7 @@ public class SignUpGUI {
 		GridPane gridPane = new GridPane();
 		FillGUI(gridPane);
 		AddFuncionality();
+		AddImage( group);
 		group.getChildren().add(gridPane);
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setVgap(10);
@@ -48,7 +53,13 @@ public class SignUpGUI {
 
 		});
  }
- 
+ public void AddImage(Group group){
+		File file = new File("books2.jpg");
+		Image background = new Image(file.toURI().toString());
+     ImageView img = new ImageView(background);
+     img.setPreserveRatio(true);
+     group.getChildren().add(img);
+	}
  public void FillGUI(GridPane gp){
 		Label UName = new Label("User Name: ");
 		UName.setStyle("-fx-font: normal bold 32px 'serif' ");

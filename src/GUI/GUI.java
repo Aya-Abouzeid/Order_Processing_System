@@ -1,5 +1,7 @@
 package GUI;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -7,6 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -17,32 +21,36 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
 		GridPane gridPane = new GridPane();
-		addBtn(gridPane, primaryStage);
 		Group group = new Group();
+		scene = new Scene(group, 980, 610);
+		AddImage(group);
+		
+		addBtn(gridPane, primaryStage);
 		group.getChildren().add(gridPane);
-		scene = new Scene(group, 980, 630);
 		primaryStage.setTitle("Order Processing System");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
-	public Scene getScene(){
-		return scene;
+	public void AddImage(Group group){
+		File file = new File("Library2.jpg");
+		Image background = new Image(file.toURI().toString());
+        ImageView img = new ImageView(background);
+        img.setPreserveRatio(true);
+        img.setFitWidth(1000);
+        img.setFitHeight(800);
+        group.getChildren().add(img);
 	}
 	public void addBtn(GridPane gridPane, Stage primaryStage) {
 
-		//Label label = new Label("Number Of Nodes : ");
-
-		//TextField tf = new TextField();
-
+	
 		Button Login = new Button();
 		Login.setText("Login");
-		Login.setPrefSize(119, 35);
+		Login.setPrefSize(150, 35);
 
 		Button SignUp = new Button();
 		SignUp.setText("SignUp");
-		SignUp.setPrefSize(119, 35);
+		SignUp.setPrefSize(150, 35);
 
 		
 		gridPane.setVgap(35);
