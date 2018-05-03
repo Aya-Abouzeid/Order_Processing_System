@@ -1,12 +1,17 @@
 package Library;
 
+import java.sql.SQLException;
 import java.util.Set;
 
 import Library.Book.Category;
 
-public class Manager implements IManager {
+public class Manager extends User implements IManager {
 
-
+	public Manager(int id) throws SQLException {
+		super(id);
+		
+	}
+	
 	@Override
 	public boolean addBook(Book book) {
 		// TODO Auto-generated method stub
@@ -54,7 +59,5 @@ public class Manager implements IManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 
 }
