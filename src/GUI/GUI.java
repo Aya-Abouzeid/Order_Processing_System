@@ -31,7 +31,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class GUI extends Application {
-
+	protected Scene scene;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -39,13 +39,16 @@ public class GUI extends Application {
 		addBtn(gridPane, primaryStage);
 		Group group = new Group();
 		group.getChildren().add(gridPane);
-		Scene scene = new Scene(group, 968, 618);
+		scene = new Scene(group, 980, 630);
 		primaryStage.setTitle("Order Processing System");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 	
+	public Scene getScene(){
+		return scene;
+	}
 	public void addBtn(GridPane gridPane, Stage primaryStage) {
 
 		//Label label = new Label("Number Of Nodes : ");
@@ -65,14 +68,12 @@ public class GUI extends Application {
 		gridPane.setHgap(7);
 		gridPane.setAlignment(Pos.CENTER);
 
-		//gridPane.add(label, 1, 12);
 		gridPane.add(Login, 20, 5);
 		gridPane.add(SignUp, 20, 7);
 
 		Login.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		SignUp.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
-		//label.setStyle("-fx-font: normal bold 32px 'serif' ");
 
 		gridPane.setAlignment(Pos.BOTTOM_CENTER);
 		gridPane.setPadding(new Insets(49, 49, 56, 280));
@@ -82,7 +83,7 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					LoginGUI StartLogin = new LoginGUI(primaryStage);
+					CustomerGUI StartLogin = new CustomerGUI(primaryStage , scene);
 			}
 		});
 		
