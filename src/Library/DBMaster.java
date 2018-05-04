@@ -12,11 +12,10 @@ public class DBMaster {
 	private Connection con;
 	private Manager manager = null;
 	private User user;
+	private Database db ;
 	public DBMaster() throws SQLException, ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.Driver"); 
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306" + "/OrderProcessingSystem", "root",
-				"11feb2011");
-		
+		db = new Database();
+		con = db.getCon();		
 	}
 	
 	//wrap it in userInfo bs b3d keda y3ny

@@ -3,6 +3,7 @@ package GUI;
 import java.io.File;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +21,28 @@ import javafx.stage.Stage;
 
 
 public class LibraryGUI {
+	private Button Back = new Button();
+	private Button Search = new Button();
+	
+	private RadioButton ISBN = new RadioButton("ISBN");
+	private RadioButton PID = new RadioButton("PID");
+	private RadioButton Title = new RadioButton("Title");
+	private RadioButton Year = new RadioButton("Year");
+	private RadioButton Price = new RadioButton("Price");
+	private RadioButton Category = new RadioButton("Category");
+	private RadioButton Stock = new RadioButton("Stock");
+	private RadioButton Threshold = new RadioButton("Threshold");
+
+
+	private TextField ISBNTf = new TextField();
+	private TextField PIDTf = new TextField();
+	private TextField TitleTf = new TextField();
+	private TextField YearTf = new TextField();
+	private TextField PriceTf = new TextField();
+	private TextField CategoryTf = new TextField();
+	private TextField StockTf = new TextField();
+	private TextField ThresholdTf = new TextField();
+	
 	Button addBook = new Button();
 	Button modify = new Button();
 	Button order = new Button();
@@ -47,6 +71,7 @@ public class LibraryGUI {
 		
 		//Decide what to do with each btn click
 		//AddFunctionality();
+		RadioBtnFunctionality();
 		AddImage(group);
 		group.getChildren().add(gridPane);
 		gridPane.setPadding(new Insets(49, 49, 56, 150));
@@ -73,61 +98,44 @@ public class LibraryGUI {
 	}
 	
 	public void FillGUI(GridPane gp){
-		Label ISBN = new Label("ISBN: ");
+
+
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(ISBN, 1, 2);
 
-		Label title = new Label("Title: ");
-		title.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(title, 1, 5);
-		
-		Label PID = new Label("PID: ");
 		PID.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(PID, 1, 8);
+		gp.add(PID, 1, 5);
 		
-		Label year = new Label("Year: ");
-		year.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(year, 1, 11);
+		Title.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Title, 1, 8);
 		
-		Label price = new Label("Price: ");
-		price.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(price, 1, 14);
+		Year.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Year, 1, 11);
 		
-		Label category = new Label("Category: ");
-		category.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(category, 1, 17);
+		Price.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Price, 1, 14);
+
+		Category.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Category, 1, 17);
 		
-		Label stock = new Label("Stock: ");
-		stock.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(stock, 1, 20);
 		
-		Label threshold = new Label("Threshold: ");
-		threshold.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(threshold, 1, 23);
-		
-		TextField ISBNTf = new TextField();
+		ISBNTf.setVisible(false);
 		gp.add(ISBNTf, 3, 2);
+
+		PIDTf.setVisible(false);
+		gp.add(PIDTf, 3, 5);
 		
-		TextField titleTf = new TextField();
-		gp.add(titleTf, 3, 5);
+		TitleTf.setVisible(false);
+		gp.add(TitleTf, 3, 8);
 		
-		TextField PIDTf = new TextField();
-		gp.add(PIDTf, 3, 8);
+		YearTf.setVisible(false);
+		gp.add(YearTf, 3, 11);
 		
-		TextField yearTf = new TextField();
-		gp.add(yearTf, 3, 11);
+		PriceTf.setVisible(false);
+		gp.add(PriceTf, 3, 14);
 		
-		TextField priceTf = new TextField();
-		gp.add(priceTf, 3, 14);
-		
-		TextField categoryTf = new TextField();
-		gp.add(categoryTf, 3, 17);
-		
-		TextField stockTf = new TextField();
-		gp.add(stockTf, 3, 20);
-		TextField thresholdTf = new TextField();
-		gp.add(thresholdTf, 3, 23);
-		
+		CategoryTf.setVisible(false);
+		gp.add(CategoryTf, 3, 17);	
 		
 		addBook.setText("Add Book");
 		addBook.setPrefSize(200, 35);
@@ -157,13 +165,13 @@ public class LibraryGUI {
 		Label UID = new Label("UID: ");
 		UID.setStyle("-fx-font: normal bold 32px 'serif' ");
 		UID.setPadding(new Insets(0, 0, 5, 10));
-		gp.add(UID,20, 2);
+		gp.add(UID,15, 2);
 		TextField UIDTf = new TextField();
-		gp.add(UIDTf,23 , 2);
+		gp.add(UIDTf,18 , 2);
 		
 		promote.setText("Promote customer");
 		promote.setPrefSize(200, 35);
-		gp.add(promote , 23, 5);
+		gp.add(promote , 18, 5);
 		promote.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 20px 'serif' ;");
 
 		
@@ -174,7 +182,117 @@ public class LibraryGUI {
 		gp.setPadding(new Insets(0, 0, 5, 5));
 		
 
-} /**
+} 
+	
+	
+public void RadioBtnFunctionality(){
+		
+		ISBN.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(ISBN.isSelected()){
+	        		ISBNTf.setVisible(true);
+	            }
+	            else{
+	            	ISBNTf.clear();
+	        		ISBNTf.setVisible(false);
+	            }
+	        }
+	    });
+		PID.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(PID.isSelected()){
+	            	PIDTf.setVisible(true);
+	            }
+	            else{
+	            	PIDTf.clear();
+	            	PIDTf.setVisible(false);
+	            }
+	        }
+	    });
+		Title.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Title.isSelected()){
+	            	TitleTf.setVisible(true);
+	            }
+	            else{
+	            	TitleTf.clear();
+	            	TitleTf.setVisible(false);
+	            }
+	        }
+	    });
+		Year.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Year.isSelected()){
+	            	YearTf.setVisible(true);
+	            }
+	            else{
+	            	YearTf.clear();
+	            	YearTf.setVisible(false);
+	            }
+	        }
+	    });
+		Price.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Price.isSelected()){
+	            	PriceTf.setVisible(true);
+	            }
+	            else{
+	            	PriceTf.clear();
+	            	PriceTf.setVisible(false);
+	            }
+	        }
+	    });
+		Category.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Category.isSelected()){
+	            	CategoryTf.setVisible(true);
+	            }
+	            else{
+	            	CategoryTf.clear();
+	            	CategoryTf.setVisible(false);
+	            }
+	        }
+	    });
+		Threshold.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Threshold.isSelected()){
+	            	ThresholdTf.setVisible(true);
+	            }
+	            else{
+	            	ThresholdTf.clear();
+	            	ThresholdTf.setVisible(false);
+	            }
+	        }
+	    });
+		Stock.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Stock.isSelected()){
+	            	StockTf.setVisible(true);
+	            }
+	            else{
+	            	StockTf.clear();
+	            	StockTf.setVisible(false);
+	            }
+	        }
+	    });
+	}
+/**
 	1. Add new books
 	2. Modify existing books
 	3. Place orders for books

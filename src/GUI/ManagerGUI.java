@@ -1,7 +1,5 @@
 package GUI;
 
-import java.io.File;
-
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,8 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -25,8 +21,6 @@ public class ManagerGUI {
 	protected Button topFiveCustomers = new Button();
 	protected Button topTenSellingBooks = new Button();
 	protected Button manageLibrary = new Button();
-
-	
 	protected Stage stage;
 	protected Scene MainScene;
 	protected Scene CustomerScene;
@@ -48,7 +42,7 @@ public class ManagerGUI {
 			
 			//Decide what to do with each btn click
 			AddFunctionality();
-			AddImage( group);
+
 			group.getChildren().add(gridPane);
 			gridPane.setPadding(new Insets(49, 49, 56, 150));
 			gridPane.setAlignment(Pos.TOP_LEFT);
@@ -64,17 +58,6 @@ public class ManagerGUI {
 
 			});
 	 }
-	
-	public void AddImage(Group group){
-		File file = new File("Library2.jpg");
-		Image background = new Image(file.toURI().toString());
-        ImageView img = new ImageView(background);
-        img.setPreserveRatio(true);
-        img.setFitWidth(1000);
-        img.setFitHeight(1000);
-        group.getChildren().add(img);
-	}
-	
 	public void FillGUI(GridPane gp){
 
 		Edit.setText("Edit Personal Info");
@@ -149,16 +132,6 @@ public class ManagerGUI {
 			public void handle(MouseEvent arg0) {
 				
 					LibraryGUI manage = new LibraryGUI(stage , CustomerScene);
-			}
-		});
-		
-		//User Clicked Cart Btn
-		Cart.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent arg0) {
-				
-					CartGUI StartLogin = new CartGUI(stage , CustomerScene);
 			}
 		});
 	}

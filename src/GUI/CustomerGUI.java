@@ -109,7 +109,7 @@ public class CustomerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
+					InfoGUI StartInfo = new InfoGUI(stage , CustomerScene);
 			}
 		});
 		
@@ -119,7 +119,16 @@ public class CustomerGUI {
 					@Override
 					public void handle(MouseEvent arg0) {
 						
-							CartGUI StartLogin = new CartGUI(stage , CustomerScene);
+							CartGUI StartCart = new CartGUI(stage , CustomerScene);
+					}
+				});
+				
+				Search.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+					@Override
+					public void handle(MouseEvent arg0) {
+						
+							SearchGUI StartSearch = new SearchGUI(stage , CustomerScene);
 					}
 				});
 	}

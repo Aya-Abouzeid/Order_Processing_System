@@ -6,14 +6,13 @@ public abstract class User {
 
 	protected int userID;
 	protected Connection con;
+	private Database db;
 
 	public User(int id) throws SQLException, ClassNotFoundException  {
 
 		userID = id;
-		Class.forName("com.mysql.jdbc.Driver"); 
-
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306" + "/OrderProcessingSystem", "root",
-				"11feb2011");
+		db = new Database();
+		con = db.getCon();
 
 	}
 

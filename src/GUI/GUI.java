@@ -72,7 +72,7 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					ManagerGUI StartLogin = new ManagerGUI(primaryStage , scene);
+					CustomerGUI StartLogin = new CustomerGUI(primaryStage , scene);
 			}
 		});
 		
