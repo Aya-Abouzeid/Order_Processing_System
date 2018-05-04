@@ -107,6 +107,11 @@ public class SearchGUI {
 		Category.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Category, 1, 17);
 		
+		Threshold.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Threshold, 1, 20);
+		
+		Stock.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Stock, 1, 23);
 		
 		ISBNTf.setVisible(false);
 		gp.add(ISBNTf, 3, 2);
@@ -125,6 +130,12 @@ public class SearchGUI {
 		
 		CategoryTf.setVisible(false);
 		gp.add(CategoryTf, 3, 17);
+		
+		StockTf.setVisible(false);
+		gp.add(StockTf, 3, 20);
+		
+		ThresholdTf.setVisible(false);
+		gp.add(ThresholdTf, 3, 23);
 		
 		Search.setText("Search Book");
 		Search.setPrefSize(200, 35);
