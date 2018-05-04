@@ -126,7 +126,7 @@ public class InfoGUI {
 		
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
-		gp.add(Back, 1, 22);
+		gp.add(Back, 1, 21);
 		
 		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		Update.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
@@ -230,8 +230,8 @@ public class InfoGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				stage.setScene(CustomerScene);
-				stage.show();
+			//	stage.setScene(CustomerScene);
+				//stage.show();
 			}
 		});
 	}

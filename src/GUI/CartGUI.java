@@ -14,9 +14,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class CartGUI {
-	protected Button Back = new Button();
-	protected Scene CustomerScene;
-	protected Stage stage;
+	private Button Back = new Button();
+	private Scene CustomerScene;
+	private Stage stage;
 
 	public CartGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;

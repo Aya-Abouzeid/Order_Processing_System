@@ -19,10 +19,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class LoginGUI {
-	protected Stage stage;
-	protected Scene MainScene;
-	protected Button Back = new Button();
-	protected Button Login = new Button();
+	private Stage stage;
+	private Scene MainScene;
+	private Button Back = new Button();
+	private Button Login = new Button();
 
 	public LoginGUI( Stage primaryStage ,Scene s) {
 		MainScene = s;

@@ -16,7 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
-	protected Scene scene;
+	private Scene scene;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -72,7 +72,7 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					LoginGUI StartLogin = new LoginGUI(primaryStage , scene);
+					ManagerGUI StartLogin = new ManagerGUI(primaryStage , scene);
 			}
 		});
 		

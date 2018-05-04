@@ -16,13 +16,13 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class CustomerGUI {
-	protected Button Edit = new Button();
-	protected Button Search = new Button();
-	protected Button Cart = new Button();
-	protected Button Logout = new Button();
-	protected Stage stage;
-	protected Scene MainScene;
-	protected Scene CustomerScene;
+	private Button Edit = new Button();
+	private Button Search = new Button();
+	private Button Cart = new Button();
+	private Button Logout = new Button();
+	private Stage stage;
+	private Scene MainScene;
+	private Scene CustomerScene;
 
 	public CustomerGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;

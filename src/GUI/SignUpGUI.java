@@ -18,9 +18,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class SignUpGUI {
-	Stage stage;
-	protected Button Back = new Button();
-	protected Scene MainScene;
+	private Stage stage;
+	private Button Back = new Button();
+	private Scene MainScene;
 	public SignUpGUI( Stage primaryStage , Scene s) {
 		MainScene = s;
 		stage = primaryStage;
