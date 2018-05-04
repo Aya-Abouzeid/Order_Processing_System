@@ -31,7 +31,7 @@ public abstract class User {
 	int removeFromCart(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "delete from CART where ISBN =" + isbn + ";";
+		query += "delete from CART where ISBN ='" + isbn + "';";
 		return stat.executeUpdate(query);
 
 	}
@@ -54,7 +54,7 @@ public abstract class User {
 	int getItemPrice(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Select Price From CART where ISBN = " + isbn + ";";
+		query += "Select Price From CART where ISBN = '" + isbn + "';";
 		ResultSet result = stat.executeQuery(query);
 		// review how to get specific element from result set
 		

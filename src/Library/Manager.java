@@ -37,6 +37,7 @@ public class Manager extends User implements IManager {
 				+ "'"+phone+"');";
 		return stat.executeUpdate(query);
 	}
+	/// msh shart y7sl update l kol el attributes
 	@Override
 	public int updateBook(Book book) throws SQLException {
 		// TODO Auto-generated method stub
@@ -60,6 +61,7 @@ public class Manager extends User implements IManager {
 		// need other actions?
 		Statement stat = con.createStatement();
 		String query = "";
+		//handle if user id is not valid
 		query += "Insert into MANAGER Values " + String.valueOf(userId) + ";";
 		return stat.executeUpdate(query);
 		
@@ -69,7 +71,9 @@ public class Manager extends User implements IManager {
 	public int confirmOrder(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Delete from BOOK_ORDERS where ISBN = " + isbn + ";";
+		//handle if isbn is not valid
+
+		query += "Delete from BOOK_ORDERS where ISBN = '" + isbn + "';";
 		return stat.executeUpdate(query);
 		
 	}
@@ -78,7 +82,7 @@ public class Manager extends User implements IManager {
 	public int placeOrder(String isbn, int qunatity) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Insert into BOOK_ORDERS Values " + String.valueOf(isbn) +","+ String.valueOf(qunatity) +  ";";
+		query += "Insert into BOOK_ORDERS Values ('" + isbn +"',"+ String.valueOf(qunatity) +  ";";
 		return stat.executeUpdate(query);
 
 	}
@@ -88,7 +92,7 @@ public class Manager extends User implements IManager {
 
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Select * from BOOK where ISBN = " + isbn + ";";
+		query += "Select * from BOOK where ISBN = '" + isbn + "';";
 		return stat.executeQuery(query);
 	}
 
@@ -96,7 +100,7 @@ public class Manager extends User implements IManager {
 	public ResultSet searchByTitle(String title) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Select * from BOOK where Title = " + title + ";";
+		query += "Select * from BOOK where Title = '" + title + "';";
 		
 		
 		return stat.executeQuery(query);
