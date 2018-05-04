@@ -3,6 +3,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.File;
+
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -11,12 +14,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class LoginGUI {
 	protected Stage stage;
 	protected Scene MainScene;
 	protected Button Back = new Button();
+	protected Button Login = new Button();
 
 	public LoginGUI( Stage primaryStage ,Scene s) {
 		MainScene = s;
@@ -24,15 +30,12 @@ public class LoginGUI {
 		LoginPage();
 	}
  public void LoginPage(){
-	// String path;
-		
 		Group group = new Group();
-
 		Scene scene = new Scene(group, 980, 630);
-
 		GridPane gridPane = new GridPane();
 		FillGUI(gridPane);
 		AddFuncionality();
+		AddImage(group);
 		group.getChildren().add(gridPane);
 
 		Platform.runLater(new Runnable() {
@@ -45,7 +48,13 @@ public class LoginGUI {
 		});
 		
  }
- 
+ public void AddImage(Group group){
+		File file = new File("Books2.jpg");
+		Image background = new Image(file.toURI().toString());
+     ImageView img = new ImageView(background);
+     img.setPreserveRatio(true);
+     group.getChildren().add(img);
+	}
  public void FillGUI(GridPane gp){
 	 		Label UName = new Label("User Name: ");
 			UName.setStyle("-fx-font: normal bold 32px 'serif' ");
@@ -64,7 +73,6 @@ public class LoginGUI {
 			PasswordField passwordField = new PasswordField();
 			gp.add(passwordField, 12, 5);
 			
-			Button Login = new Button();
 			Login.setText("Login");
 			Login.setPrefSize(119, 35);
 			gp.add(Login, 12, 7);
@@ -92,6 +100,13 @@ public class LoginGUI {
 			public void handle(MouseEvent arg0) {
 				stage.setScene(MainScene);
 				stage.show();
+			}
+		});
+		Login.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
 			}
 		});
 		
