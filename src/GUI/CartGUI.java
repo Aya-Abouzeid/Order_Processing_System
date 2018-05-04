@@ -15,13 +15,12 @@ import javafx.stage.Stage;
 
 public class CartGUI {
 	protected Button Back = new Button();
-	protected Scene MainScene;
 	protected Scene CustomerScene;
 	protected Stage stage;
 
 	public CartGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;
-		MainScene = s;
+		CustomerScene = s;
 		CartPage();
 	}
 	
@@ -29,7 +28,6 @@ public class CartGUI {
 		
 		Group group = new Group();
 		Scene scene = new Scene(group, 980, 630);
-		CustomerScene = scene;
 		GridPane gridPane = new GridPane();
 		
 		//Add btns to GUI
@@ -67,7 +65,7 @@ public class CartGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				stage.setScene(MainScene);
+				stage.setScene(CustomerScene);
 				stage.show();
 			}
 		});

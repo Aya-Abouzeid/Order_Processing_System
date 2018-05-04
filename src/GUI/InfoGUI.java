@@ -20,22 +20,27 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class InfoGUI {
-	protected Button Back = new Button();
-	protected Scene MainScene;
-	protected Scene CustomerScene;
-	protected Stage stage;
-	protected RadioButton UName = new RadioButton("User Name");
-	protected TextField UNameTf = new TextField();
-	protected TextField UPassTf = new TextField();
-	protected TextField UFNameTf = new TextField();
-	protected TextField ULNameTf = new TextField();
-	protected TextField EmailTf = new TextField();
-	protected TextField AddressTf = new TextField();
+	private Button Back = new Button();
+	private Button Update = new Button();
+	private Scene CustomerScene;
+	private Stage stage;
+	private RadioButton UName = new RadioButton("User Name");
+	private RadioButton UPass = new RadioButton("Password");
+	private RadioButton FName = new RadioButton("First Name");
+	private RadioButton LName = new RadioButton("Last Name");
+	private RadioButton Email = new RadioButton("Email");
+	private RadioButton Address = new RadioButton("Shipping Address");
+	private TextField UNameTf = new TextField();
+	private TextField UPassTf = new TextField();
+	private TextField FNameTf = new TextField();
+	private TextField LNameTf = new TextField();
+	private TextField EmailTf = new TextField();
+	private TextField AddressTf = new TextField();
 
 
 	public InfoGUI( Stage primaryStage, Scene s) {
+		CustomerScene = s;
 		stage = primaryStage;
-		MainScene = s;
 		InfoPage();
 	}
 	
@@ -43,7 +48,6 @@ public class InfoGUI {
 		
 		Group group = new Group();
 		Scene scene = new Scene(group, 980, 630);
-		CustomerScene = scene;
 		GridPane gridPane = new GridPane();
 		
 		//Add btns to GUI
@@ -82,50 +86,50 @@ public class InfoGUI {
 		UName.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(UName, 1, 2);
 
-		RadioButton UPass = new RadioButton("Password");
 		UPass.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(UPass, 1, 5);
 		
-		RadioButton FName = new RadioButton("First Name");
 		FName.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(FName, 1, 8);
 		
-		Label LName = new Label("Last Name: ");
 		LName.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(LName, 1, 11);
 		
-		Label Email = new Label("Email: ");
 		Email.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Email, 1, 14);
-		
-		Label Address = new Label("Shipping Address: ");
+
 		Address.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Address, 1, 17);
 		
-		gp.add(UNameTf, 3, 2);
 		
+		UNameTf.setVisible(false);
+		gp.add(UNameTf, 3, 2);
+
+		UPassTf.setVisible(false);
 		gp.add(UPassTf, 3, 5);
 		
-
-		gp.add(UFNameTf, 3, 8);
+		FNameTf.setVisible(false);
+		gp.add(FNameTf, 3, 8);
 		
-		gp.add(ULNameTf, 3, 11);
+		LNameTf.setVisible(false);
+		gp.add(LNameTf, 3, 11);
 		
+		EmailTf.setVisible(false);
 		gp.add(EmailTf, 3, 14);
 		
+		AddressTf.setVisible(false);
 		gp.add(AddressTf, 3, 17);
 		
-		Button Register = new Button();
-		Register.setText("Update Info");
-		Register.setPrefSize(140, 35);
-		gp.add(Register, 3, 20);
+		Update.setText("Update Info");
+		Update.setPrefSize(200, 35);
+		gp.add(Update, 3, 20);
 		
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
-		gp.add(Back, 1, 23);
+		gp.add(Back, 1, 22);
 		
 		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
-		Register.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+		Update.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		gp.setAlignment(Pos.BOTTOM_CENTER);
 		gp.setPadding(new Insets(49, 49, 56, 280));
@@ -137,11 +141,77 @@ public class InfoGUI {
 
 	        @Override
 	        public void handle(ActionEvent arg0) {
-	            if(!UName.isSelected()){
-	            	
+	            if(UName.isSelected()){
+	        		UNameTf.setVisible(true);
 	            }
 	            else{
-	            	
+	            	UNameTf.clear();
+	        		UNameTf.setVisible(false);
+	            }
+	        }
+	    });
+		UPass.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(UPass.isSelected()){
+	            	UPassTf.setVisible(true);
+	            }
+	            else{
+	            	UPassTf.clear();
+	            	UPassTf.setVisible(false);
+	            }
+	        }
+	    });
+		FName.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(FName.isSelected()){
+	            	FNameTf.setVisible(true);
+	            }
+	            else{
+	            	FNameTf.clear();
+	            	FNameTf.setVisible(false);
+	            }
+	        }
+	    });
+		LName.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(LName.isSelected()){
+	            	LNameTf.setVisible(true);
+	            }
+	            else{
+	            	LNameTf.clear();
+	            	LNameTf.setVisible(false);
+	            }
+	        }
+	    });
+		Email.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Email.isSelected()){
+	            	EmailTf.setVisible(true);
+	            }
+	            else{
+	            	EmailTf.clear();
+	            	EmailTf.setVisible(false);
+	            }
+	        }
+	    });
+		Address.setOnAction(new EventHandler<ActionEvent>() {
+
+	        @Override
+	        public void handle(ActionEvent arg0) {
+	            if(Address.isSelected()){
+	            	AddressTf.setVisible(true);
+	            }
+	            else{
+	            	AddressTf.clear();
+	            	AddressTf.setVisible(false);
 	            }
 	        }
 	    });
@@ -152,7 +222,15 @@ public class InfoGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				stage.setScene(MainScene);
+				stage.setScene(CustomerScene);
+				stage.show();
+			}
+		});
+		Update.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				stage.setScene(CustomerScene);
 				stage.show();
 			}
 		});
