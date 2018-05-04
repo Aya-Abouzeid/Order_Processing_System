@@ -42,24 +42,24 @@ public class DBMaster {
 	}
 	
 	//search by email for now
-	public int signIn(String email){
+	public int signIn(String UserName , String pass){
 		try{
 			Statement stat = con.createStatement();
 			String query = "";
-			query+="select * from USER where Email = '" + email + "';";
+			query+="select * from USER where UName = '" + UserName + "' and Upass = '" + pass+"';";
 			
 			ResultSet result = (ResultSet) stat.executeQuery(query);
-			if(!result.next()){	//empty set
+			if(!result.next()){	//empty set , NO SUCH USER
 				return -1;
 			}
+			//User is now Logged In
 			return 1;
 			
 		}catch(SQLException e){
 			
+			return -2;
 		}
 		
-		
-		return 0;
 	}
 	
 }
