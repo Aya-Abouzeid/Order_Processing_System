@@ -32,7 +32,7 @@ public abstract class User {
 	int removeFromCart(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "delete from Cart where ISBN =" + isbn + ";";
+		query += "delete from CART where ISBN =" + isbn + ";";
 		return stat.executeUpdate(query);
 
 	}
@@ -41,23 +41,24 @@ public abstract class User {
 
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "delete from Cart where UID =" + userId + ";";
+		query += "delete from CART where UID =" + userId + ";";
 		stat.executeUpdate(query);
 
 	}
 
 	// what data to be sent ?
-	int updateProfile() throws SQLException {
+	int updateProfile(String [] data) throws SQLException {
+		
 		return 0;
 	}
 
 	int getItemPrice(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Select Price From Cart where ISBN = " + isbn + ";";
+		query += "Select Price From CART where ISBN = " + isbn + ";";
 		ResultSet result = stat.executeQuery(query);
 		// review how to get specific element from result set
-
+		
 		return 0;
 	}
 

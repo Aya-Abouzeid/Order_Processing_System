@@ -3,6 +3,8 @@ package Library;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.ResultSet;
+
 import Library.Manager;
 import Library.User;
 import Library.Book;
@@ -18,7 +20,7 @@ public class MainDraft {
 	}
 
 	public int init() throws SQLException, ClassNotFoundException {
-		Manager m = new Manager(12);
+		Manager m = new Manager(2);
 		
 		Book b = new Book();
 		b.setIsbn("91412125-122");
@@ -33,8 +35,20 @@ public class MainDraft {
 		//m.addPublisher(18,"qqweqwesd", "asd", "asd", "12331");
 		System.out.println("passed");
 		
-		m.SearchByCategory(Book.Category.Art);
-		//return m.addBook(b);
+		try {
+			m.addBook(b);
+		}catch (SQLException e){
+			String ex = e.getMessage();
+			System.out.println(ex);
+			
+		}
+		
+		//m.logout(m.userID);
+		//m.removeFromCart("1234");
+		//m.addInCart(100, "12345", m.userID, 2);
+		//System.out.println(m.signIn("aykalb@gmail.com"));
+		
+		return 0;
 		
 	
 	}

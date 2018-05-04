@@ -50,6 +50,9 @@ public class Manager extends User implements IManager {
 
 		return stat.executeUpdate(query);
 	}
+		
+	
+
 
 	@Override
 	public int promoteUser(int userId) throws SQLException {
@@ -94,6 +97,8 @@ public class Manager extends User implements IManager {
 		Statement stat = con.createStatement();
 		String query = "";
 		query += "Select * from BOOK where Title = " + title + ";";
+		
+		
 		return stat.executeQuery(query);
 
 	}
@@ -106,5 +111,7 @@ public class Manager extends User implements IManager {
 		return stat.executeQuery(query);
 
 	}
+	
+
 
 }
