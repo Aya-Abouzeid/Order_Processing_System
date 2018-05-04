@@ -33,8 +33,8 @@ public class MainDraft {
 		//m.addPublisher(18,"qqweqwesd", "asd", "asd", "12331");
 		System.out.println("passed");
 		
-		m.addInCart(1, "1234", 1, 2);
-		return m.addBook(b);
+		m.SearchByCategory(Book.Category.Art);
+		//return m.addBook(b);
 		
 	
 	}

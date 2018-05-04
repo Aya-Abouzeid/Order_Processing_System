@@ -76,3 +76,69 @@ CREATE TABLE `OrderProcessingSystem`.`BOOKS_SOLD` (
 	FOREIGN KEY (`ISBN`) REFERENCES BOOK(`ISBN`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`UID`) REFERENCES `USER`(`UID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
+
+
+
+// triggers:
+
+// may need to disable sql safe update
+SET SQL_SAFE_UPDATES = 0;
+
+use OrderProcessingSystem;
+
+DELIMITER $$
+
+CREATE
+	TRIGGER `book_after_update` AFTER update 
+	ON `BOOK` 
+	FOR EACH ROW BEGIN
+	
+		IF NEW.Stock<NEW.Threshold THEN
+			SET @addQuantity = 10;
+            SET @ISBN = NEW.ISBN;
+            SET @PID = NEW.PID;
+            
+            INSERT INTO BOOK_ORDERS VALUES (@ISBN, @PID,@addQuantity);
+		
+		END IF;
+    
+    END$$
+DELIMITER ;
+
+
+
+
+
+
+DELIMITER $$
+
+CREATE
+	TRIGGER `book_order_before_delete` before delete 
+	ON `BOOK_ORDERS` 
+	FOR EACH ROW BEGIN
+	
+            Update BOOK
+            SET Stock = Stock+OLD.Quantity
+            where ISBN = OLD.ISBN;
+
+    
+    END$$
+DELIMITER ;
+
+
+
+
+delimiter $$
+
+create trigger book_quantity_nonnegative before update on BOOK
+for each row
+begin
+    if (new.Stock < 0) then
+        signal sqlstate '45000' set message_text = 'stock cant be negative';
+    end if;
+end $$
+
+delimiter ;
+

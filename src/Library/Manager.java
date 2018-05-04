@@ -102,7 +102,7 @@ public class Manager extends User implements IManager {
 	public ResultSet SearchByCategory(Category cat) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "Select * from BOOK where Category = " + cat + ";";
+		query += "Select * from BOOK where Category = ' " + cat + "';";
 		return stat.executeQuery(query);
 
 	}
