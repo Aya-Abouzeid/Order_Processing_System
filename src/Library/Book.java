@@ -33,6 +33,9 @@ public class Book {
 		this.year=date;
 		//this.year= 
 	}
+	public Book(){
+		
+	}
 
 	// setters for Book
 	public void setTitle(String title) {
@@ -66,6 +69,9 @@ public class Book {
 		this.isbn = isbn;
 	}
 
+	public void setYear(Date date){
+		this.year=date;
+	}
 	
 	// getters
 

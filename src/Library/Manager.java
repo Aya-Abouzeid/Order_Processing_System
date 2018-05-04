@@ -9,7 +9,7 @@ import Library.Book.Category;
 
 public class Manager extends User implements IManager {
 
-	public Manager(int id) throws SQLException {
+	public Manager(int id) throws SQLException, ClassNotFoundException {
 		super(id);
 	}
 
@@ -18,14 +18,25 @@ public class Manager extends User implements IManager {
 
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "insert into BOOK  Values (" + book.getIsbn() + "," + book.getTitle() + "," + book.getpublisherId()
-				+ "," + String.valueOf(book.getYear()) + "," + String.valueOf(book.getSellingPrice()) + ","
-				+ String.valueOf(book.getCategory()) + "," + String.valueOf(book.getStockQuantity()) + ","
-				+ String.valueOf(book.getThreshold()) + ",);";
+		query += "insert into BOOK  Values ( ' " + book.getIsbn() + " ', '" + book.getTitle() + "' ," + book.getpublisherId()
+				+ " , '" + String.valueOf(book.getYear()) + "' , " + String.valueOf(book.getSellingPrice()) + " , '"
+				+ String.valueOf(book.getCategory()) + "'," + String.valueOf(book.getStockQuantity()) + " , "
+				+ String.valueOf(book.getThreshold()) + ");";
 
 		return stat.executeUpdate(query);
 	}
 
+	public int addPublisher(int id,String lName,String fName,String address,String phone) throws SQLException {
+
+		Statement stat = con.createStatement();
+		String query = "";
+		query+= "insert into BOOK_PUBLISHER values ("+String.valueOf(id)+",'"
+				+ fName+"',"
+				+ "'"+lName+" ',"
+				+ "'"+address+"',"
+				+ "'"+phone+"');";
+		return stat.executeUpdate(query);
+	}
 	@Override
 	public int updateBook(Book book) throws SQLException {
 		// TODO Auto-generated method stub

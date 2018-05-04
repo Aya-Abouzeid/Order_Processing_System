@@ -7,9 +7,11 @@ public abstract class User {
 	protected int userID;
 	protected Connection con;
 
-	public User(int id) throws SQLException {
+	public User(int id) throws SQLException, ClassNotFoundException  {
 
 		userID = id;
+		Class.forName("com.mysql.jdbc.Driver"); 
+
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306" + "/OrderProcessingSystem", "root",
 				"11feb2011");
 
@@ -19,7 +21,7 @@ public abstract class User {
 
 		Statement stat = con.createStatement();
 		String query = "";
-		query += "insert into Cart Values (" + String.valueOf(id)+ " , " + ISBN + " , "+ String.valueOf(price) + " , "
+		query += "insert into CART Values (" + String.valueOf(id)+ " , " + ISBN + " , "+ String.valueOf(price) + " , "
 				+ String.valueOf(quantity) +");";
 		
 
