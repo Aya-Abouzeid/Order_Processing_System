@@ -73,7 +73,12 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					CustomerGUI StartLogin = new CustomerGUI(primaryStage , scene);
+					try {
+						LoginGUI StartLogin = new LoginGUI(primaryStage , scene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 		

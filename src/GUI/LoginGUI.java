@@ -5,11 +5,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -23,8 +26,12 @@ public class LoginGUI {
 	private Scene MainScene;
 	private Button Back = new Button();
 	private Button Login = new Button();
+	private TextField UNameTf = new TextField();
+	private PasswordField passwordField = new PasswordField();
+	private DBMaster dbm;
 
-	public LoginGUI( Stage primaryStage ,Scene s) {
+	public LoginGUI( Stage primaryStage ,Scene s) throws ClassNotFoundException, SQLException {
+		dbm = new DBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		LoginPage();
@@ -64,13 +71,7 @@ public class LoginGUI {
 			UPass.setStyle("-fx-font: normal bold 32px 'serif' ");
 			gp.add(UPass, 8, 5);
 			
-			
-			
-			
-			TextField UNameTf = new TextField();
-			gp.add(UNameTf, 12, 2);
-			
-			PasswordField passwordField = new PasswordField();
+			gp.add(UNameTf, 12, 2);;
 			gp.add(passwordField, 12, 5);
 			
 			Login.setText("Login");
@@ -106,9 +107,31 @@ public class LoginGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
+				
+				if(!EmptyTextFields()){
+					int Success = dbm.signIn(UNameTf.getText(),passwordField.getText());
+							if(Success != -1) {
+								ShowAlert("Login Success","Welcome, " + UNameTf.getText());
+								CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
+							} else
+								ShowAlert("Register Error","User Already Exists");
+				}else {
+					ShowAlert("Error Info Missing" ,"User Name or Password is Missing" );
+				}
 			}
 		});
 		
+	}
+	
+	private void ShowAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
+	}
+	private boolean EmptyTextFields(){
+		if(UNameTf.getText().trim().isEmpty()|| passwordField.getText().trim().isEmpty())
+			return true;
+		return false;
 	}
 }
