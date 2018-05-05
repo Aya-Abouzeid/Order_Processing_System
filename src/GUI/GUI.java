@@ -3,6 +3,8 @@ package GUI;
 import java.io.File;
 import java.sql.SQLException;
 
+import Library.DBMaster;
+import Library.Database;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,9 +17,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import Library.DBMaster;
 
 public class GUI extends Application {
 	private Scene scene;
+	protected DBMaster dbm;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
@@ -33,7 +38,7 @@ public class GUI extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	public void AddImage(Group group){
+	private void AddImage(Group group){
 		File file = new File("Library2.jpg");
 		Image background = new Image(file.toURI().toString());
         ImageView img = new ImageView(background);
@@ -42,7 +47,7 @@ public class GUI extends Application {
         img.setFitHeight(800);
         group.getChildren().add(img);
 	}
-	public void addBtn(GridPane gridPane, Stage primaryStage) {
+	private void addBtn(GridPane gridPane, Stage primaryStage) {
 
 	
 		Button Login = new Button();
@@ -98,7 +103,8 @@ public class GUI extends Application {
 
 	}
 
-	public void startApp(String args[]) {
+	public void startApp(String args[]) throws ClassNotFoundException, SQLException {
+		dbm = new DBMaster();
 		launch(args);
 	}
 

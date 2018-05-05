@@ -21,7 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import Library.*;
 
-public class SignUpGUI {
+public class SignUpGUI extends GUI{
 	private Stage stage;
 	private Button Back = new Button();
 	private Scene MainScene;
@@ -32,15 +32,13 @@ public class SignUpGUI {
 	private TextField ULNameTf = new TextField();
 	private TextField EmailTf = new TextField();
 	private TextField AddressTf = new TextField();
-	private DBMaster dbm;
 
 	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {
-		dbm = new DBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		SignUpPage();
 	}
- public void SignUpPage(){
+	private void SignUpPage(){
 	    Group group = new Group();
 
 		Scene scene = new Scene(group, 980, 630);

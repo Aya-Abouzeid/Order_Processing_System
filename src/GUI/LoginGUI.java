@@ -6,8 +6,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.sql.SQLException;
-
-import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,17 +19,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class LoginGUI {
+public class LoginGUI extends GUI{
 	private Stage stage;
 	private Scene MainScene;
 	private Button Back = new Button();
 	private Button Login = new Button();
 	private TextField UNameTf = new TextField();
 	private PasswordField passwordField = new PasswordField();
-	private DBMaster dbm;
 
 	public LoginGUI( Stage primaryStage ,Scene s) throws ClassNotFoundException, SQLException {
-		dbm = new DBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		LoginPage();
