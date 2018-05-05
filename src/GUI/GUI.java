@@ -1,6 +1,7 @@
 package GUI;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -81,7 +82,12 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					SignUpGUI StartSignUp = new SignUpGUI(primaryStage , scene);
+					try {
+						SignUpGUI StartSignUp = new SignUpGUI(primaryStage , scene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 

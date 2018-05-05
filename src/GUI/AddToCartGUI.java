@@ -31,7 +31,7 @@ public class AddToCartGUI {
 		CartPage();
 	}
 	
-	public void CartPage(){
+	private void CartPage(){
 		
 		Group group = new Group();
 		Scene scene = new Scene(group, 980, 630);
@@ -58,7 +58,7 @@ public class AddToCartGUI {
 
 		});
  }
-	public void FillGUI(GridPane gp){
+	private void FillGUI(GridPane gp){
 		
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(ISBN, 1, 2);
@@ -86,7 +86,7 @@ public class AddToCartGUI {
 	}
 	
 	
-public void RadioBtnFunctionality(){
+	private void RadioBtnFunctionality(){
 		
 		ISBN.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -116,7 +116,7 @@ public void RadioBtnFunctionality(){
 	    });
 
 	}
-	public void AddFunctionality(){
+	private void AddFunctionality(){
 		
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 

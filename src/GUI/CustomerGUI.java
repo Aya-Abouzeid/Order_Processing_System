@@ -29,7 +29,7 @@ public class CustomerGUI {
 		MainScene = s;
 		CustomerPage();
 	}
-	public void CustomerPage(){
+	private void CustomerPage(){
 			
 			Group group = new Group();
 			Scene scene = new Scene(group, 980, 630);
@@ -57,7 +57,7 @@ public class CustomerGUI {
 
 			});
 	 }
-	public void AddImage(Group group){
+	private void AddImage(Group group){
 		File file = new File("Library2.jpg");
 		Image background = new Image(file.toURI().toString());
         ImageView img = new ImageView(background);
@@ -66,7 +66,7 @@ public class CustomerGUI {
         img.setFitHeight(1000);
         group.getChildren().add(img);
 	}
-	public void FillGUI(GridPane gp){
+	private void FillGUI(GridPane gp){
 
 		Edit.setText("Edit Personal Info");
 		Edit.setPrefSize(230, 50);
@@ -91,7 +91,7 @@ public class CustomerGUI {
 		Logout.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 }
 	
-	public void AddFunctionality(){
+	private void AddFunctionality(){
 		
 		//User Clicked Logout Btn
 		Logout.setOnMouseClicked(new EventHandler<MouseEvent>() {

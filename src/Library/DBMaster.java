@@ -19,7 +19,7 @@ public class DBMaster {
 	}
 	
 	//wrap it in userInfo bs b3d keda y3ny
-	private int register(String uName,String uPass,
+	public int register(String uName,String uPass,
 			String email,String fName,String lName,String address ){
 		
 		try {

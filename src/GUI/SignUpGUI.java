@@ -1,35 +1,46 @@
 package GUI;
 
 import java.io.File;
-
+import java.sql.SQLException;
+import GUI.CustomerGUI;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import Library.*;
 
 public class SignUpGUI {
 	private Stage stage;
 	private Button Back = new Button();
 	private Scene MainScene;
-	public SignUpGUI( Stage primaryStage , Scene s) {
+	private Button Register = new Button();
+	private TextField UNameTf = new TextField();
+	private PasswordField UPassTf = new PasswordField();
+	private TextField UFNameTf = new TextField();
+	private TextField ULNameTf = new TextField();
+	private TextField EmailTf = new TextField();
+	private TextField AddressTf = new TextField();
+	private DBMaster dbm;
+
+	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {
+		dbm = new DBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		SignUpPage();
-		//graph = new double[number + 1][number + 1];
 	}
  public void SignUpPage(){
-	// String path;
-		
 	    Group group = new Group();
 
 		Scene scene = new Scene(group, 980, 630);
@@ -53,14 +64,14 @@ public class SignUpGUI {
 
 		});
  }
- public void AddImage(Group group){
+ private void AddImage(Group group){
 		File file = new File("books2.jpg");
 		Image background = new Image(file.toURI().toString());
      ImageView img = new ImageView(background);
      img.setPreserveRatio(true);
      group.getChildren().add(img);
 	}
- public void FillGUI(GridPane gp){
+ private void FillGUI(GridPane gp){
 		Label UName = new Label("User Name: ");
 		UName.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(UName, 1, 2);
@@ -85,25 +96,18 @@ public class SignUpGUI {
 		Address.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Address, 1, 17);
 		
-		TextField UNameTf = new TextField();
 		gp.add(UNameTf, 3, 2);
 		
-		TextField UPassTf = new TextField();
 		gp.add(UPassTf, 3, 5);
 		
-		TextField UFNameTf = new TextField();
 		gp.add(UFNameTf, 3, 8);
 		
-		TextField ULNameTf = new TextField();
 		gp.add(ULNameTf, 3, 11);
 		
-		TextField EmailTf = new TextField();
 		gp.add(EmailTf, 3, 14);
 		
-		TextField AddressTf = new TextField();
 		gp.add(AddressTf, 3, 17);
 		
-		Button Register = new Button();
 		Register.setText("Register");
 		Register.setPrefSize(140, 35);
 		gp.add(Register, 3, 20);
@@ -120,7 +124,7 @@ public class SignUpGUI {
 
 }
  
-	public void AddFuncionality(){
+	private void AddFuncionality(){
 		
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -130,6 +134,36 @@ public class SignUpGUI {
 				stage.show();
 			}
 		});
+		Register.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				if(!EmptyTextFields()){
+					int Success = dbm.register(UNameTf.getText(),UPassTf.getText(),EmailTf.getText(),
+							UFNameTf.getText() , ULNameTf.getText(),AddressTf.getText());
+							if(Success != -1) {
+								ShowAlert("Register Success","Welcome, " + UNameTf.getText());
+								CustomerGUI startCustomer = new CustomerGUI(stage, MainScene);
+							} else
+								ShowAlert("Register Error","User Already Exists");
+				}else {
+					ShowAlert("Error Info Missing" ,"Please Fill All The Information" );
+				}
+			}
+		});
 		
+	}
+	private void ShowAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
+	}
+	private boolean EmptyTextFields(){
+		if(UNameTf.getText().trim().isEmpty()|| UPassTf.getText().trim().isEmpty()
+				||UFNameTf.getText().trim().isEmpty() || ULNameTf.getText().trim().isEmpty()
+				|| EmailTf.getText().trim().isEmpty() || AddressTf.getText().trim().isEmpty())
+			return true;
+		return false;
 	}
 }
