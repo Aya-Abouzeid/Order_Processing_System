@@ -32,8 +32,10 @@ public class SignUpGUI extends GUI{
 	private TextField ULNameTf = new TextField();
 	private TextField EmailTf = new TextField();
 	private TextField AddressTf = new TextField();
+	private DBMaster dbm;
 
 	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {
+		dbm = dbm.getDBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		SignUpPage();
@@ -141,7 +143,12 @@ public class SignUpGUI extends GUI{
 							UFNameTf.getText() , ULNameTf.getText(),AddressTf.getText());
 							if(Success != -1) {
 								ShowAlert("Register Success","Welcome, " + UNameTf.getText());
-								CustomerGUI startCustomer = new CustomerGUI(stage, MainScene);
+								try {
+									CustomerGUI startCustomer = new CustomerGUI(stage, MainScene);
+								} catch (ClassNotFoundException | SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							} else
 								ShowAlert("Register Error","User Already Exists");
 				}else {

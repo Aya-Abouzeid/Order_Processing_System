@@ -1,5 +1,8 @@
 package GUI;
 
+import java.sql.SQLException;
+
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,15 +28,13 @@ public class CartGUI {
 	private Button Remove = new Button();
 	private Button Price = new Button();
 	private Button TotalPrice = new Button();
-
-
-
-
+	private DBMaster dbm;
 	private Button Back = new Button();
 	private Scene CustomerScene;
 	private Stage stage;
 
-	public CartGUI( Stage primaryStage, Scene s) {
+	public CartGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = dbm.getDBMaster();
 		stage = primaryStage;
 		CustomerScene = s;
 		CartPage();

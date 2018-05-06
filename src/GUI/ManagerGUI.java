@@ -1,5 +1,8 @@
 package GUI;
 
+import java.sql.SQLException;
+
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,8 +27,10 @@ public class ManagerGUI {
 	protected Stage stage;
 	protected Scene MainScene;
 	protected Scene CustomerScene;
+	private DBMaster dbm;
 
-	public ManagerGUI( Stage primaryStage, Scene s) {
+	public ManagerGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = dbm.getDBMaster();
 		stage = primaryStage;
 		MainScene = s;
 		ManagerPage();
@@ -123,7 +128,12 @@ public class ManagerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
+					try {
+						InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 		manageLibrary.setOnMouseClicked(new EventHandler<MouseEvent>() {

@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.sql.SQLException;
+
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,15 +21,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class LoginGUI extends GUI{
+public class LoginGUI {
 	private Stage stage;
 	private Scene MainScene;
 	private Button Back = new Button();
 	private Button Login = new Button();
 	private TextField UNameTf = new TextField();
 	private PasswordField passwordField = new PasswordField();
-
+	private DBMaster dbm;
 	public LoginGUI( Stage primaryStage ,Scene s) throws ClassNotFoundException, SQLException {
+		dbm = dbm.getDBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		LoginPage();
@@ -108,7 +111,12 @@ public class LoginGUI extends GUI{
 					int Success = dbm.signIn(UNameTf.getText(),passwordField.getText());
 							if(Success != -1) {
 								ShowAlert("Login Success","Welcome, " + UNameTf.getText());
-								CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
+								try {
+									CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
+								} catch (ClassNotFoundException | SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							} else
 								ShowAlert("Register Error","User Already Exists");
 				}else {

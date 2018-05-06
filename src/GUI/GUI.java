@@ -2,7 +2,6 @@ package GUI;
 
 import java.io.File;
 import java.sql.SQLException;
-
 import Library.DBMaster;
 import Library.Database;
 import javafx.application.Application;
@@ -21,7 +20,6 @@ import Library.DBMaster;
 
 public class GUI extends Application {
 	private Scene scene;
-	protected DBMaster dbm;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -104,7 +102,6 @@ public class GUI extends Application {
 	}
 
 	public void startApp(String args[]) throws ClassNotFoundException, SQLException {
-		dbm = new DBMaster();
 		launch(args);
 	}
 

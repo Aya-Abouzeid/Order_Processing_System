@@ -1,7 +1,9 @@
 package GUI;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,8 +25,10 @@ public class CustomerGUI {
 	private Stage stage;
 	private Scene MainScene;
 	private Scene CustomerScene;
+	private DBMaster dbm;
 
-	public CustomerGUI( Stage primaryStage, Scene s) {
+	public CustomerGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = dbm.getDBMaster();
 		stage = primaryStage;
 		MainScene = s;
 		CustomerPage();
@@ -109,7 +113,12 @@ public class CustomerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					InfoGUI StartInfo = new InfoGUI(stage , CustomerScene);
+					try {
+						InfoGUI StartInfo = new InfoGUI(stage , CustomerScene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 		
@@ -119,7 +128,15 @@ public class CustomerGUI {
 					@Override
 					public void handle(MouseEvent arg0) {
 						
-							CartGUI StartCart = new CartGUI(stage , CustomerScene);
+							try {
+								CartGUI StartCart = new CartGUI(stage , CustomerScene);
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 				});
 				

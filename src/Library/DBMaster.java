@@ -9,13 +9,22 @@ import com.mysql.jdbc.ResultSet;
 
 public class DBMaster {
 
-	private Connection con;
+	private static Connection con;
 	private Manager manager = null;
 	private User user;
-	private Database db ;
-	public DBMaster() throws SQLException, ClassNotFoundException{
-		db = new Database();
-		con = db.getCon();		
+	private static Database db ;
+	private static DBMaster dbm;
+	private DBMaster() throws SQLException, ClassNotFoundException{
+			
+	}
+	
+	public static DBMaster getDBMaster() throws ClassNotFoundException, SQLException{
+		if(dbm == null){
+			db = new Database();
+			con = db.getCon();	
+			return dbm = new DBMaster();
+		}
+		return dbm;		
 	}
 	
 	//wrap it in userInfo bs b3d keda y3ny

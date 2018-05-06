@@ -1,6 +1,7 @@
 package GUI;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,12 +19,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import Library.DBMaster;
 
 public class InfoGUI {
 	private Button Back = new Button();
 	private Button Update = new Button();
 	private Scene CustomerScene;
 	private Stage stage;
+	private DBMaster dbm;
 	private RadioButton UName = new RadioButton("User Name");
 	private RadioButton UPass = new RadioButton("Password");
 	private RadioButton FName = new RadioButton("First Name");
@@ -38,7 +41,8 @@ public class InfoGUI {
 	private TextField AddressTf = new TextField();
 
 
-	public InfoGUI( Stage primaryStage, Scene s) {
+	public InfoGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm =dbm.getDBMaster();
 		CustomerScene = s;
 		stage = primaryStage;
 		InfoPage();

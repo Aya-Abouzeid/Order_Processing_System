@@ -42,7 +42,6 @@ public abstract class User {
 		String query = "";
 		query += "delete from CART where UID =" + userId + ";";
 		stat.executeUpdate(query);
-
 	}
 
 	// what data to be sent ?
