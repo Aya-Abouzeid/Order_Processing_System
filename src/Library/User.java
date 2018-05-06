@@ -15,7 +15,25 @@ public abstract class User {
 		con = db.getCon();
 
 	}
-
+	//>> newly written
+	ResultSet searchBook(String [] data) throws SQLException {
+		
+		String [] attributes = { "ISBN","PID","TITLE","YEAR","PRICE","CATEGORY","THRESHOLD","STOCK"};
+		Statement stat = con.createStatement();
+		String query = "SELECT * FROM BOOK WHERE ";
+		for(int i = 0 ; i < data.length ; i++){
+			
+			if(!data[i].equals("")){
+				if(i!=0)
+					query+= " AND ";
+				query+= attributes[i] + "='" + data[i] + "'";
+			}
+			
+		}
+		query+=";";
+		return stat.executeQuery(query);
+	}
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we don't read price through GUI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	int addInCart(int price, String ISBN, int id, int quantity) throws SQLException {
 
 		Statement stat = con.createStatement();
@@ -43,13 +61,25 @@ public abstract class User {
 		query += "delete from CART where UID =" + userId + ";";
 		stat.executeUpdate(query);
 	}
-
-	// what data to be sent ?
+// >> newly written
 	int updateProfile(String [] data) throws SQLException {
-		
-		return 0;
+		String [] attributes = { "UNAME","UPASS","EMAIL","FNAME","LNAME","ShippingAddress"};
+		Statement stat = con.createStatement();
+		String query = "update user set";
+		for(int i = 0 ; i < data.length ; i++){
+			
+			if(!data[i].equals("")){
+				if(i!=0)
+					query+= ",";
+				query+= attributes[i] + "='" + data[i] + "'";
+			}
+			
+		}
+		query+=";";
+	
+		return stat.executeUpdate(query);
 	}
-
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> youssef wondering 
 	int getItemPrice(String isbn) throws SQLException {
 		Statement stat = con.createStatement();
 		String query = "";
@@ -61,8 +91,11 @@ public abstract class User {
 	}
 
 	int getTotalPrice(int userID) throws SQLException {
-
-		//
+		Statement stat = con.createStatement();
+		String query = "";
+		query += "Select sum(Price)*Quantity From CART where ISBN = '" + userID + "';";
+		ResultSet result = stat.executeQuery(query);
+		
 		return 0;
 	}
 
