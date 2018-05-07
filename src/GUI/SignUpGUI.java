@@ -139,8 +139,14 @@ public class SignUpGUI extends GUI{
 			@Override
 			public void handle(MouseEvent arg0) {
 				if(!EmptyTextFields()){
-					int Success = dbm.register(UNameTf.getText(),UPassTf.getText(),EmailTf.getText(),
-							UFNameTf.getText() , ULNameTf.getText(),AddressTf.getText());
+					int Success = -1;
+					try {
+						Success = dbm.register(UNameTf.getText(),UPassTf.getText(),EmailTf.getText(),
+								UFNameTf.getText() , ULNameTf.getText(),AddressTf.getText());
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 							if(Success != -1) {
 								ShowAlert("Register Success","Welcome, " + UNameTf.getText());
 								try {

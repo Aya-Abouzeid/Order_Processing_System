@@ -33,15 +33,15 @@ public class LoginGUI {
 		dbm = dbm.getDBMaster();
 		MainScene = s;
 		stage = primaryStage;
-		LoginPage();
+		loginPage();
 	}
- public void LoginPage(){
+ public void loginPage(){
 		Group group = new Group();
 		Scene scene = new Scene(group, 980, 630);
 		GridPane gridPane = new GridPane();
-		FillGUI(gridPane);
-		AddFuncionality();
-		AddImage(group);
+		fillGUI(gridPane);
+		addFuncionality();
+		addImage(group);
 		group.getChildren().add(gridPane);
 
 		Platform.runLater(new Runnable() {
@@ -54,14 +54,14 @@ public class LoginGUI {
 		});
 		
  }
- public void AddImage(Group group){
+ public void addImage(Group group){
 		File file = new File("Books2.jpg");
 		Image background = new Image(file.toURI().toString());
      ImageView img = new ImageView(background);
      img.setPreserveRatio(true);
      group.getChildren().add(img);
 	}
- public void FillGUI(GridPane gp){
+ public void fillGUI(GridPane gp){
 	 		Label UName = new Label("User Name: ");
 			UName.setStyle("-fx-font: normal bold 32px 'serif' ");
 			gp.add(UName, 8, 2);
@@ -92,7 +92,7 @@ public class LoginGUI {
 			gp.setPadding(new Insets(49, 49, 56, 190));
 
  }
-	public void AddFuncionality(){
+	public void addFuncionality(){
 		
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -107,10 +107,16 @@ public class LoginGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-				if(!EmptyTextFields()){
-					int Success = dbm.signIn(UNameTf.getText(),passwordField.getText());
+				if(!emptyTextFields()){
+					int Success = -1;
+					try {
+						Success = dbm.signIn(UNameTf.getText(),passwordField.getText());
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 							if(Success != -1) {
-								ShowAlert("Login Success","Welcome, " + UNameTf.getText());
+								showAlert("Login Success","Welcome, " + UNameTf.getText());
 								try {
 									CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
 								} catch (ClassNotFoundException | SQLException e) {
@@ -118,22 +124,22 @@ public class LoginGUI {
 									e.printStackTrace();
 								}
 							} else
-								ShowAlert("Register Error","User Already Exists");
+								showAlert("Register Error","User Already Exists");
 				}else {
-					ShowAlert("Error Info Missing" ,"User Name or Password is Missing" );
+					showAlert("Error Info Missing" ,"User Name or Password is Missing" );
 				}
 			}
 		});
 		
 	}
 	
-	private void ShowAlert(String title , String msg){
+	private void showAlert(String title , String msg){
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle(title);
 		alert.setHeaderText(msg);
 		alert.show();
 	}
-	private boolean EmptyTextFields(){
+	private boolean emptyTextFields(){
 		if(UNameTf.getText().trim().isEmpty()|| passwordField.getText().trim().isEmpty())
 			return true;
 		return false;

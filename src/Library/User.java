@@ -2,12 +2,12 @@ package Library;
 
 import java.sql.*;
 
-public abstract class User {
+public class User {
 
 	protected int userID;
 	protected Connection con;
 	private Database db;
-
+	private int UserID;
 	public User(int id) throws SQLException, ClassNotFoundException  {
 
 		userID = id;
