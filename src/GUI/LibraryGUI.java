@@ -32,8 +32,6 @@ public class LibraryGUI {
 	private RadioButton Category = new RadioButton("Category");
 	private RadioButton Stock = new RadioButton("Stock");
 	private RadioButton Threshold = new RadioButton("Threshold");
-
-
 	private TextField ISBNTf = new TextField();
 	private TextField PIDTf = new TextField();
 	private TextField TitleTf = new TextField();

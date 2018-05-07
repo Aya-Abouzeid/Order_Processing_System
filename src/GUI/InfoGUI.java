@@ -44,7 +44,7 @@ public class InfoGUI {
 
 
 	public InfoGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
-		dbm =dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		CustomerScene = s;
 		stage = primaryStage;
 		InfoPage();
@@ -241,7 +241,12 @@ public class InfoGUI {
 				else{
 					addData();
 					try {
+						
 						dbm.updateInfo(data);
+						showAlert("Update Success","Info Updated");
+						stage.setScene(CustomerScene);
+						stage.show();
+
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						showAlert("Update Failed","Username or Email already Used");

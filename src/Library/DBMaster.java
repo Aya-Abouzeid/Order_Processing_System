@@ -34,6 +34,7 @@ public class DBMaster {
 		try {
 			Statement stat = con.createStatement();
 			String query = "";
+
 			query+="insert into USER (UName,UPass,Email,FName,LName,ShippingAddress)"
 					+ "values ( '"+uName +" ',"
 					+"'"+uPass +" ',"
@@ -42,16 +43,18 @@ public class DBMaster {
 					+"'"+lName +" ',"
 					+"'"+address +" ' );";
 			
+			int returnValue = stat.executeUpdate(query);
 			String query2 = "";
-			query+="select UID from USER where UName = '" + uName + "' and Upass = '" + uPass+"';";
+			query2+="select UID from USER where UName = '" + uName + "' and Upass = '" + uPass+"';";
 			
-			ResultSet result = (ResultSet) stat.executeQuery(query);
+			ResultSet result = (ResultSet) stat.executeQuery(query2);
+			
 			if(!result.next()){	//empty set , NO SUCH USER
 				return -1;
 			}
 			int UID = result.getInt("UID");
 			 LoggedIn = new User(UID);
-			return stat.executeUpdate(query);
+			return 1;
 		}catch (SQLException e){
 			
 			return -1;
@@ -72,7 +75,7 @@ public class DBMaster {
 				return -1;
 			}
 			int UID = result.getInt("UID");
-;
+
 			String query2 = "";
 			query2+="select MID from MANAGER where MID = '" + UID + "';";
 			
@@ -81,6 +84,7 @@ public class DBMaster {
 				int MID = result.getInt("MID");
 				 LoggedIn = new Manager(MID);
 			}
+
 			 LoggedIn = new User(UID);
 			return 1;
 			
@@ -93,5 +97,4 @@ public class DBMaster {
 	public void updateInfo(String[] data) throws SQLException{
 		LoggedIn.updateProfile(data);
 	}
-	
 }

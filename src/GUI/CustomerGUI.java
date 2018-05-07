@@ -28,7 +28,7 @@ public class CustomerGUI {
 	private DBMaster dbm;
 
 	public CustomerGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
-		dbm = dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		MainScene = s;
 		CustomerPage();

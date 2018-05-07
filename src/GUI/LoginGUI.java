@@ -30,7 +30,7 @@ public class LoginGUI {
 	private PasswordField passwordField = new PasswordField();
 	private DBMaster dbm;
 	public LoginGUI( Stage primaryStage ,Scene s) throws ClassNotFoundException, SQLException {
-		dbm = dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		loginPage();

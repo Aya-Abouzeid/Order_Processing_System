@@ -30,7 +30,7 @@ public class ManagerGUI {
 	private DBMaster dbm;
 
 	public ManagerGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
-		dbm = dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		MainScene = s;
 		ManagerPage();

@@ -35,7 +35,7 @@ public class SignUpGUI extends GUI{
 	private DBMaster dbm;
 
 	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {
-		dbm = dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		MainScene = s;
 		stage = primaryStage;
 		SignUpPage();

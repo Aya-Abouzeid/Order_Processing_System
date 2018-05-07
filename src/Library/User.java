@@ -7,13 +7,12 @@ public class User {
 	protected int userID;
 	protected Connection con;
 	private Database db;
-	private int UserID;
 	public User(int id) throws SQLException, ClassNotFoundException  {
 		userID = id;
 		db = new Database();
 		con = db.getCon();
-
 	}
+	
 	//>> newly written
 	ResultSet searchBook(String [] data) throws SQLException {
 		
@@ -64,7 +63,7 @@ public class User {
 	int updateProfile(String [] data) throws SQLException {
 		String [] attributes = { "UNAME","UPASS","EMAIL","FNAME","LNAME","ShippingAddress"};
 		Statement stat = con.createStatement();
-		String query = "update user set";
+		String query = "update user set ";
 		for(int i = 0 ; i < data.length ; i++){
 			
 			if(!data[i].equals("")){
@@ -74,8 +73,8 @@ public class User {
 			}
 			
 		}
-		query+="where UID = " + String.valueOf(UserID) + ";";
-	
+		query+="where UID = " + String.valueOf(userID) + ";";
+
 		return stat.executeUpdate(query);
 	}
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> youssef wondering 
