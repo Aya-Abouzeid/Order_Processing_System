@@ -124,7 +124,7 @@ public class LoginGUI {
 									e.printStackTrace();
 								}
 							} else
-								showAlert("Register Error","User Already Exists");
+								showAlert("Register Error","Wrong Username or Password");
 				}else {
 					showAlert("Error Info Missing" ,"User Name or Password is Missing" );
 				}

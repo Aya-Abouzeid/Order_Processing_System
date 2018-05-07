@@ -9,7 +9,6 @@ public class User {
 	private Database db;
 	private int UserID;
 	public User(int id) throws SQLException, ClassNotFoundException  {
-
 		userID = id;
 		db = new Database();
 		con = db.getCon();

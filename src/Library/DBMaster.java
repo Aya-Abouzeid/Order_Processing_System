@@ -14,14 +14,12 @@ public class DBMaster {
 	private User LoggedIn;
 	private static Database db ;
 	private static DBMaster dbm;
-	private static int counter;
 	private DBMaster() throws SQLException, ClassNotFoundException{
 			
 	}
 	
 	public static DBMaster getDBMaster() throws ClassNotFoundException, SQLException{
 		if(dbm == null){
-			counter = 0;
 			db = new Database();
 			con = db.getCon();	
 			return dbm = new DBMaster();
@@ -43,8 +41,16 @@ public class DBMaster {
 					+"'"+fName +" ',"
 					+"'"+lName +" ',"
 					+"'"+address +" ' );";
-			counter++;
-			 LoggedIn = new User(counter);
+			
+			String query2 = "";
+			query+="select UID from USER where UName = '" + uName + "' and Upass = '" + uPass+"';";
+			
+			ResultSet result = (ResultSet) stat.executeQuery(query);
+			if(!result.next()){	//empty set , NO SUCH USER
+				return -1;
+			}
+			int UID = result.getInt("UID");
+			 LoggedIn = new User(UID);
 			return stat.executeUpdate(query);
 		}catch (SQLException e){
 			
