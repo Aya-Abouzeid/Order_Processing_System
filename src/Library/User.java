@@ -74,7 +74,7 @@ public class User {
 			}
 			
 		}
-		query+=";";
+		query+="where UID = " + String.valueOf(UserID) + ";";
 	
 		return stat.executeUpdate(query);
 	}

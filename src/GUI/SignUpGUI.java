@@ -46,9 +46,9 @@ public class SignUpGUI extends GUI{
 		Scene scene = new Scene(group, 980, 630);
 
 		GridPane gridPane = new GridPane();
-		FillGUI(gridPane);
-		AddFuncionality();
-		AddImage( group);
+		fillGUI(gridPane);
+		addFuncionality();
+		addImage( group);
 		group.getChildren().add(gridPane);
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setVgap(10);
@@ -64,14 +64,14 @@ public class SignUpGUI extends GUI{
 
 		});
  }
- private void AddImage(Group group){
+ private void addImage(Group group){
 		File file = new File("books2.jpg");
 		Image background = new Image(file.toURI().toString());
      ImageView img = new ImageView(background);
      img.setPreserveRatio(true);
      group.getChildren().add(img);
 	}
- private void FillGUI(GridPane gp){
+ private void fillGUI(GridPane gp){
 		Label UName = new Label("User Name: ");
 		UName.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(UName, 1, 2);
@@ -124,7 +124,7 @@ public class SignUpGUI extends GUI{
 
 }
  
-	private void AddFuncionality(){
+	private void addFuncionality(){
 		
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -138,7 +138,7 @@ public class SignUpGUI extends GUI{
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				if(!EmptyTextFields()){
+				if(!emptyTextFields()){
 					int Success = -1;
 					try {
 						Success = dbm.register(UNameTf.getText(),UPassTf.getText(),EmailTf.getText(),
@@ -148,7 +148,7 @@ public class SignUpGUI extends GUI{
 						e1.printStackTrace();
 					}
 							if(Success != -1) {
-								ShowAlert("Register Success","Welcome, " + UNameTf.getText());
+								showAlert("Register Success","Welcome, " + UNameTf.getText());
 								try {
 									CustomerGUI startCustomer = new CustomerGUI(stage, MainScene);
 								} catch (ClassNotFoundException | SQLException e) {
@@ -156,21 +156,21 @@ public class SignUpGUI extends GUI{
 									e.printStackTrace();
 								}
 							} else
-								ShowAlert("Register Error","User Already Exists");
+								showAlert("Register Error","User Already Exists");
 				}else {
-					ShowAlert("Error Info Missing" ,"Please Fill All The Information" );
+					showAlert("Error Info Missing" ,"Please Fill All The Information" );
 				}
 			}
 		});
 		
 	}
-	private void ShowAlert(String title , String msg){
+	private void showAlert(String title , String msg){
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle(title);
 		alert.setHeaderText(msg);
 		alert.show();
 	}
-	private boolean EmptyTextFields(){
+	private boolean emptyTextFields(){
 		if(UNameTf.getText().trim().isEmpty()|| UPassTf.getText().trim().isEmpty()
 				||UFNameTf.getText().trim().isEmpty() || ULNameTf.getText().trim().isEmpty()
 				|| EmailTf.getText().trim().isEmpty() || AddressTf.getText().trim().isEmpty())

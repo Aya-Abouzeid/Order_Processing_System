@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -39,6 +40,7 @@ public class InfoGUI {
 	private TextField LNameTf = new TextField();
 	private TextField EmailTf = new TextField();
 	private TextField AddressTf = new TextField();
+	private String[] data = new String[6];
 
 
 	public InfoGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
@@ -234,10 +236,64 @@ public class InfoGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-			//	stage.setScene(CustomerScene);
-				//stage.show();
+				if(emptyTextFields())
+					showAlert("Update Failed","Please Fill All Selected Fields");
+				else{
+					addData();
+					try {
+						dbm.updateInfo(data);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						showAlert("Update Failed","Username or Email already Used");
+					}
+					
+				}
 			}
 		});
+	}
+	
+	private void addData(){
+		if(!UName.isSelected())
+			data[0]="";
+		else
+			data[0]=UNameTf.getText().trim();
+		if(!UPass.isSelected())
+			data[1]="";
+		else
+			data[1]=UPassTf.getText().trim();
+		if(!Email.isSelected())
+			data[2]="";
+		else
+			data[2]=EmailTf.getText().trim();
+		if(!FName.isSelected())
+			data[3]="";
+		else
+			data[3]=FNameTf.getText().trim();
+		if(!LName.isSelected())
+			data[4]="";
+		else
+			data[4]=LNameTf.getText().trim();
+		if(!Address.isSelected())
+			data[5]="";
+		else
+			data[5]=AddressTf.getText().trim();
+	}
+	private boolean emptyTextFields(){
+		if(( UName.isSelected()&& UNameTf.getText().trim().isEmpty()
+				|| (UPass.isSelected()&& UPassTf.getText().trim().isEmpty())
+				|| (FName.isSelected()&& FNameTf.getText().trim().isEmpty())
+				|| (LName.isSelected()&& LNameTf.getText().trim().isEmpty())
+				|| (Email.isSelected()&& EmailTf.getText().trim().isEmpty())
+				|| (Address.isSelected()&& AddressTf.getText().trim().isEmpty()))
+				)
+			return true;
+		return false;
+	}
+	private void showAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
 	}
 
 }

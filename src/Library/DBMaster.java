@@ -90,5 +90,8 @@ public class DBMaster {
 		}
 		
 	}
+	public void updateInfo(String[] data) throws SQLException{
+		LoggedIn.updateProfile(data);
+	}
 	
 }
