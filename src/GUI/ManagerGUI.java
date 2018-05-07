@@ -1,5 +1,6 @@
 package GUI;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import Library.DBMaster;
@@ -10,6 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -26,7 +29,7 @@ public class ManagerGUI {
 	protected Button manageLibrary = new Button();
 	protected Stage stage;
 	protected Scene MainScene;
-	protected Scene CustomerScene;
+	protected Scene ManagerScene;
 	private DBMaster dbm;
 
 	public ManagerGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
@@ -39,7 +42,7 @@ public class ManagerGUI {
 			
 			Group group = new Group();
 			Scene scene = new Scene(group, 980, 630);
-			CustomerScene = scene;
+			ManagerScene = scene;
 			GridPane gridPane = new GridPane();
 			
 			//Add btns to GUI
@@ -47,7 +50,7 @@ public class ManagerGUI {
 			
 			//Decide what to do with each btn click
 			AddFunctionality();
-
+			AddImage(group);
 			group.getChildren().add(gridPane);
 			gridPane.setPadding(new Insets(49, 49, 56, 150));
 			gridPane.setAlignment(Pos.TOP_LEFT);
@@ -63,6 +66,15 @@ public class ManagerGUI {
 
 			});
 	 }
+	private void AddImage(Group group){
+		File file = new File("Library2.jpg");
+		Image background = new Image(file.toURI().toString());
+        ImageView img = new ImageView(background);
+        img.setPreserveRatio(true);
+        img.setFitWidth(1000);
+        img.setFitHeight(1000);
+        group.getChildren().add(img);
+	}
 	public void FillGUI(GridPane gp){
 
 		Edit.setText("Edit Personal Info");
@@ -129,7 +141,7 @@ public class ManagerGUI {
 			public void handle(MouseEvent arg0) {
 				
 					try {
-						InfoGUI StartLogin = new InfoGUI(stage , CustomerScene);
+						InfoGUI StartLogin = new InfoGUI(stage , ManagerScene);
 					} catch (ClassNotFoundException | SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -141,7 +153,33 @@ public class ManagerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					LibraryGUI manage = new LibraryGUI(stage , CustomerScene);
+					LibraryGUI manage = new LibraryGUI(stage , ManagerScene);
+			}
+		});
+		//User Clicked Cart Btn
+		Cart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+					try {
+						CartGUI StartCart = new CartGUI(stage , ManagerScene);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+		});
+		
+		Search.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+					SearchGUI StartSearch = new SearchGUI(stage , ManagerScene);
 			}
 		});
 	}

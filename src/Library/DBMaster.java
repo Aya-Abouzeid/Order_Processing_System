@@ -77,12 +77,12 @@ public class DBMaster {
 			int UID = result.getInt("UID");
 
 			String query2 = "";
-			query2+="select MID from MANAGER where MID = '" + UID + "';";
-			
+			query2+="select MID from MANAGER where MID = " + String.valueOf(UID) + ";";
 			ResultSet result2 = (ResultSet) stat.executeQuery(query2);
 			if(result2.next()){	//Manager
-				int MID = result.getInt("MID");
+				int MID = result2.getInt("MID");
 				 LoggedIn = new Manager(MID);
+				 return 2;
 			}
 
 			 LoggedIn = new User(UID);

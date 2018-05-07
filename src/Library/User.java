@@ -64,17 +64,20 @@ public class User {
 		String [] attributes = { "UNAME","UPASS","EMAIL","FNAME","LNAME","ShippingAddress"};
 		Statement stat = con.createStatement();
 		String query = "update user set ";
+		int counter =0;
 		for(int i = 0 ; i < data.length ; i++){
 			
 			if(!data[i].equals("")){
-				if(i!=0)
+				if(counter!=0)
 					query+= ",";
 				query+= attributes[i] + "='" + data[i] + "'";
+				counter++;
 			}
 			
 		}
-		query+="where UID = " + String.valueOf(userID) + ";";
-
+		query+=" where UID = " + String.valueOf(userID) + ";";
+		System.out.println(query);
+		
 		return stat.executeUpdate(query);
 	}
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> youssef wondering 

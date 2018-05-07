@@ -106,7 +106,8 @@ public class LoginGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				
+				ManagerGUI StartManager;
+				CustomerGUI StartLogin;
 				if(!emptyTextFields()){
 					int Success = -1;
 					try {
@@ -118,7 +119,11 @@ public class LoginGUI {
 							if(Success != -1) {
 								showAlert("Login Success","Welcome, " + UNameTf.getText());
 								try {
-									CustomerGUI StartLogin = new CustomerGUI(stage , MainScene);
+									if(Success == 1)
+									 StartLogin = new CustomerGUI(stage , MainScene);
+									else if(Success == 2)
+										 StartManager = new ManagerGUI(stage , MainScene);
+
 								} catch (ClassNotFoundException | SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
