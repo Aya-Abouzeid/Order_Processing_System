@@ -1,5 +1,6 @@
 package GUI;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import Library.DBMaster;
@@ -14,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -51,7 +54,7 @@ public class CartGUI {
 		
 		//Decide what to do with each btn click
 		AddFunctionality();
-
+		AddImage(group);
 		group.getChildren().add(gridPane);
 		gridPane.setPadding(new Insets(49, 49, 56, 280));
 		gridPane.setAlignment(Pos.CENTER);
@@ -67,6 +70,15 @@ public class CartGUI {
 
 		});
  }
+	private void AddImage(Group group){
+		File file = new File("books2.jpg");
+		Image background = new Image(file.toURI().toString());
+        ImageView img = new ImageView(background);
+        img.setPreserveRatio(true);
+        img.setFitWidth(1000);
+        img.setFitHeight(1000);
+        group.getChildren().add(img);
+	}
 	private void FillGUI(GridPane gp){
 		AddToCart.setText("Add Books To Cart");
 		AddToCart.setPrefSize(300, 35);

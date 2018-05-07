@@ -37,7 +37,7 @@ public class DBMaster {
 
 			query+="insert into USER (UName,UPass,Email,FName,LName,ShippingAddress)"
 					+ "values ( '"+uName +" ',"
-					+"'"+uPass +" ',"
+					+"MD5('"+uPass +"'),"
 					+"'"+email +" ',"
 					+"'"+fName +" ',"
 					+"'"+lName +" ',"
@@ -45,7 +45,7 @@ public class DBMaster {
 			
 			int returnValue = stat.executeUpdate(query);
 			String query2 = "";
-			query2+="select UID from USER where UName = '" + uName + "' and Upass = '" + uPass+"';";
+			query2+="select UID from USER where UName = '" + uName + "' and Upass = MD5('" + uPass+"');";
 			
 			ResultSet result = (ResultSet) stat.executeQuery(query2);
 			
@@ -68,7 +68,7 @@ public class DBMaster {
 		try{
 			Statement stat = con.createStatement();
 			String query = "";
-			query+="select UID from USER where UName = '" + UserName + "' and Upass = '" + pass+"';";
+			query+="select UID from USER where UName = '" + UserName + "' and Upass = MD5('" + pass+"');";
 			
 			ResultSet result = (ResultSet) stat.executeQuery(query);
 			if(!result.next()){	//empty set , NO SUCH USER

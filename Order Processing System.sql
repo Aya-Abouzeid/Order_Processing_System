@@ -23,7 +23,6 @@ CREATE TABLE `OrderProcessingSystem`.`BOOK` (
 	`Threshold` INT NOT NULL,
 	PRIMARY KEY (`ISBN`)
 );
-
 CREATE TABLE `OrderProcessingSystem`.`BOOK_AUTHORS` (
 	`ISBN` VARCHAR(100) NOT NULL,
 	`Author` VARCHAR(100)  NOT NULL,
@@ -56,7 +55,7 @@ CREATE TABLE `OrderProcessingSystem`.`MANAGER` (
 	PRIMARY KEY (`MID`),
 	FOREIGN KEY (`MID`) REFERENCES `USER`(`UID`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+select MID from manager where MID = 2;
 CREATE TABLE `OrderProcessingSystem`.`CART` (
 	`UID` INT NOT NULL,
 	`ISBN` VARCHAR(100)  NOT NULL,
@@ -81,9 +80,6 @@ CREATE TABLE `OrderProcessingSystem`.`BOOKS_SOLD` (
 
 
 
-// triggers:
-
-// may need to disable sql safe update
 SET SQL_SAFE_UPDATES = 0;
 
 use OrderProcessingSystem;
