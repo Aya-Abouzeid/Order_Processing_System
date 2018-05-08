@@ -145,7 +145,12 @@ public class CustomerGUI {
 					@Override
 					public void handle(MouseEvent arg0) {
 						
-							SearchGUI StartSearch = new SearchGUI(stage , CustomerScene);
+							try {
+								SearchGUI StartSearch = new SearchGUI(stage , CustomerScene);
+							} catch (ClassNotFoundException | SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 				});
 	}

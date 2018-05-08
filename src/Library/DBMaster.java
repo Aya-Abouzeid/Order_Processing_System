@@ -97,4 +97,7 @@ public class DBMaster {
 	public void updateInfo(String[] data) throws SQLException{
 		LoggedIn.updateProfile(data);
 	}
+	public ResultSet searchBook(String[] data) throws SQLException{
+		return (ResultSet) LoggedIn.searchBook(data);
+	}
 }

@@ -179,7 +179,12 @@ public class ManagerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					SearchGUI StartSearch = new SearchGUI(stage , ManagerScene);
+					try {
+						SearchGUI StartSearch = new SearchGUI(stage , ManagerScene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 	}

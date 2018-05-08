@@ -1,7 +1,10 @@
 package GUI;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -39,11 +43,12 @@ public class SearchGUI {
 	private TextField CategoryTf = new TextField();
 	private TextField StockTf = new TextField();
 	private TextField ThresholdTf = new TextField();
+	private String[] data = new String[8];
+	private DBMaster dbm;
 
-
-	public SearchGUI( Stage primaryStage, Scene s) {
+	public SearchGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
 		//System.out.print("hi");
-
+		dbm = DBMaster.getDBMaster();
 		CustomerScene = s;
 		stage = primaryStage;
 		SearchPage();
@@ -267,6 +272,89 @@ public class SearchGUI {
 				stage.show();
 			}
 		});
+		
+		Search.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				if(emptyTextFields())
+					showAlert("Update Failed","Please Fill All Selected Fields");
+				else{
+					addData();
+					try {
+						ResultSet x = (ResultSet) dbm.searchBook(data);
+						ViewerGUI x2 = new ViewerGUI(stage,CustomerScene);
+						while(x.next()){
+							System.out.println(x.getString("ISBN"));
+						}
+						
+
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+					//	showAlert("Update Failed","Username or Email already Used");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			}
+		});
+	}
+	//"ISBN","PID","TITLE","YEAR","PRICE","CATEGORY","THRESHOLD","STOCK"
+	private void addData(){
+		if(!ISBN.isSelected())
+			data[0]="";
+		else
+			data[0]=ISBNTf.getText().trim();
+		if(!PID.isSelected())
+			data[1]="";
+		else
+			data[1]=PIDTf.getText().trim();
+		if(!Title.isSelected())
+			data[2]="";
+		else
+			data[2]=TitleTf.getText().trim();
+		if(!Year.isSelected())
+			data[3]="";
+		else
+			data[3]=YearTf.getText().trim();
+		if(!Price.isSelected())
+			data[4]="";
+		else
+			data[4]=PriceTf.getText().trim();
+		if(!Category.isSelected())
+			data[5]="";
+		else
+			data[5]=CategoryTf.getText().trim();
+		if(!Threshold.isSelected())
+			data[6]="";
+		else
+			data[6]=ThresholdTf.getText().trim();
+		if(!Stock.isSelected())
+			data[7]="";
+		else
+			data[7]=StockTf.getText().trim();
+		
+	}
+	private boolean emptyTextFields(){
+		if(( ISBN.isSelected()&& ISBNTf.getText().trim().isEmpty()
+				|| (PID.isSelected()&& PIDTf.getText().trim().isEmpty())
+				|| (Title.isSelected()&& TitleTf.getText().trim().isEmpty())
+				|| (Year.isSelected()&& YearTf.getText().trim().isEmpty())
+				|| (Price.isSelected()&& PriceTf.getText().trim().isEmpty())
+				|| (Category.isSelected()&& CategoryTf.getText().trim().isEmpty())
+				|| (Threshold.isSelected()&& ThresholdTf.getText().trim().isEmpty())
+				|| (Stock.isSelected()&& StockTf.getText().trim().isEmpty()))
+				)
+			return true;
+		return false;
+	}
+	private void showAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
 	}
 
 }

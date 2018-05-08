@@ -19,16 +19,19 @@ public class User {
 		String [] attributes = { "ISBN","PID","TITLE","YEAR","PRICE","CATEGORY","THRESHOLD","STOCK"};
 		Statement stat = con.createStatement();
 		String query = "SELECT * FROM BOOK WHERE ";
+		int j = -1;
 		for(int i = 0 ; i < data.length ; i++){
 			
 			if(!data[i].equals("")){
-				if(i!=0)
+				j++;
+				if(j!=0)
 					query+= " AND ";
 				query+= attributes[i] + "='" + data[i] + "'";
 			}
 			
 		}
 		query+=";";
+		System.out.println(query);
 		return stat.executeQuery(query);
 	}
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we don't read price through GUI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -70,7 +73,12 @@ public class User {
 			if(!data[i].equals("")){
 				if(counter!=0)
 					query+= ",";
-				query+= attributes[i] + "='" + data[i] + "'";
+				if(i==1)
+					query+= attributes[i] + "=MD5('" + data[i] + "')";
+
+				else
+					query+= attributes[i] + "='" + data[i] + "'";
+				
 				counter++;
 			}
 			
