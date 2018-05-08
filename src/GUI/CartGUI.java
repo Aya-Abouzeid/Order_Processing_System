@@ -12,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -24,20 +23,20 @@ import javafx.stage.Stage;
 public class CartGUI {
 	private RadioButton ISBN = new RadioButton("ISBN");
 	private TextField ISBNTf = new TextField();
-	private RadioButton Quantity = new RadioButton("Quantity");
-	private TextField QuantityTf = new TextField();
 	private Button AddToCart = new Button();
 	private Button View = new Button();
 	private Button Remove = new Button();
 	private Button Price = new Button();
+	private Button checkOut = new Button();
 	private Button TotalPrice = new Button();
 	private DBMaster dbm;
 	private Button Back = new Button();
 	private Scene CustomerScene;
 	private Stage stage;
+	private Scene cartScene;
 
 	public CartGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
-		dbm = dbm.getDBMaster();
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		CustomerScene = s;
 		CartPage();
@@ -46,7 +45,7 @@ public class CartGUI {
 	private void CartPage(){
 		
 		Group group = new Group();
-		Scene scene = new Scene(group, 980, 630);
+		cartScene = new Scene(group, 980, 630);
 		GridPane gridPane = new GridPane();
 		
 		//Add btns to GUI
@@ -64,7 +63,7 @@ public class CartGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				stage.setScene(scene);
+				stage.setScene(cartScene);
 				stage.show();
 			}
 
@@ -75,8 +74,6 @@ public class CartGUI {
 		Image background = new Image(file.toURI().toString());
         ImageView img = new ImageView(background);
         img.setPreserveRatio(true);
-        img.setFitWidth(1000);
-        img.setFitHeight(1000);
         group.getChildren().add(img);
 	}
 	private void FillGUI(GridPane gp){
@@ -111,12 +108,16 @@ public class CartGUI {
 		gp.add(Remove, 1, 5);
 		Remove.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		
-		
-		
+	
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
 		gp.add(Back, 1, 6);
 		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+
+		checkOut.setText("Check Out");
+		checkOut.setPrefSize(160, 35);
+		gp.add(checkOut, 3, 6);
+		checkOut.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 	}
 	
@@ -147,11 +148,18 @@ public class CartGUI {
 			stage.show();
 		}
 	});
+	checkOut.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			CheckoutGUI checkout = new CheckoutGUI(stage , cartScene);
+		}
+	});
 	AddToCart.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			AddToCartGUI add = new AddToCartGUI(stage , CustomerScene);
+			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
 		}
 	});
 	

@@ -1,5 +1,7 @@
 package GUI;
 
+import java.io.File;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -20,21 +24,21 @@ public class AddToCartGUI {
 	private RadioButton Quantity = new RadioButton("Quantity");
 	private TextField QuantityTf = new TextField();
 	private Button AddToCart = new Button();
-
 	private Button Back = new Button();
-	private Scene CustomerScene;
+	private Scene cartScene;
 	private Stage stage;
+	private Scene addToCart;
 
 	public AddToCartGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;
-		CustomerScene = s;
+		cartScene = s;
 		CartPage();
 	}
 	
 	private void CartPage(){
 		
 		Group group = new Group();
-		Scene scene = new Scene(group, 980, 630);
+		addToCart = new Scene(group, 980, 630);
 		GridPane gridPane = new GridPane();
 		
 		//Add btns to GUI
@@ -42,7 +46,7 @@ public class AddToCartGUI {
 		
 		//Decide what to do with each btn click
 		AddFunctionality();
-
+		AddImage(group);
 		group.getChildren().add(gridPane);
 		gridPane.setPadding(new Insets(49, 49, 56, 280));
 		gridPane.setAlignment(Pos.CENTER);
@@ -52,12 +56,19 @@ public class AddToCartGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				stage.setScene(scene);
+				stage.setScene(addToCart);
 				stage.show();
 			}
 
 		});
  }
+	private void AddImage(Group group){
+		File file = new File("books2.jpg");
+		Image background = new Image(file.toURI().toString());
+        ImageView img = new ImageView(background);
+        img.setPreserveRatio(true);
+        group.getChildren().add(img);
+	}
 	private void FillGUI(GridPane gp){
 		
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
@@ -122,7 +133,7 @@ public class AddToCartGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				stage.setScene(CustomerScene);
+				stage.setScene(cartScene);
 				stage.show();
 			}
 		});

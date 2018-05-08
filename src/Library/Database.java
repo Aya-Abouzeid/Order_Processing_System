@@ -9,7 +9,7 @@ public class Database {
 	public Connection getCon(){
 	try {
 	Class.forName("com.mysql.jdbc.Driver");
-	con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/OrderProcessingSystem", "root", "admin");
+	con =  DriverManager.getConnection("jdbc:mysql://localhost:3306/OrderProcessingSystem", "root", "12345");
 	} catch (ClassNotFoundException e) {
 	// TODO Auto-generated catch block
 	e.printStackTrace();
