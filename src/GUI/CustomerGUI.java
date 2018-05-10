@@ -102,6 +102,7 @@ public class CustomerGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				dbm.logOut();
 				stage.setScene(MainScene);
 				stage.show();
 			}

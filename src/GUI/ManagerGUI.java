@@ -129,6 +129,12 @@ public class ManagerGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
+				try {
+					dbm.logOut();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				stage.setScene(MainScene);
 				stage.show();
 			}

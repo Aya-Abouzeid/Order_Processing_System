@@ -76,12 +76,19 @@ public class GUI extends Application {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					try {
+				/*	try {
 						LoginGUI StartLogin = new LoginGUI(primaryStage , scene);
 					} catch (ClassNotFoundException | SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
+			try {
+				CartGUI StartLogin = new CartGUI(primaryStage , scene);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			}
 		});
 		

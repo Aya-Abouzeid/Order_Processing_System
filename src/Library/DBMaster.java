@@ -12,6 +12,8 @@ public class DBMaster {
 	private static Connection con;
 	private Manager manager = null;
 	private User LoggedIn;
+	private int UID;
+	private int MID;
 	private static Database db ;
 	private static DBMaster dbm;
 	private DBMaster() throws SQLException, ClassNotFoundException{
@@ -52,7 +54,7 @@ public class DBMaster {
 			if(!result.next()){	//empty set , NO SUCH USER
 				return -1;
 			}
-			int UID = result.getInt("UID");
+			 UID = result.getInt("UID");
 			 LoggedIn = new User(UID);
 			return 1;
 		}catch (SQLException e){
@@ -74,13 +76,13 @@ public class DBMaster {
 			if(!result.next()){	//empty set , NO SUCH USER
 				return -1;
 			}
-			int UID = result.getInt("UID");
+			 UID = result.getInt("UID");
 
 			String query2 = "";
 			query2+="select MID from MANAGER where MID = " + String.valueOf(UID) + ";";
 			ResultSet result2 = (ResultSet) stat.executeQuery(query2);
 			if(result2.next()){	//Manager
-				int MID = result2.getInt("MID");
+				 MID = result2.getInt("MID");
 				 LoggedIn = new Manager(MID);
 				 return 2;
 			}
@@ -94,10 +96,23 @@ public class DBMaster {
 		}
 		
 	}
+	public int removeFromCart(String isbn) throws SQLException{
+		return LoggedIn.removeFromCart(isbn);
+	}
+	public void logOut() throws SQLException{
+		LoggedIn.logout(UID);
+		LoggedIn = null;
+	}
 	public void updateInfo(String[] data) throws SQLException{
 		LoggedIn.updateProfile(data);
 	}
 	public ResultSet searchBook(String[] data) throws SQLException{
 		return (ResultSet) LoggedIn.searchBook(data);
+	}
+	public int getTotalPrice() throws SQLException{
+		return  LoggedIn.getTotalPrice(UID);
+	}
+	public int getItemPrice(String isbn) throws SQLException{
+		return LoggedIn.getItemPrice(isbn);
 	}
 }
