@@ -102,7 +102,12 @@ public class CustomerGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				dbm.logOut();
+				try {
+					dbm.logOut();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				stage.setScene(MainScene);
 				stage.show();
 			}

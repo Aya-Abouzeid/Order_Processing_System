@@ -117,7 +117,6 @@ public class LoginGUI {
 						e1.printStackTrace();
 					}
 							if(Success != -1) {
-								showAlert("Login Success","Welcome, " + UNameTf.getText());
 								try {
 									if(Success == 1)
 									 StartLogin = new CustomerGUI(stage , MainScene);

@@ -71,6 +71,12 @@ public class AddToCartGUI {
 	}
 	private void FillGUI(GridPane gp){
 		
+		AddToCart.setText("Add Books To Cart");
+		AddToCart.setPrefSize(300, 35);
+		gp.add(AddToCart, 2, 0);
+		AddToCart.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+		
+		
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(ISBN, 1, 2);
 		
@@ -135,6 +141,13 @@ public class AddToCartGUI {
 			public void handle(MouseEvent arg0) {
 				stage.setScene(cartScene);
 				stage.show();
+			}
+		});
+		AddToCart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				AddToCartGUI add = new AddToCartGUI(stage , cartScene);
 			}
 		});
 	}

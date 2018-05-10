@@ -23,9 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class CartGUI {
-	private RadioButton ISBN = new RadioButton("ISBN");
+	private Label ISBN = new Label("       ISBN :");
 	private TextField ISBNTf = new TextField();
-	private Button AddToCart = new Button();
 	private Button View = new Button();
 	private Button Remove = new Button();
 	private Button Price = new Button();
@@ -61,7 +60,6 @@ public class CartGUI {
 		group.getChildren().add(gridPane);
 		gridPane.setPadding(new Insets(49, 49, 56, 185));
 		gridPane.setAlignment(Pos.CENTER);
-		RadioBtnFunctionality();
 		gridPane.setVgap(35);
 		gridPane.setHgap(7);
 		Platform.runLater(new Runnable() {
@@ -81,12 +79,8 @@ public class CartGUI {
         group.getChildren().add(img);
 	}
 	private void FillGUI(GridPane gp){
-		AddToCart.setText("Add Books To Cart");
-		AddToCart.setPrefSize(300, 35);
-		gp.add(AddToCart, 2, 0);
-		AddToCart.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		
-		View.setText("View Books In Cart");
+		View.setText("View Cart");
 		View.setPrefSize(300, 35);
 		gp.add(View, 2, 1);
 		View.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
@@ -96,12 +90,13 @@ public class CartGUI {
 		gp.add(TotalPrice, 2, 2);
 		TotalPrice.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		
+		totalPriceLabel.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(totalPriceLabel, 3, 2);
+		
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(ISBN, 2, 4);
+		gp.add(ISBN, 1, 4);
 		
-		ISBNTf.setVisible(false);
-		gp.add(ISBNTf, 3, 4);
-		
+		gp.add(ISBNTf, 2, 4);
 		Price.setText("View Book Price");
 		Price.setPrefSize(300, 35);
 		gp.add(Price, 2, 5);
@@ -128,22 +123,7 @@ public class CartGUI {
 
 	}
 	
-	private void RadioBtnFunctionality(){
-		
-		ISBN.setOnAction(new EventHandler<ActionEvent>() {
 
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(ISBN.isSelected()){
-	        		ISBNTf.setVisible(true);
-	            }
-	            else{
-	            	ISBNTf.clear();
-	        		ISBNTf.setVisible(false);
-	            }
-	        }
-	    });
-}
 
 	private void AddFunctionality(){
 	
@@ -162,24 +142,28 @@ public class CartGUI {
 			CheckoutGUI checkout = new CheckoutGUI(stage , cartScene);
 		}
 	});
-	AddToCart.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-		@Override
-		public void handle(MouseEvent arg0) {
-			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
-		}
-	});
+	// validate existance of book
 	Price.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+			if(ISBNTf.getText()!= ""){
+			try {
+				int price = dbm.getItemPrice(ISBNTf.getText());
+				bookPrice.setText("         "+ String.valueOf(price));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}else{
+				showAlert("ISBN Missing" , "Please Enter The Required ISBN");
+			}
 		}
 	});
 	View.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
+			totalPriceLabel.setText("");
 			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
 		}
 	});
@@ -187,7 +171,18 @@ public class CartGUI {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+			if(ISBNTf.getText()!= ""){
+				try {
+					dbm.removeFromCart(ISBNTf.getText());
+					showAlert("Success" , "BOOK Removed !");
+					ISBNTf.setText("");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				showAlert("ISBN Missing" , "Please Enter The Required ISBN");
+			}
 		}
 	});
 	TotalPrice.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -196,6 +191,7 @@ public class CartGUI {
 		public void handle(MouseEvent arg0) {
 				try {
 					int price = dbm.getTotalPrice();
+					totalPriceLabel.setText("         "+String.valueOf(price));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
