@@ -109,10 +109,10 @@ public class DBMaster {
 	public ResultSet searchBook(String[] data) throws SQLException{
 		return (ResultSet) LoggedIn.searchBook(data);
 	}
-	public int getTotalPrice() throws SQLException{
+	public double getTotalPrice() throws SQLException{
 		return  LoggedIn.getTotalPrice(UID);
 	}
-	public int getItemPrice(String isbn) throws SQLException{
+	public double getItemPrice(String isbn) throws SQLException{
 		return LoggedIn.getItemPrice(isbn);
 	}
 }
