@@ -1,16 +1,18 @@
 package Library;
 
 import java.sql.*;
-
+import java.util.*;
 public class User {
 
 	protected int userID;
 	protected Connection con;
 	private Database db;
+	protected List<CartItem> cartItems;
 	public User(int id) throws SQLException, ClassNotFoundException  {
 		userID = id;
 		db = new Database();
 		con = db.getCon();
+		cartItems = new ArrayList<>();
 	}
 	
 	//>> newly written
@@ -35,19 +37,18 @@ public class User {
 		return stat.executeQuery(query);
 	}
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> we don't read price through GUI <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	int addInCart(int price, String ISBN, int id, int quantity) throws SQLException {
+	int addInCart(int price, String ISBN, int id, int quantity)  {
 
-		Statement stat = con.createStatement();
-		String query = "";
-		query += "insert into CART Values (" + String.valueOf(id)+ " , " + ISBN + " , "+ String.valueOf(price) + " , "
-				+ String.valueOf(quantity) +");";
+		CartItem item = new CartItem(ISBN, quantity, id, price);
+		cartItems.add(item);
 		
-
-		return stat.executeUpdate(query);
+		return 0;
 
 	}
 
 	int removeFromCart(String isbn) throws SQLException {
+		
+		
 		Statement stat = con.createStatement();
 		String query = "";
 		query += "delete from CART where ISBN ='" + isbn + "';";
@@ -55,12 +56,10 @@ public class User {
 
 	}
 
+	// I think more actions are needed on logging out
 	void logout(int userId) throws SQLException {
 
-		Statement stat = con.createStatement();
-		String query = "";
-		query += "delete from CART where UID =" + userId + ";";
-		stat.executeUpdate(query);
+		cartItems.clear();
 	}
 // >> newly written
 	int updateProfile(String [] data) throws SQLException {
