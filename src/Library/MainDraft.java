@@ -23,7 +23,7 @@ public class MainDraft {
 		Manager m = new Manager(2);
 		
 		Book b = new Book();
-		b.setIsbn("91412125-122");
+		b.setIsbn("11111-122");
 		b.setPublisherId(123);
 		b.setTitle("title2");
 		b.setSellingPrice(150);
@@ -43,11 +43,19 @@ public class MainDraft {
 			
 		}
 		
+		CartItem item ;
+		item = new CartItem("1234",1, 2, 150);
+		m.cartItems.add(item);
 		//m.logout(m.userID);
 		//m.removeFromCart("1234");
 		//m.addInCart(100, "12345", m.userID, 2);
 		//System.out.println(m.signIn("aykalb@gmail.com"));
 		
+		m.confirmShopping();
+		System.out.println(m.ERROR_MESSAGE);
+		m.getTopCustomers();
+		
+		System.out.println("good night xD");
 		return 0;
 		
 	

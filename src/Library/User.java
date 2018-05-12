@@ -20,8 +20,12 @@ public class User {
 
 	public User(int id) throws SQLException, ClassNotFoundException {
 		userID = id;
-		db = new Database();
-		con = db.getCon();
+		// db = new Database();
+		Class.forName("com.mysql.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306" + "/OrderProcessingSystem", "root",
+				"11feb2011");
+
+		// con = db.getCon();
 		cartItems = new ArrayList<>();
 	}
 
@@ -74,7 +78,8 @@ public class User {
 		cartItems.add(item);
 		return 0;
 	}
-	protected int removeFromCart(String isbn)  {
+
+	protected int removeFromCart(String isbn) {
 
 		for (int i = 0; i < cartItems.size(); i++) {
 			if (cartItems.get(i).getIsbn().matches(isbn)) {
@@ -94,28 +99,28 @@ public class User {
 
 	// >> newly written
 	protected int updateProfile(String[] data) throws SQLException {
-		
+
 		try {
-		String[] attributes = { "UNAME", "UPASS", "EMAIL", "FNAME", "LNAME", "ShippingAddress" };
-		Statement stat = con.createStatement();
-		String query = "update user set ";
-		int counter = 0;
-		for (int i = 0; i < data.length; i++) {
-			if (!data[i].equals("")) {
-				if (counter != 0)
-					query += ",";
-				if (i == 1)
-					query += attributes[i] + "=MD5('" + data[i] + "')";
-				else
-					query += attributes[i] + "='" + data[i] + "'";
-				counter++;
+			String[] attributes = { "UNAME", "UPASS", "EMAIL", "FNAME", "LNAME", "ShippingAddress" };
+			Statement stat = con.createStatement();
+			String query = "update user set ";
+			int counter = 0;
+			for (int i = 0; i < data.length; i++) {
+				if (!data[i].equals("")) {
+					if (counter != 0)
+						query += ",";
+					if (i == 1)
+						query += attributes[i] + "=MD5('" + data[i] + "')";
+					else
+						query += attributes[i] + "='" + data[i] + "'";
+					counter++;
+				}
 			}
-		}
-		query += " where UID = " + String.valueOf(userID) + ";";
-		System.out.println(query);
-		return stat.executeUpdate(query);
-		}catch (Exception e) {
-			this.ERROR_MESSAGE=e.getMessage();
+			query += " where UID = " + String.valueOf(userID) + ";";
+			System.out.println(query);
+			return stat.executeUpdate(query);
+		} catch (Exception e) {
+			this.ERROR_MESSAGE = e.getMessage();
 			return -1;
 		}
 	}
@@ -143,7 +148,36 @@ public class User {
 
 	protected int confirmShopping() {
 
+		try {
+			con.setAutoCommit(false);
+			int quantity;
+			String ISBN;
+			String query;
+			Statement stat = con.createStatement();
+			for (int i =0;i<cartItems.size();i++){
+				ISBN=cartItems.get(i).getIsbn();
+				quantity = cartItems.get(i).getQuantity();
+				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity)
+				+ "where ISBN = '1234';";
+				stat.executeUpdate(query);
+				con.commit();
+				
+			}
+		}catch (SQLException e) {
+			this.ERROR_MESSAGE = e.getMessage();
+			return -1;
+			
+			
+		}
+		
+		//success
 		return 0;
 	}
 
 }
+
+
+
+
+
+

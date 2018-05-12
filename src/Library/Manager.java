@@ -160,4 +160,55 @@ public class Manager extends User implements IManager {
 
 	}
 
+	public double getTotalSales() {
+
+		try {
+			Statement stat = con.createStatement();
+			String query = "select SUM(Price)from BOOKS_SOLD;";
+			ResultSet r = stat.executeQuery(query);
+
+		} catch (SQLException e) {
+			this.ERROR_MESSAGE = e.getMessage();
+		}
+		return 0.0;
+	}
+
+	@Override
+	public ResultSet getTopCustomers() {
+		try {
+			Statement stat = con.createStatement();
+			String query = "select USER.LName,t1.UID,t1.S" + "from USER " + "join" + "(select UID,SUM(Quantity) AS S"
+					+ "from BOOKS_SOLD" + "group by UID" + ")t1" + "on t1.UID = USER.UID" + "ORDER BY S DESC LIMIT 5;";
+
+			return stat.executeQuery(query);
+
+		} catch (SQLException e) {
+			this.ERROR_MESSAGE = e.getMessage();
+			return null;
+		}
+	}
+
+	// doesn't work yet
+	@Override
+	public ResultSet getBestSellingBooks() {
+		
+		try {
+			Statement stat = con.createStatement();
+			String query  = "select BOOK.Title,t1.S from BOOK" 
+						+"join"
+						+"(select ISBN,SUM(Quantity) AS S"
+						+"from BOOKS_SOLD"
+						+"group by ISBN"
+						+")t1"
+						+"on t1.ISBN = BOOK.ISBN"
+						+"ORDER BY S DESC LIMIT 5;";
+			
+			return stat.executeQuery(query);
+		}catch (SQLException e) {
+			this.ERROR_MESSAGE=e.getMessage();
+			return null;
+		}
+		
+	}
+
 }
