@@ -149,7 +149,7 @@ public class CartGUI {
 		public void handle(MouseEvent arg0) {
 			if(ISBNTf.getText()!= ""){
 			try {
-				int price = dbm.getItemPrice(ISBNTf.getText());
+				double price = dbm.getItemPrice(ISBNTf.getText());
 				bookPrice.setText("         "+ String.valueOf(price));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -190,7 +190,7 @@ public class CartGUI {
 		@Override
 		public void handle(MouseEvent arg0) {
 				try {
-					int price = dbm.getTotalPrice();
+					double price = dbm.getTotalPrice();
 					totalPriceLabel.setText("         "+String.valueOf(price));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
