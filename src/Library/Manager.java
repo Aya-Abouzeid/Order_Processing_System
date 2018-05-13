@@ -48,18 +48,26 @@ public class Manager extends User implements IManager {
 
 	/// msh shart y7sl update l kol el attributes
 	@Override
-	public int updateBook(Book book) {
+	public int updateBook(String [] data) {
 		try {
+			String[] attributes = { "ISBN", "PID", "Title", "Year", "Price", "Category" , "Threshold" , "Stock"};
 			Statement stat = con.createStatement();
-			String query = "";
-			query += "Update  BOOK " + "set " + "ISBN = " + book.getIsbn() + "," + "Title = " + book.getTitle() + ","
-					+ "Pid = " + book.getPublisherId() + "," + "Year = " + String.valueOf(book.getYear()) + ","
-					+ "Price = " + String.valueOf(book.getSellingPrice()) + "," + "Category = "
-					+ String.valueOf(book.getCategory()) + "," + "Stock = " + String.valueOf(book.getStockQuantity())
-					+ "," + "Threshold = " + String.valueOf(book.getThreshold()) + ",);";
-
+			String query = "update book set ";
+			int counter = 0;
+			for (int i = 1; i < data.length; i++) {
+				if (!data[i].equals("")) {
+					if (counter != 0)
+						query += ",";
+					
+					else
+						query += attributes[i] + "='" + data[i] + "'";
+					counter++;
+				}
+			}
+			query += " where ISBN = " + data[0] + ";";
+			System.out.println(query);
 			return stat.executeUpdate(query);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			this.ERROR_MESSAGE = e.getMessage();
 			return -1;
 		}

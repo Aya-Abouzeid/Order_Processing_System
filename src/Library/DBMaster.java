@@ -1,6 +1,7 @@
 package Library;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -77,11 +78,13 @@ public class DBMaster {
 				return -1;
 			}
 			 UID = result.getInt("UID");
-
+			 System.out.print("heeer");
 			String query2 = "";
 			query2+="select MID from MANAGER where MID = " + String.valueOf(UID) + ";";
 			ResultSet result2 = (ResultSet) stat.executeQuery(query2);
+
 			if(result2.next()){	//Manager
+
 				 MID = result2.getInt("MID");
 				 LoggedIn = new Manager(MID);
 				 return 2;
@@ -105,6 +108,18 @@ public class DBMaster {
 	}
 	public void updateInfo(String[] data) throws SQLException{
 		LoggedIn.updateProfile(data);
+	}
+	public void addBook(String[] data) throws SQLException{
+		((Manager) LoggedIn).addBook(new Book(
+				data[2],data[0],Integer.valueOf(data[1]),Integer.valueOf(data[7]),
+				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],Date.valueOf(data[3])
+						)
+				);
+	}
+	public void modifyBook(String[] data) throws SQLException{
+		((Manager) LoggedIn).updateBook(data
+						);
+				
 	}
 	public ResultSet searchBook(String[] data) throws SQLException{
 		return (ResultSet) LoggedIn.searchBook(data);

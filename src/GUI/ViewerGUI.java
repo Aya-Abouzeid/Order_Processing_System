@@ -5,20 +5,24 @@ import java.awt.Insets;
 import Library.Book;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale.Category;
 
 import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -29,7 +33,12 @@ public class ViewerGUI {
 	private Stage stage;
 	private ResultSet resultSet;
     private TableView<String> table = new TableView();
+	private Button Back = new Button();
+	private Button Forward = new Button();
+	private ArrayList<ObservableList<Book>> allData = new ArrayList<ObservableList<Book>>();
     ObservableList<Book> data ;
+    private int pagesCounter=0;
+    private int pagesOffset=0;
 
         //private Label label;
        private TableView<Book> tableBook = new TableView() ;  
@@ -41,22 +50,32 @@ public class ViewerGUI {
        private TableColumn<Book, Integer> columnQuantity = new TableColumn("Quantity"); ;
        private TableColumn<Book, Integer> columnThreshold = new TableColumn("Threshold"); ;
        private TableColumn<Book, Category> columnCategory = new TableColumn("Category"); ;
+       Group group = new Group();
+		Scene scene = new Scene(group, 980, 630);
+		GridPane gridPane = new GridPane();
 
 	public ViewerGUI( Stage primaryStage , Scene s , ResultSet x ) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
 		MainScene = s;
 		resultSet = x;
 
-
+		addFunctionality();
 		 stage = primaryStage;
 		 trial();
 		// ViewerPage();
 	}
 	public void trial() throws SQLException
 	{
-		Group group = new Group();
-		Scene scene = new Scene(group, 980, 630);
-		GridPane gridPane = new GridPane();
+		Back.setText("< Back");
+		Back.setPrefSize(119, 35);
+		Forward.setText("Forward >");
+		Forward.setPrefSize(119, 35);
+		//gridPane.add(Back, 15, 23);
+
+		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+		Forward.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+
+		
 		data = FXCollections.observableArrayList();
 		columnISBN.setCellValueFactory(
 			    new PropertyValueFactory<Book,String>("isbn"));
@@ -81,10 +100,37 @@ public class ViewerGUI {
 		
 		tableBook.getColumns().addAll( columnISBN,columnTitle,columnCategory, columnPublisherID,columnYear,columnPrice,
         		columnQuantity,columnThreshold);
-		
-		
 
-	        while(resultSet.next()){
+	    final VBox vbox = new VBox();
+	    vbox.getChildren().add(tableBook);
+	    vbox.getChildren().add(Back);
+	    vbox.getChildren().add(Forward);
+
+	    ((Group) scene.getRoot()).getChildren().addAll(vbox);
+		
+		show();
+		
+ 
+       
+        Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				stage.setScene(scene);
+				stage.show();
+			}
+	});
+	}
+
+	private void show() throws SQLException{
+		pagesOffset=0;
+		 if(pagesCounter < allData.size()-1){
+			   tableBook.setItems(allData.get(pagesCounter));
+			   pagesCounter++;
+		 }
+		 else{
+			 data = FXCollections.observableArrayList();
+				boolean hasNext = resultSet.next();
+				while(hasNext){
 	        	Book b = new Book();
 	        	data.add(
 	        			new Book(
@@ -96,43 +142,76 @@ public class ViewerGUI {
 	        			resultSet.getInt("Threshold"),
 	        			resultSet.getString("Category"),
 	        			resultSet.getDate("Year")
-	        			
-	        			));
-	        			
-	        	
-	
-	        	
+	        			));	
+	        	pagesOffset++;
+	        	if(pagesOffset==2)
+	        		break;
+	        	hasNext = resultSet.next();
 	        }
+				if(data.size()!=0){
+					allData.add(data);
+					pagesCounter++;
+				}
+				
+			 
+		    tableBook.setItems(null);
 
-        
-        tableBook.setItems(null);
+		    tableBook.setItems(data);			 
+		 }
+			
+	    
 
-        tableBook.setItems(data);
-        
-
-        final VBox vbox = new VBox();
-        vbox.getChildren().add(tableBook);
-
-        ((Group) scene.getRoot()).getChildren().addAll(vbox);
- 
- 
-       
-        Platform.runLater(new Runnable() {
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				stage.setScene(scene);
 				stage.show();
 			}
 	});
+		
 	}
-	/*public void ViewerPage(ResultSet rs){
-		TableColumn firstNameCol = new TableColumn("ISBN");
-        TableColumn lastNameCol = new TableColumn("PID");
-       // TableColumn emailCol = new TableColumn("Email");
-        
-        table.getColumns().addAll(firstNameCol, lastNameCol);
-        
-		resultSet = rs;
-	}*/
+		
+		
+  private void showPrevious(){
+	  pagesCounter--;
+	   tableBook.setItems(null);
+	   tableBook.setItems(allData.get(pagesCounter));
+	    
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				stage.setScene(scene);
+				stage.show();
+			}
+	});	  
+  }
+void addFunctionality(){
+	Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			if(pagesCounter==0){
+				stage.setScene(MainScene);
+				stage.show();
+			}
+			else{
+				showPrevious();
+			}
+			
+		}
+	});
+	Forward.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			try {
+				show();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	});
+}
 
 }
