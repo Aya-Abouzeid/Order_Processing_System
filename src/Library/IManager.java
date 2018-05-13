@@ -18,7 +18,7 @@ public interface IManager {
 	 * 
 	 * @return true upon success,false otherwise
 	 */
-	public int updateBook(Book book) throws SQLException;
+	public int updateBook(String [] data) throws SQLException;
 
 	/*
 	 * Promotes customer to Manager
