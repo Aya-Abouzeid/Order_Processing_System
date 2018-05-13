@@ -159,7 +159,12 @@ public class ManagerGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				
-					LibraryGUI manage = new LibraryGUI(stage , ManagerScene);
+					try {
+						LibraryGUI manage = new LibraryGUI(stage , ManagerScene);
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 		//User Clicked Cart Btn

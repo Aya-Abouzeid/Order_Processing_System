@@ -46,7 +46,7 @@ public class Manager extends User implements IManager {
 		}
 	}
 
-	/// msh shart y7sl update l kol el attributes
+
 	@Override
 	public int updateBook(String [] data) {
 		try {

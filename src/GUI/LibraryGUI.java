@@ -1,7 +1,11 @@
 package GUI;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +13,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -40,6 +46,10 @@ public class LibraryGUI {
 	private TextField CategoryTf = new TextField();
 	private TextField StockTf = new TextField();
 	private TextField ThresholdTf = new TextField();
+	private DatePicker datePicker = new DatePicker();
+
+	private String[] data = new String[8];
+	private DBMaster dbm;
 	
 	Button addBook = new Button();
 	Button modify = new Button();
@@ -50,8 +60,8 @@ public class LibraryGUI {
 
 	Stage stage;
 	Scene CustomerScene;
-	public LibraryGUI( Stage primaryStage, Scene s) {
-		
+	public LibraryGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		CustomerPage();
 
@@ -60,7 +70,7 @@ public class LibraryGUI {
 		// String path;
 			
 		Group group = new Group();
-		Scene scene = new Scene(group, 980, 630);
+		Scene scene = new Scene(group, 980, 800);
 		CustomerScene = scene;
 		GridPane gridPane = new GridPane();
 		
@@ -70,6 +80,7 @@ public class LibraryGUI {
 		//Decide what to do with each btn click
 		//AddFunctionality();
 		RadioBtnFunctionality();
+		addFunctionality();
 		AddImage(group);
 		group.getChildren().add(gridPane);
 		gridPane.setPadding(new Insets(49, 49, 56, 150));
@@ -109,12 +120,18 @@ public class LibraryGUI {
 		
 		Year.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Year, 1, 11);
+		//gp.add(datePicker, 1, 11);
+
 		
 		Price.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Price, 1, 14);
 
 		Category.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Category, 1, 17);
+		Stock.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Stock, 1, 20);
+		Threshold.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Threshold, 1, 23);
 		
 		
 		ISBNTf.setVisible(false);
@@ -134,6 +151,10 @@ public class LibraryGUI {
 		
 		CategoryTf.setVisible(false);
 		gp.add(CategoryTf, 3, 17);	
+		StockTf.setVisible(false);
+		gp.add(StockTf, 3, 20);
+		ThresholdTf.setVisible(false);
+		gp.add(ThresholdTf, 3, 23);
 		
 		addBook.setText("Add Book");
 		addBook.setPrefSize(200, 35);
@@ -290,6 +311,135 @@ public void RadioBtnFunctionality(){
 	        }
 	    });
 	}
+public void addFunctionality(){
+	datePicker.setOnAction(event -> {
+	    LocalDate date = datePicker.getValue();
+	    System.out.println("Selected date: " + date);
+	});
+	addBook.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			System.out.println("hi");
+
+			if(emptyTextFields("add"))
+				showAlert("Add Failed","Please Fill All Fields");
+			else{
+				addData();
+				try {
+					dbm.addBook(data);
+					//ViewerGUI x2 = new ViewerGUI(stage,CustomerScene,x);
+										
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+				//	showAlert("Update Failed","Username or Email already Used");
+				}
+				
+			}
+		}
+	});
+	modify.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			System.out.println("hi");
+
+			if(emptyTextFields("modify"))
+				showAlert("Modify Failed","Please Specify ISBN along with one additional attribute");
+			else{
+				addData();
+				try {
+					dbm.modifyBook(data);
+					//ViewerGUI x2 = new ViewerGUI(stage,CustomerScene,x);
+										
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+				//	showAlert("Update Failed","Username or Email already Used");
+				}
+				
+			}
+		}
+	});
+}
+
+private void addData(){
+	if(!ISBN.isSelected())
+		data[0]="";
+	else
+		data[0]=ISBNTf.getText().trim();
+	
+	if(!PID.isSelected())
+		data[1]="";
+	else
+		data[1]=PIDTf.getText().trim();
+	
+	if(!Title.isSelected())
+		data[2]="";
+	else
+		data[2]=TitleTf.getText().trim();
+	
+	if(!Year.isSelected())
+		data[3]="";
+	else
+		data[3]=YearTf.getText().trim();
+	
+	if(!Price.isSelected())
+		data[4]="";
+	else
+		data[4]=PriceTf.getText().trim();
+	
+	if(!Category.isSelected())
+		data[5]="";
+	else
+		data[5]=CategoryTf.getText().trim();
+	
+	if(!Threshold.isSelected())
+		data[6]="";
+	else
+		data[6]=ThresholdTf.getText().trim();
+	
+	if(!Stock.isSelected())
+		data[7]="";
+	else
+		data[7]=StockTf.getText().trim();
+	
+}
+private boolean emptyTextFields(String type){
+	System.out.println("hi");
+
+	if(type.equals("modify")&&( (ISBN.isSelected()&& ISBNTf.getText().trim().isEmpty()) ||
+			( ( PIDTf.getText().trim().isEmpty())
+			&& ( TitleTf.getText().trim().isEmpty())
+			&& ( YearTf.getText().trim().isEmpty())
+			&& ( PriceTf.getText().trim().isEmpty())
+			&& ( CategoryTf.getText().trim().isEmpty())
+			&& ( ThresholdTf.getText().trim().isEmpty())
+			&& (StockTf.getText().trim().isEmpty())))
+			)
+		return true;
+	if(type.equals("add")&&(ISBNTf.getText().trim().isEmpty()
+			|| (PIDTf.getText().trim().isEmpty())
+			|| (TitleTf.getText().trim().isEmpty())
+			|| (YearTf.getText().trim().isEmpty())
+			|| (PriceTf.getText().trim().isEmpty())
+			|| (CategoryTf.getText().trim().isEmpty())
+			|| (ThresholdTf.getText().trim().isEmpty())
+			|| (StockTf.getText().trim().isEmpty()))
+			) return true;
+		//return true;
+	return false;
+}
+private void showAlert(String title , String msg){
+	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	alert.setTitle(title);
+	alert.setHeaderText(msg);
+	alert.show();
+}
+}
+
+
 /**
 	1. Add new books
 	2. Modify existing books
@@ -302,4 +452,3 @@ public void RadioBtnFunctionality(){
 	three months
 	c. The top 10 selling books for the last three months
 	Assume that the system stores book sales and other related data for the last 3 months.*/
-}

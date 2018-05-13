@@ -20,7 +20,7 @@ public class DBMaster {
 	private DBMaster() throws SQLException, ClassNotFoundException{
 			
 	}
-	
+	 
 	public static DBMaster getDBMaster() throws ClassNotFoundException, SQLException{
 		if(dbm == null){
 			db = new Database();
