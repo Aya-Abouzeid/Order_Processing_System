@@ -283,10 +283,8 @@ public class SearchGUI {
 					addData();
 					try {
 						ResultSet x = (ResultSet) dbm.searchBook(data);
-						ViewerGUI x2 = new ViewerGUI(stage,CustomerScene);
-						while(x.next()){
-							System.out.println(x.getString("ISBN"));
-						}
+						ViewerGUI x2 = new ViewerGUI(stage,CustomerScene,x);
+						
 						
 
 					} catch (SQLException e) {

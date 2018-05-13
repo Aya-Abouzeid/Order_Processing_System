@@ -15,14 +15,14 @@ public class Book {
 	private int publisherId;
 	private int threshold;
 	private int stockQuantity;
-	private int sellingPrice;
-	private Category category;
+	private double sellingPrice;
+	private String category;
 	private Date year;
 
 	// year ---> what type?
 	// Book's Constructor
 	public Book(String title, String isbn, int pubId, int stockQuantity
-			, int price, int threshold, Category cat,Date date) {
+			, double price, int threshold, String cat,Date date) {
 		this.category = cat;
 		this.title = title;
 		this.isbn = isbn;
@@ -43,7 +43,7 @@ public class Book {
 		this.title = title;
 	}
 
-	public void setCategory(Category cat) {
+	public void setCategory(String cat) {
 		this.category = cat;
 	}
 
@@ -87,11 +87,11 @@ public class Book {
 		return isbn;
 	}
 
-	public int getpublisherId() {
+	public int getPublisherId() {
 		return publisherId;
 	}
 
-	public int getSellingPrice() {
+	public double getSellingPrice() {
 		return sellingPrice;
 	}
 
@@ -103,7 +103,7 @@ public class Book {
 		return threshold;
 	}
 
-	public Category getCategory() {
+	public String getCategory() {
 		return this.category;
 	}
 

@@ -20,7 +20,7 @@ public class Manager extends User implements IManager {
 			Statement stat = con.createStatement();
 			String query = "";
 			query += "insert into BOOK  Values ( ' " + book.getIsbn() + " ', '" + book.getTitle() + "' ,"
-					+ book.getpublisherId() + " , '" + String.valueOf(book.getYear()) + "' , "
+					+ book.getPublisherId() + " , '" + String.valueOf(book.getYear()) + "' , "
 					+ String.valueOf(book.getSellingPrice()) + " , '" + String.valueOf(book.getCategory()) + "',"
 					+ String.valueOf(book.getStockQuantity()) + " , " + String.valueOf(book.getThreshold()) + ");";
 
@@ -53,7 +53,7 @@ public class Manager extends User implements IManager {
 			Statement stat = con.createStatement();
 			String query = "";
 			query += "Update  BOOK " + "set " + "ISBN = " + book.getIsbn() + "," + "Title = " + book.getTitle() + ","
-					+ "Pid = " + book.getpublisherId() + "," + "Year = " + String.valueOf(book.getYear()) + ","
+					+ "Pid = " + book.getPublisherId() + "," + "Year = " + String.valueOf(book.getYear()) + ","
 					+ "Price = " + String.valueOf(book.getSellingPrice()) + "," + "Category = "
 					+ String.valueOf(book.getCategory()) + "," + "Stock = " + String.valueOf(book.getStockQuantity())
 					+ "," + "Threshold = " + String.valueOf(book.getThreshold()) + ",);";
