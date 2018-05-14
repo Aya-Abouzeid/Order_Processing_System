@@ -106,11 +106,11 @@ public class Manager extends User implements IManager {
 
 		// need other actions?
 		try {
-			Statement stat = con.createStatement();
-			String query = "";
-			// handle if user id is not valid
-			query += "Insert into MANAGER Values " + String.valueOf(userId) + ";";
-			return stat.executeUpdate(query);
+		
+			PreparedStatement stmt = con.prepareStatement("insert into MANAGER values(?)");
+			stmt.setInt(1, userId);
+			stmt.executeUpdate();
+			return 1;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;

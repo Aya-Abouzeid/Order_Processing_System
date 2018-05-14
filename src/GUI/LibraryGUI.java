@@ -230,7 +230,21 @@ public void addFunctionality(){
 			if(UIDTf.getText().trim() == "")
 				showAlert("Promotion Failed","Please Insert User ID");
 			else{
-				//dbm.pr
+				try {
+					int success = dbm.promoteUser(Integer.valueOf(UIDTf.getText().trim()));
+				System.out.println(success);
+					if(success <= 0){
+						showAlert("Promotion Failed","Invalid User ID");
+					}
+					else {
+						showAlert("Promotion Success","User Promoted");
+					}
+					UIDTf.setText("");
+
+				} catch (NumberFormatException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 		}

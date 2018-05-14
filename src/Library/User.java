@@ -49,7 +49,7 @@ public class User {
 
 	protected int addInCart(String ISBN, int quantity) throws SQLException {
 		Statement stat = con.createStatement();
-		String query = "select ISBN , stock , price from book where isbn = '" + ISBN + "' and stock = " + quantity;
+		String query = "select ISBN , stock , price from BOOK where isbn = '" + ISBN + "' and stock = " + quantity;
 		System.out.println(query);
 		ResultSet x = stat.executeQuery(query);
 		if (x.next()) {
