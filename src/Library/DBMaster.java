@@ -110,6 +110,12 @@ public class DBMaster {
 		}
 
 	}
+	public int confirmOrder(String isbn) throws SQLException {
+		return ((Manager) LoggedIn).confirmOrder(isbn);
+	}
+	public int placeOrder(String isbn, int qunatity) throws SQLException {
+		return ((Manager) LoggedIn).placeOrder(isbn,qunatity);
+	}
 	public int promoteUser(int userId) throws SQLException {
 		return ((Manager) LoggedIn).promoteUser(userId);
 	}

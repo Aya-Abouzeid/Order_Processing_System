@@ -127,7 +127,9 @@ public class Manager extends User implements IManager {
 			// handle if isbn is not valid
 
 			query += "Delete from BOOK_ORDERS where ISBN = '" + isbn + "';";
-			return stat.executeUpdate(query);
+			int number = stat.executeUpdate(query);
+			System.out.println("Confirmation return number " + number);
+			return 1;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
@@ -143,8 +145,12 @@ public class Manager extends User implements IManager {
 
 			Statement stat = con.createStatement();
 			String query = "";
-			query += "Insert into BOOK_ORDERS Values ('" + isbn + "'," + String.valueOf(qunatity) + ";";
-			return stat.executeUpdate(query);
+			query += "Insert into BOOK_ORDERS Values ('" + isbn + "'," + String.valueOf(qunatity) + ");";
+			System.out.println(query);
+
+			int number = stat.executeUpdate(query);
+			System.out.println("place order return number " + number);
+			return 1;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;

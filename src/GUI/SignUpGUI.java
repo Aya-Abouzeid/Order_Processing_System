@@ -2,6 +2,8 @@ package GUI;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
+
 import GUI.CustomerGUI;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -33,6 +35,9 @@ public class SignUpGUI extends GUI{
 	private TextField EmailTf = new TextField();
 	private TextField AddressTf = new TextField();
 	private DBMaster dbm;
+	private Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+	private Pattern usernamePattern = Pattern.compile("^[a-z0-9_-]{3,15}$");
+	private Pattern namePattern = Pattern.compile("[aA-zZ ']+$");
 
 	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
@@ -138,17 +143,34 @@ public class SignUpGUI extends GUI{
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				if(!emptyTextFields()){
+				if(!EmailTf.getText().trim().isEmpty() && !emailPattern.matcher(EmailTf.getText().trim()).matches()){
+					showAlert("Invalid Input" ,"Invalid Email Provided" );
+
+				}
+				else if(!UNameTf.getText().trim().isEmpty() && !usernamePattern.matcher(UNameTf.getText().trim()).matches()){
+					showAlert("Invalid Input" ,"Invalid UserName Provided" );
+
+				}
+				else if(!UFNameTf.getText().trim().isEmpty() && !namePattern.matcher(UFNameTf.getText().trim()).matches()){
+					showAlert("Invalid Input" ,"Invalid First Name Provided" );
+
+				}
+				else if(!ULNameTf.getText().trim().isEmpty() && !namePattern.matcher(ULNameTf.getText().trim()).matches()){
+					showAlert("Invalid Input" ,"Invalid Last Name Provided" );
+
+				}
+			else if(!emptyTextFields()){
 					int Success = -1;
 					try {
-						Success = dbm.register(UNameTf.getText(),UPassTf.getText(),EmailTf.getText(),
-								UFNameTf.getText() , ULNameTf.getText(),AddressTf.getText());
+						Success = dbm.register(UNameTf.getText().trim(),UPassTf.getText().trim()
+								,EmailTf.getText().trim(),
+								UFNameTf.getText().trim() , ULNameTf.getText().trim(),AddressTf.getText().trim());
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 							if(Success != -1) {
-								showAlert("Register Success","Welcome, " + UNameTf.getText());
+								showAlert("Register Success","Welcome, " + UNameTf.getText().trim());
 								try {
 									CustomerGUI startCustomer = new CustomerGUI(stage, MainScene);
 								} catch (ClassNotFoundException | SQLException e) {
