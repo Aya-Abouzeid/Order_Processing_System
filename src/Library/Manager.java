@@ -16,10 +16,11 @@ public class Manager extends User implements IManager {
 	}
 
 	@Override
-	public int addBook(Book book) throws SQLException {
+	public int addBook(Book book, String[] authors) throws SQLException {
 
 		try {
-
+			
+			//con.setAutoCommit(false);
 			PreparedStatement stmt = con.prepareStatement("insert into BOOK values(?,?,?,?,?,?,?,?)");
 			stmt.setString(1, book.getIsbn());
 			stmt.setString(2, book.getTitle());
@@ -29,7 +30,17 @@ public class Manager extends User implements IManager {
 			stmt.setString(6, book.getCategory());
 			stmt.setInt(7, book.getStockQuantity());
 			stmt.setInt(8, book.getThreshold());
-			return stmt.executeUpdate();
+			stmt.executeUpdate();
+			
+			
+			for (int i =0;i<authors.length;i++){
+				PreparedStatement stmt2 = con.prepareStatement("insert into BOOK_AUTHORS values(?,?)");
+				stmt.setString(1, book.getIsbn());
+				stmt.setString(2, authors[i]);
+				stmt.executeUpdate();
+			}
+			//con.commit();
+			return 1;
 
 		} catch (SQLException e) {
 			System.out.println("heere 33");

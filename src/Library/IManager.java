@@ -1,6 +1,7 @@
 package Library;
 
 import java.util.Set;
+import java.util.*;
 import java.sql.*;
 import Library.Book.Category;
 
@@ -11,7 +12,7 @@ public interface IManager {
 	 * 
 	 * @return true upon success,false otherwise
 	 */
-	public int addBook(Book book) throws SQLException;
+	public int addBook(Book book, String[] authors) throws SQLException;
 
 	/*
 	 * @param book to update
