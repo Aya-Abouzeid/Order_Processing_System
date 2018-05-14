@@ -121,13 +121,13 @@ public class DBMaster {
 	public void updateInfo(String[] data) throws SQLException{
 		LoggedIn.updateProfile(data);
 	}
-	public void addBook(String[] data) throws SQLException{
+	public void addBook(String[] data,String [] authors) throws SQLException{
 		System.out.println("heere 11");
 
 		((Manager) LoggedIn).addBook(new Book(
 				data[2],data[0],Integer.valueOf(data[1]),Integer.valueOf(data[7]),
 				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],data[3]
-						)
+						),authors
 				);
 	}
 	public void modifyBook(String[] data) throws SQLException{
