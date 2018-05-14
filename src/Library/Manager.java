@@ -36,6 +36,9 @@ public class Manager extends User implements IManager {
 
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
+		} catch (NumberFormatException e) {
+			DBMaster.ERROR_MESSAGE = "Invalid Input";
+			return -1;
 		}
 	}
 
@@ -54,6 +57,9 @@ public class Manager extends User implements IManager {
 		} catch (SQLException e) {
 
 			DBMaster.ERROR_MESSAGE = e.getMessage();
+			return -1;
+		}catch (NumberFormatException e) {
+			DBMaster.ERROR_MESSAGE = "Invalid Input";
 			return -1;
 		}
 	}
