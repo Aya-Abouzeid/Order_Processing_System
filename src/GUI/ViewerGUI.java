@@ -122,7 +122,7 @@ public class ViewerGUI {
 
 	private void show() throws SQLException{
 		pagesOffset=0;
-		 if(pagesCounter < allData.size()-1){
+		 if(pagesCounter < allData.size()){
 			   tableBook.setItems(allData.get(pagesCounter));
 			   pagesCounter++;
 		 }
@@ -140,7 +140,7 @@ public class ViewerGUI {
 	        			resultSet.getDouble("Price"),
 	        			resultSet.getInt("Threshold"),
 	        			resultSet.getString("Category"),
-	        			resultSet.getDate("Year")
+	        			resultSet.getDate("Year").toString()
 	        			));	
 	        	pagesOffset++;
 	        	if(pagesOffset==2)
