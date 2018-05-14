@@ -32,6 +32,9 @@ public class LibraryGUI {
 	private Button Search = new Button();
 	private Scene managerScene;
 	private Label ISBN = new Label("ISBN");
+	private Label ISBN2 = new Label("     ISBN");
+	private Label ISBN3 = new Label("     ISBN");
+	private Label quantity = new Label("   Quantity");
 	private Label PID = new Label("PID");
 	private Label Title = new Label("Title");
 	private Label Year = new Label("Year");
@@ -42,6 +45,9 @@ public class LibraryGUI {
 	private Label Stock = new Label("Stock");
 	private Label Threshold = new Label("Threshold");
 	private TextField ISBNTf = new TextField();
+	private TextField ISBNTf2 = new TextField();
+	private TextField ISBNTf3 = new TextField();
+	private TextField quantityTf = new TextField();
 	private TextField PIDTf = new TextField();
 	private TextField AuthorsTf = new TextField();
 	private TextField TitleTf = new TextField();
@@ -54,14 +60,13 @@ public class LibraryGUI {
 	private DBMaster dbm;
 	private  LocalDate date;
 	private String[] authorsList;
-
-	Button addBook = new Button();
-	Button modify = new Button();
-	Button order = new Button();
-	Button confirm = new Button();
-	Button promote = new Button();
-	Stage stage;
-	Scene CustomerScene;
+	private Button addBook = new Button();
+	private Button modify = new Button();
+	private Button order = new Button();
+	private Button confirm = new Button();
+	private Button promote = new Button();
+	private Stage stage;
+	private Scene CustomerScene;
 	
 	public LibraryGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
@@ -85,7 +90,7 @@ public class LibraryGUI {
 		addFunctionality();
 		AddImage(group);
 		group.getChildren().add(gridPane);
-		gridPane.setPadding(new Insets(49, 49, 56, 30));
+		gridPane.setPadding(new Insets(20, 30, 40, 30));
 		gridPane.setAlignment(Pos.TOP_LEFT);
 
 		gridPane.setVgap(3);
@@ -168,13 +173,18 @@ public class LibraryGUI {
 		
 		order.setText("Order Book");
 		order.setPrefSize(200, 35);
-		gp.add(order, 6, 29);
+		gp.add(order, 6, 17);
 		order.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
+		ISBN3.setStyle("-fx-font: normal bold 32px 'serif' ");
+		ISBN3.setPadding(new Insets(0, 0, 5, 5));
+		gp.add(ISBN3,5, 23);
+		gp.add(ISBNTf3,6 , 23);
+		
 		
 		confirm.setText("Confirm Order");
 		confirm.setPrefSize(200, 35);
-		gp.add(confirm , 6, 32);
+		gp.add(confirm , 6, 26);
 		confirm.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		
@@ -183,6 +193,16 @@ public class LibraryGUI {
 		UID.setPadding(new Insets(0, 0, 5, 5));
 		gp.add(UID,5, 2);
 		gp.add(UIDTf,6 , 2);
+		
+		ISBN2.setStyle("-fx-font: normal bold 32px 'serif' ");
+		ISBN2.setPadding(new Insets(0, 0, 5, 5));
+		gp.add(ISBN2,5, 11);
+		gp.add(ISBNTf2,6 , 11);
+		
+		quantity.setStyle("-fx-font: normal bold 32px 'serif' ");
+		quantity.setPadding(new Insets(0, 0, 5, 5));
+		gp.add(quantity,5, 14);
+		gp.add(quantityTf,6 , 14);
 		
 		promote.setText("Promote customer");
 		promote.setPrefSize(200, 35);
@@ -215,19 +235,64 @@ public void addFunctionality(){
 			stage.show();
 		}
 	});
-	Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	order.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			stage.setScene(managerScene);
-			stage.show();
+			if(quantityTf.getText().trim().isEmpty() || ISBNTf2.getText().trim().isEmpty()  )
+				showAlert("Order Failed","Order Info Missing");
+			else{
+				try {
+					int success = dbm.placeOrder(ISBNTf2.getText().trim(), Integer.valueOf(quantityTf.getText().trim()));
+					if(success <= 0){
+						showAlert("Order Failed","Invalid Book Info");
+					}
+					else {
+						showAlert("Order Success","Order is Placed");
+					}
+					ISBNTf2.setText("");
+					quantityTf.setText("");
+
+				} catch (NumberFormatException | SQLException e) {
+					// TODO Auto-generated catch block
+					showAlert("Order Failed","Invalid Book Info");
+					ISBNTf2.setText("");
+					quantityTf.setText("");
+				}
+			}
+		}
+	});
+	confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			if(ISBNTf3.getText().trim().isEmpty())
+				showAlert("Confirmation Failed","Please Insert ISBN");
+			else{
+				try {
+					int success = dbm.confirmOrder(ISBNTf3.getText().trim());
+				System.out.println(success);
+					if(success <= 0){
+						showAlert("Confirmation Failed","Invalid ISBN");
+					}
+					else {
+						showAlert("Confirmation Success","Books Added to Stock");
+					}
+					ISBNTf3.setText("");
+
+				} catch (NumberFormatException | SQLException e) {
+					// TODO Auto-generated catch block
+					showAlert("Confirmation Failed","Invalid ISBN");
+					ISBNTf3.setText("");
+				}
+			}
 		}
 	});
 	promote.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			if(UIDTf.getText().trim() == "")
+			if(UIDTf.getText().trim().isEmpty())
 				showAlert("Promotion Failed","Please Insert User ID");
 			else{
 				try {
@@ -243,7 +308,8 @@ public void addFunctionality(){
 
 				} catch (NumberFormatException | SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					showAlert("Promotion Failed","Invalid User ID");
+					UIDTf.setText("");
 				}
 			}
 			
@@ -297,42 +363,42 @@ public void addFunctionality(){
 private void addData(){
 	
 authorsList = AuthorsTf.getText().trim().split(",");	
-	if(ISBNTf.getText().trim() == "")
+	if(ISBNTf.getText().trim().isEmpty())
 		data[0]="";
 	else
 		data[0]=ISBNTf.getText().trim();
 	
-	if(PIDTf.getText().trim() == "")
+	if(PIDTf.getText().trim().isEmpty())
 		data[1]="";
 	else
 		data[1]=PIDTf.getText().trim();
 	
-	if(TitleTf.getText().trim() == "")
+	if(TitleTf.getText().trim().isEmpty())
 		data[2]="";
 	else
 		data[2]=TitleTf.getText().trim();
 	
-	if(date != null && date.toString() == "")
+	if(date != null && date.toString().isEmpty())
 		data[3]="";
 	else
 		data[3]=date.toString();
 	
-	if(PriceTf.getText().trim() == "")
+	if(PriceTf.getText().trim().isEmpty())
 		data[4]="";
 	else
 		data[4]=PriceTf.getText().trim();
 	
-	if(CategoryTf.getText().trim() == "")
+	if(CategoryTf.getText().trim().isEmpty())
 		data[5]="";
 	else
 		data[5]=CategoryTf.getText().trim();
 	
-	if(ThresholdTf.getText().trim() == "")
+	if(ThresholdTf.getText().trim().isEmpty())
 		data[6]="";
 	else
 		data[6]=ThresholdTf.getText().trim();
 	
-	if(StockTf.getText().trim() == "")
+	if(StockTf.getText().trim().isEmpty())
 		data[7]="";
 	else
 		data[7]=StockTf.getText().trim();
