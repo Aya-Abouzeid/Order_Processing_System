@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import Library.DBMaster;
 import javafx.application.Platform;
@@ -67,6 +68,7 @@ public class LibraryGUI {
 	private Button promote = new Button();
 	private Stage stage;
 	private Scene CustomerScene;
+	private Pattern namePattern = Pattern.compile("[aA-zZ ']+$");
 	
 	public LibraryGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
@@ -319,10 +321,16 @@ public void addFunctionality(){
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			if(emptyTextFields("add") || (date == null) )
+			 if (!validateCategory())
+				showAlert("Adding Failed","Please Specify Valid Category");
+
+		else if(emptyTextFields("add") || (date == null) )
 				showAlert("Add Failed","Please Fill All Fields");
 			else{
 				addData();
+				if(!validateAuthors())
+					showAlert("Adding Failed","Please Specify Valid Authors");
+				else {
 				try {
 					int success = dbm.addBook(data , authorsList);
 					if(success != -1) {
@@ -336,6 +344,7 @@ public void addFunctionality(){
 					// TODO Auto-generated catch block
 					showAlert("Adding Failed","Error, Double Check Book's Info");
 				}
+				}
 			}
 		}
 	});
@@ -343,29 +352,53 @@ public void addFunctionality(){
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			if( AuthorsTf.getText().trim() == ",")
+			 if (!validateCategory())
+				showAlert("Modify Failed","Please Specify Valid Category");
+
+		else if( AuthorsTf.getText().trim() == ",")
 				showAlert("Modify Failed","Please Specify Valid Authors");
 		else if(emptyTextFields("modify"))
 				showAlert("Modify Failed","Please Specify ISBN along with one additional attribute");
 			else{
 				addData();
+				if(!validateAuthors())
+					showAlert("Modify Failed","Please Specify Valid Authors");
+				else{
 				try {
 					int success = dbm.modifyBook(data);
-					if (success != -1){
+					if (success > 0){
 						showAlert("Success","Book Modified");
 						clearFields();
 					}
 					else{
-						showAlert("Adding Failed","Error, Double Check Book's Info");
+						showAlert("Modify Failed","Error, Double Check Book's Info 1");
 					}
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Adding Failed","Error, Double Check Book's Info");
+					showAlert("Modify Failed","Error, Double Check Book's Info 2");
 				}
+			}
 			}
 		}
 	});
+}
+private boolean validateAuthors(){
+	if(!AuthorsTf.getText().trim().isEmpty()){
+		for(int i =0 ; i<authorsList.length ; i++){
+		if(!namePattern.matcher(authorsList[i].trim()).matches()){
+				return false;
+		}
+		authorsList[i] = authorsList[i].trim();
+		}
+	}
+	return true;
+}
+private boolean validateCategory(){
+		if(!CategoryTf.getText().trim().isEmpty() && !namePattern.matcher(CategoryTf.getText().trim()).matches())
+			return false;
+	
+	return true;
 }
 
 private void addData(){
@@ -388,8 +421,10 @@ authorsList = AuthorsTf.getText().trim().split(",");
 	
 	if(date != null && date.toString().isEmpty())
 		data[3]="";
-	else
+	else if (date != null)
 		data[3]=date.toString();
+	else
+		data[3] = "";
 	
 	if(PriceTf.getText().trim().isEmpty())
 		data[4]="";

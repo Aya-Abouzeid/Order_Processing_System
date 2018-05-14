@@ -30,10 +30,8 @@ public class Manager extends User implements IManager {
 			stmt.setString(6, book.getCategory());
 			stmt.setInt(7, book.getStockQuantity());
 			stmt.setInt(8, book.getThreshold());
-			System.out.println(stmt);
 
 			stmt.executeUpdate();
-
 			
 			for (int i =0;i<authors.length;i++){
 				PreparedStatement stmt2 = con.prepareStatement("insert into BOOK_AUTHORS values(?,?)");
@@ -41,7 +39,6 @@ public class Manager extends User implements IManager {
 				stmt2.setString(2, authors[i]);
 				stmt2.executeUpdate();
 			}
-			//con.commit();
 			return 1;
 
 		} catch (SQLException e) {
@@ -83,6 +80,7 @@ public class Manager extends User implements IManager {
 			Statement stat = con.createStatement();
 			String query = "update book set ";
 			int counter = 0;
+			
 			for (int i = 1; i < data.length; i++) {
 				if (!data[i].equals("")) {
 					if (counter != 0)
@@ -94,8 +92,9 @@ public class Manager extends User implements IManager {
 				}
 			}
 			query += " where ISBN = " + data[0] + ";";
-			stat.executeUpdate(query);
-			return 1;
+
+			int number = stat.executeUpdate(query);
+			return number;
 		} catch (Exception e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
@@ -125,7 +124,6 @@ public class Manager extends User implements IManager {
 		try {
 			Statement stat = con.createStatement();
 			String query = "";
-			// handle if isbn is not valid
 
 			query += "Delete from BOOK_ORDERS where ISBN = '" + isbn + "';";
 			int number = stat.executeUpdate(query);
