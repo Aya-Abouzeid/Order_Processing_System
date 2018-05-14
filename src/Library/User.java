@@ -9,29 +9,13 @@ public class User {
 	protected Connection con;
 	private Database db;
 	protected List<CartItem> cartItems;
-	protected static String ERROR_MESSAGE;
-
-	// I think this is a better way to know operation status,
-	// make user functions return this enum instead of integers
-	// not discussed yet
-	public enum operation_status {
-		SUCCESS, FAIL
-	}
 
 	public User(int id) throws SQLException, ClassNotFoundException {
 
 		userID = id;
-		 db = new Database();
-		 con = db.getCon();
+		db = new Database();
+		con = db.getCon();
 		cartItems = new ArrayList<>();
-	}
-
-	public String getErrorMessage() {
-		return ERROR_MESSAGE;
-	}
-
-	public void setErrorMessage(String message) {
-		ERROR_MESSAGE = message;
 	}
 
 	// >> newly written
@@ -53,7 +37,7 @@ public class User {
 
 			return stat.executeQuery(query);
 		} catch (Exception e) {
-			this.ERROR_MESSAGE = e.getMessage();
+			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return null;
 		}
 
@@ -115,7 +99,7 @@ public class User {
 			query += " where UID = " + String.valueOf(userID) + ";";
 			return stat.executeUpdate(query);
 		} catch (Exception e) {
-			this.ERROR_MESSAGE = e.getMessage();
+			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
 		}
 	}
@@ -149,30 +133,21 @@ public class User {
 			String ISBN;
 			String query;
 			Statement stat = con.createStatement();
-			for (int i =0;i<cartItems.size();i++){
-				ISBN=cartItems.get(i).getIsbn();
+			for (int i = 0; i < cartItems.size(); i++) {
+				ISBN = cartItems.get(i).getIsbn();
 				quantity = cartItems.get(i).getQuantity();
-				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity)
-				+ "where ISBN = '1234';";
+				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity) + "where ISBN = '1234';";
 				stat.executeUpdate(query);
-				con.commit();
-				
+
 			}
-		}catch (SQLException e) {
-			this.ERROR_MESSAGE = e.getMessage();
+			con.commit();
+			cartItems.clear();
+			return 1;
+		} catch (SQLException e) {
+			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
-			
-			
+
 		}
-		
-		//success
-		return 0;
 	}
 
 }
-
-
-
-
-
-

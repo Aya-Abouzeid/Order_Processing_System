@@ -20,6 +20,18 @@ public class DBMaster {
 	private DBMaster() throws SQLException, ClassNotFoundException{
 			
 	}
+	public static String ERROR_MESSAGE;
+	
+	public String getErrorMessage() {
+		return ERROR_MESSAGE;
+	}
+
+	public void setErrorMessage(String message) {
+		ERROR_MESSAGE = message;
+	}
+
+
+
 	 
 	public static DBMaster getDBMaster() throws ClassNotFoundException, SQLException{
 		if(dbm == null){
