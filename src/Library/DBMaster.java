@@ -110,11 +110,14 @@ public class DBMaster {
 		}
 
 	}
-
+	public int promoteUser(int userId) throws SQLException {
+		return ((Manager) LoggedIn).promoteUser(userId);
+	}
 	public int removeFromCart(String isbn) throws SQLException {
 		return LoggedIn.removeFromCart(isbn);
 	}
 
+	
 	public void logOut() throws SQLException {
 		LoggedIn.logout(UID);
 		LoggedIn = null;
