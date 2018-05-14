@@ -147,8 +147,9 @@ public class CartGUI {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			if(ISBNTf.getText()!= ""){
+			if(!ISBNTf.getText().trim().isEmpty()){
 			try {
+				System.out.println("heeer");
 				double price = dbm.getItemPrice(ISBNTf.getText());
 				bookPrice.setText("         "+ String.valueOf(price));
 			} catch (SQLException e) {
@@ -160,21 +161,29 @@ public class CartGUI {
 		}
 	});
 	View.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 		@Override
 		public void handle(MouseEvent arg0) {
 			totalPriceLabel.setText("");
-			AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+			try {
+				AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	});
 	Remove.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			if(ISBNTf.getText()!= ""){
+			if(!ISBNTf.getText().trim().isEmpty()){
 				try {
-					dbm.removeFromCart(ISBNTf.getText());
+					int x = dbm.removeFromCart(ISBNTf.getText());
+					if(x!=-1)
 					showAlert("Success" , "BOOK Removed !");
+					else
+					showAlert("Doesn't exist" , "ISBN Doesn't exist in Cart!");
+						
 					ISBNTf.setText("");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

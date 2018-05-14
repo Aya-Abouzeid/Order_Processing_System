@@ -1,7 +1,9 @@
 package GUI;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -24,19 +27,21 @@ public class AddToCartGUI {
 	private RadioButton Quantity = new RadioButton("Quantity");
 	private TextField QuantityTf = new TextField();
 	private Button AddToCart = new Button();
+	private Button ViewCart = new Button();
 	private Button Back = new Button();
 	private Scene cartScene;
 	private Stage stage;
 	private Scene addToCart;
+	private DBMaster dbm;
 
-	public AddToCartGUI( Stage primaryStage, Scene s) {
+	public AddToCartGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		cartScene = s;
 		CartPage();
 	}
 	
 	private void CartPage(){
-		
 		Group group = new Group();
 		addToCart = new Scene(group, 980, 630);
 		GridPane gridPane = new GridPane();
@@ -56,6 +61,8 @@ public class AddToCartGUI {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("here");
+
 				stage.setScene(addToCart);
 				stage.show();
 			}
@@ -71,11 +78,7 @@ public class AddToCartGUI {
 	}
 	private void FillGUI(GridPane gp){
 		
-		AddToCart.setText("Add Books To Cart");
-		AddToCart.setPrefSize(300, 35);
-		gp.add(AddToCart, 2, 0);
-		AddToCart.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
-		
+	
 		
 		ISBN.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(ISBN, 1, 2);
@@ -93,11 +96,16 @@ public class AddToCartGUI {
 		AddToCart.setPrefSize(200, 35);
 		gp.add(AddToCart, 1, 4);
 		AddToCart.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
+		
+		ViewCart.setText("View Cart");
+		AddToCart.setPrefSize(200, 35);
+		gp.add(ViewCart, 1, 5);
+		ViewCart.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
-		gp.add(Back, 1, 5);
+		gp.add(Back, 1, 6);
 		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 	}
@@ -133,6 +141,7 @@ public class AddToCartGUI {
 	    });
 
 	}
+	 int x =0;
 	private void AddFunctionality(){
 		
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -147,8 +156,54 @@ public class AddToCartGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+				if(!ISBNTf.getText().trim().isEmpty() && !QuantityTf.getText().trim().isEmpty()){
+					
+						try {
+							x = dbm.addInCart(ISBNTf.getText().trim(), Integer.valueOf(QuantityTf.getText().trim()));
+						} catch (NumberFormatException | SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if(x==0){
+							showAlert("Add Success","Book Added To Cart");
+						}
+						else if(x==-1){
+							showAlert("Add Failed","not found quantity");
+						}
+						else if(x==-2){
+							showAlert("Add Failed","not found ISBN");
+						}
+						
+					 }
+				else {
+					showAlert("Add Failed","Please Fill All Attributes");
+
+				}
+				//AddToCartGUI add = new AddToCartGUI(stage , cartScene);
+			}
+		});
+		ViewCart.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent arg0) {
+				
+					try {
+						CartViewerGUI StartCart = new CartViewerGUI(stage , cartScene);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
 		});
 	}
+	private void showAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
+	}
+	
 }

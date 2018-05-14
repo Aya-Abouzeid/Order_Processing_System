@@ -45,10 +45,10 @@ public class ViewerGUI {
       private TableColumn<Book, Date> columnYear  = new TableColumn("Year"); ;  
        private TableColumn<Book, String> columnISBN  = new TableColumn("ISBN"); ;
        private TableColumn<Book, Integer> columnPublisherID = new TableColumn("Publisher ID"); ;
-       private TableColumn<Book, Integer> columnPrice = new TableColumn("Price"); ;
+       private TableColumn<Book, Double> columnPrice = new TableColumn("Price"); ;
        private TableColumn<Book, Integer> columnQuantity = new TableColumn("Quantity"); ;
        private TableColumn<Book, Integer> columnThreshold = new TableColumn("Threshold"); ;
-       private TableColumn<Book, Category> columnCategory = new TableColumn("Category"); ;
+       private TableColumn<Book, String> columnCategory = new TableColumn("Category"); ;
        Group group = new Group();
 		Scene scene = new Scene(group, 980, 630);
 		GridPane gridPane = new GridPane();
@@ -84,7 +84,7 @@ public class ViewerGUI {
 		columnPublisherID.setCellValueFactory(
 			    new PropertyValueFactory<Book,Integer>("publisherId"));
 		columnPrice.setCellValueFactory(
-			    new PropertyValueFactory<Book,Integer>("SellingPrice"));
+			    new PropertyValueFactory<Book,Double>("SellingPrice"));
 		
 		columnQuantity.setCellValueFactory(
 			    new PropertyValueFactory<Book,Integer>("StockQuantity"));
@@ -93,7 +93,7 @@ public class ViewerGUI {
 		columnYear.setCellValueFactory(
 			    new PropertyValueFactory<Book,Date>("Year"));
 		columnCategory.setCellValueFactory(
-			    new PropertyValueFactory<Book,Category>("category"));
+			    new PropertyValueFactory<Book,String>("category"));
 		
 		tableBook.autosize();
 		
