@@ -114,7 +114,7 @@ public class DBMaster {
 
 		((Manager) LoggedIn).addBook(new Book(
 				data[2],data[0],Integer.valueOf(data[1]),Integer.valueOf(data[7]),
-				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],String.valueOf(data[3])
+				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],data[3]
 						)
 				);
 	}

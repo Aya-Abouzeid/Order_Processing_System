@@ -41,7 +41,6 @@ public class LibraryGUI {
 	private TextField ISBNTf = new TextField();
 	private TextField PIDTf = new TextField();
 	private TextField TitleTf = new TextField();
-	private TextField YearTf = new TextField();
 	private TextField PriceTf = new TextField();
 	private TextField CategoryTf = new TextField();
 	private TextField StockTf = new TextField();
@@ -49,6 +48,8 @@ public class LibraryGUI {
 	private DatePicker datePicker = new DatePicker();
 	private String[] data = new String[8];
 	private DBMaster dbm;
+	private  LocalDate date;
+
 	Button addBook = new Button();
 	Button modify = new Button();
 	Button order = new Button();
@@ -136,7 +137,7 @@ public class LibraryGUI {
 		
 		gp.add(TitleTf, 3, 8);
 		
-		gp.add(YearTf, 3, 11);
+		gp.add(datePicker, 3, 11);
 		
 		gp.add(PriceTf, 3, 14);
 		
@@ -195,9 +196,9 @@ public class LibraryGUI {
 	
 
 public void addFunctionality(){
+	
 	datePicker.setOnAction(event -> {
-	    LocalDate date = datePicker.getValue();
-	    System.out.println("Selected date: " + date);
+	     date = datePicker.getValue();
 	});
 	Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -271,10 +272,10 @@ private void addData(){
 	else
 		data[2]=TitleTf.getText().trim();
 	
-	if(YearTf.getText().trim() == "")
+	if(date.toString() == "")
 		data[3]="";
 	else
-		data[3]=YearTf.getText().trim();
+		data[3]=date.toString();
 	
 	if(PriceTf.getText().trim() == "")
 		data[4]="";
@@ -303,7 +304,7 @@ private boolean emptyTextFields(String type){
 	if(type.equals("add")&&(ISBNTf.getText().trim().isEmpty()
 			|| (PIDTf.getText().trim().isEmpty())
 			|| (TitleTf.getText().trim().isEmpty())
-			|| (YearTf.getText().trim().isEmpty())
+			|| (date.toString() == "")
 			|| (PriceTf.getText().trim().isEmpty())
 			|| (CategoryTf.getText().trim().isEmpty())
 			|| (ThresholdTf.getText().trim().isEmpty())

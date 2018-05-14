@@ -21,10 +21,10 @@ public class Manager extends User implements IManager {
 			Statement stat = con.createStatement();
 			String query = "";
 			query += "insert into BOOK  Values ( ' " + book.getIsbn() + " ', '" + book.getTitle() + "' ,"
-					+ book.getPublisherId() + " , '" + String.valueOf(book.getYear()) + "' , "
-					+ String.valueOf(book.getSellingPrice()) + " , '" + String.valueOf(book.getCategory()) + "',"
-					+ String.valueOf(book.getStockQuantity()) + " , " + String.valueOf(book.getThreshold()) + ");";
-			System.out.println("heere 22");
+					+ book.getPublisherId() + " , '" + book.getYear() + "' , "
+					+ book.getSellingPrice() + " , '" + String.valueOf(book.getCategory()) + "',"
+					+ book.getStockQuantity() + " , " + book.getThreshold() + ");";
+			System.out.println(query);
 			return stat.executeUpdate(query);
 		} catch (SQLException e) {
 			System.out.println("heere 33");

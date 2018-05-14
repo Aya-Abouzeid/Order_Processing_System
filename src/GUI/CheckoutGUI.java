@@ -29,7 +29,7 @@ public class CheckoutGUI {
 	private TextField dateTF = new TextField();
 	private Button confirmPurchase = new Button();
 	private DatePicker datePicker = new DatePicker();
-
+	private LocalDate date;
 	
 	public CheckoutGUI( Stage primaryStage, Scene s) {
 		stage = primaryStage;
@@ -99,8 +99,7 @@ public class CheckoutGUI {
 	private void addFunctionality(){
 		
 		datePicker.setOnAction(event -> {
-		    LocalDate date = datePicker.getValue();
-		    System.out.println("Selected date: " + date);
+		    date = datePicker.getValue();
 		});
 		Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
