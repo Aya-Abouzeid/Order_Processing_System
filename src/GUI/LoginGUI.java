@@ -116,13 +116,15 @@ public class LoginGUI {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-							if(Success != -1) {
+
+							if(Success == 1 || Success == 2) {
 								try {
 									if(Success == 1)
 									 StartLogin = new CustomerGUI(stage , MainScene);
-									else if(Success == 2)
-										 StartManager = new ManagerGUI(stage , MainScene);
+									else if(Success == 2){
 
+										 StartManager = new ManagerGUI(stage , MainScene);
+									}
 								} catch (ClassNotFoundException | SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

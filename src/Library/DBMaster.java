@@ -78,7 +78,6 @@ public class DBMaster {
 				return -1;
 			}
 			 UID = result.getInt("UID");
-			 System.out.print("heeer");
 			String query2 = "";
 			query2+="select MID from MANAGER where MID = " + String.valueOf(UID) + ";";
 			ResultSet result2 = (ResultSet) stat.executeQuery(query2);
@@ -86,6 +85,7 @@ public class DBMaster {
 			if(result2.next()){	//Manager
 
 				 MID = result2.getInt("MID");
+
 				 LoggedIn = new Manager(MID);
 				 return 2;
 			}
@@ -110,9 +110,11 @@ public class DBMaster {
 		LoggedIn.updateProfile(data);
 	}
 	public void addBook(String[] data) throws SQLException{
+		System.out.println("heere 11");
+
 		((Manager) LoggedIn).addBook(new Book(
 				data[2],data[0],Integer.valueOf(data[1]),Integer.valueOf(data[7]),
-				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],Date.valueOf(data[3])
+				Double.valueOf(data[4]),Integer.valueOf(data[6]),data[5],String.valueOf(data[3])
 						)
 				);
 	}

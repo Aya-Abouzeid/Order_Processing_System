@@ -19,13 +19,10 @@ public class User {
 	}
 
 	public User(int id) throws SQLException, ClassNotFoundException {
-		userID = id;
-		// db = new Database();
-		Class.forName("com.mysql.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306" + "/OrderProcessingSystem", "root",
-				"11feb2011");
 
-		// con = db.getCon();
+		userID = id;
+		 db = new Database();
+		 con = db.getCon();
 		cartItems = new ArrayList<>();
 	}
 
@@ -53,7 +50,6 @@ public class User {
 				}
 			}
 			query += ";";
-			System.out.println(query);
 
 			return stat.executeQuery(query);
 		} catch (Exception e) {
@@ -117,7 +113,6 @@ public class User {
 				}
 			}
 			query += " where UID = " + String.valueOf(userID) + ";";
-			System.out.println(query);
 			return stat.executeUpdate(query);
 		} catch (Exception e) {
 			this.ERROR_MESSAGE = e.getMessage();

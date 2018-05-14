@@ -29,15 +29,15 @@ import javafx.stage.Stage;
 public class LibraryGUI {
 	private Button Back = new Button();
 	private Button Search = new Button();
-	
-	private RadioButton ISBN = new RadioButton("ISBN");
-	private RadioButton PID = new RadioButton("PID");
-	private RadioButton Title = new RadioButton("Title");
-	private RadioButton Year = new RadioButton("Year");
-	private RadioButton Price = new RadioButton("Price");
-	private RadioButton Category = new RadioButton("Category");
-	private RadioButton Stock = new RadioButton("Stock");
-	private RadioButton Threshold = new RadioButton("Threshold");
+	private Scene managerScene;
+	private Label ISBN = new Label("ISBN");
+	private Label PID = new Label("PID");
+	private Label Title = new Label("Title");
+	private Label Year = new Label("Year");
+	private Label Price = new Label("Price");
+	private Label Category = new Label("Category");
+	private Label Stock = new Label("Stock");
+	private Label Threshold = new Label("Threshold");
 	private TextField ISBNTf = new TextField();
 	private TextField PIDTf = new TextField();
 	private TextField TitleTf = new TextField();
@@ -47,30 +47,27 @@ public class LibraryGUI {
 	private TextField StockTf = new TextField();
 	private TextField ThresholdTf = new TextField();
 	private DatePicker datePicker = new DatePicker();
-
 	private String[] data = new String[8];
 	private DBMaster dbm;
-	
 	Button addBook = new Button();
 	Button modify = new Button();
 	Button order = new Button();
 	Button confirm = new Button();
 	Button promote = new Button();
-
-
 	Stage stage;
 	Scene CustomerScene;
+	
 	public LibraryGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		CustomerPage();
-
+		managerScene = s;
 	}
 	public void CustomerPage(){
 		// String path;
 			
 		Group group = new Group();
-		Scene scene = new Scene(group, 980, 800);
+		Scene scene = new Scene(group, 980, 610);
 		CustomerScene = scene;
 		GridPane gridPane = new GridPane();
 		
@@ -79,7 +76,6 @@ public class LibraryGUI {
 		
 		//Decide what to do with each btn click
 		//AddFunctionality();
-		RadioBtnFunctionality();
 		addFunctionality();
 		AddImage(group);
 		group.getChildren().add(gridPane);
@@ -134,26 +130,18 @@ public class LibraryGUI {
 		gp.add(Threshold, 1, 23);
 		
 		
-		ISBNTf.setVisible(false);
 		gp.add(ISBNTf, 3, 2);
 
-		PIDTf.setVisible(false);
 		gp.add(PIDTf, 3, 5);
 		
-		TitleTf.setVisible(false);
 		gp.add(TitleTf, 3, 8);
 		
-		YearTf.setVisible(false);
 		gp.add(YearTf, 3, 11);
 		
-		PriceTf.setVisible(false);
 		gp.add(PriceTf, 3, 14);
 		
-		CategoryTf.setVisible(false);
 		gp.add(CategoryTf, 3, 17);	
-		StockTf.setVisible(false);
 		gp.add(StockTf, 3, 20);
-		ThresholdTf.setVisible(false);
 		gp.add(ThresholdTf, 3, 23);
 		
 		addBook.setText("Add Book");
@@ -165,37 +153,39 @@ public class LibraryGUI {
 		
 		modify.setText("Modify Book");
 		modify.setPrefSize(200, 35);
-		gp.add(modify, 3, 29);
+		gp.add(modify, 3, 32);
 		modify.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		
 		order.setText("Order Book");
 		order.setPrefSize(200, 35);
-		gp.add(order, 3, 32);
+		gp.add(order, 6, 26);
 		order.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		
 		confirm.setText("Confirm Order");
 		confirm.setPrefSize(200, 35);
-		gp.add(confirm , 3, 35);
+		gp.add(confirm , 6, 32);
 		confirm.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 
 		
-		Label UID = new Label("UID: ");
+		Label UID = new Label("        UID: ");
 		UID.setStyle("-fx-font: normal bold 32px 'serif' ");
-		UID.setPadding(new Insets(0, 0, 5, 10));
-		gp.add(UID,15, 2);
+		UID.setPadding(new Insets(0, 0, 5, 5));
+		gp.add(UID,5, 2);
 		TextField UIDTf = new TextField();
-		gp.add(UIDTf,18 , 2);
+		gp.add(UIDTf,6 , 2);
 		
 		promote.setText("Promote customer");
 		promote.setPrefSize(200, 35);
-		gp.add(promote , 18, 5);
+		gp.add(promote , 6, 5);
 		promote.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 20px 'serif' ;");
 
 		
-		
-		
+		Back.setText("< Back");
+		Back.setPrefSize(119, 35);
+		gp.add(Back, 1, 35);
+		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		
 		gp.setAlignment(Pos.TOP_LEFT);
 		gp.setPadding(new Insets(0, 0, 5, 5));
@@ -203,118 +193,19 @@ public class LibraryGUI {
 
 } 
 	
-	
-public void RadioBtnFunctionality(){
-		
-		ISBN.setOnAction(new EventHandler<ActionEvent>() {
 
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(ISBN.isSelected()){
-	        		ISBNTf.setVisible(true);
-	            }
-	            else{
-	            	ISBNTf.clear();
-	        		ISBNTf.setVisible(false);
-	            }
-	        }
-	    });
-		PID.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(PID.isSelected()){
-	            	PIDTf.setVisible(true);
-	            }
-	            else{
-	            	PIDTf.clear();
-	            	PIDTf.setVisible(false);
-	            }
-	        }
-	    });
-		Title.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Title.isSelected()){
-	            	TitleTf.setVisible(true);
-	            }
-	            else{
-	            	TitleTf.clear();
-	            	TitleTf.setVisible(false);
-	            }
-	        }
-	    });
-		Year.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Year.isSelected()){
-	            	YearTf.setVisible(true);
-	            }
-	            else{
-	            	YearTf.clear();
-	            	YearTf.setVisible(false);
-	            }
-	        }
-	    });
-		Price.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Price.isSelected()){
-	            	PriceTf.setVisible(true);
-	            }
-	            else{
-	            	PriceTf.clear();
-	            	PriceTf.setVisible(false);
-	            }
-	        }
-	    });
-		Category.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Category.isSelected()){
-	            	CategoryTf.setVisible(true);
-	            }
-	            else{
-	            	CategoryTf.clear();
-	            	CategoryTf.setVisible(false);
-	            }
-	        }
-	    });
-		Threshold.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Threshold.isSelected()){
-	            	ThresholdTf.setVisible(true);
-	            }
-	            else{
-	            	ThresholdTf.clear();
-	            	ThresholdTf.setVisible(false);
-	            }
-	        }
-	    });
-		Stock.setOnAction(new EventHandler<ActionEvent>() {
-
-	        @Override
-	        public void handle(ActionEvent arg0) {
-	            if(Stock.isSelected()){
-	            	StockTf.setVisible(true);
-	            }
-	            else{
-	            	StockTf.clear();
-	            	StockTf.setVisible(false);
-	            }
-	        }
-	    });
-	}
 public void addFunctionality(){
 	datePicker.setOnAction(event -> {
 	    LocalDate date = datePicker.getValue();
 	    System.out.println("Selected date: " + date);
+	});
+	Back.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+		@Override
+		public void handle(MouseEvent arg0) {
+			stage.setScene(managerScene);
+			stage.show();
+		}
 	});
 	addBook.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -365,59 +256,49 @@ public void addFunctionality(){
 }
 
 private void addData(){
-	if(!ISBN.isSelected())
+	if(ISBNTf.getText().trim() == "")
 		data[0]="";
 	else
 		data[0]=ISBNTf.getText().trim();
 	
-	if(!PID.isSelected())
+	if(PIDTf.getText().trim() == "")
 		data[1]="";
 	else
 		data[1]=PIDTf.getText().trim();
 	
-	if(!Title.isSelected())
+	if(TitleTf.getText().trim() == "")
 		data[2]="";
 	else
 		data[2]=TitleTf.getText().trim();
 	
-	if(!Year.isSelected())
+	if(YearTf.getText().trim() == "")
 		data[3]="";
 	else
 		data[3]=YearTf.getText().trim();
 	
-	if(!Price.isSelected())
+	if(PriceTf.getText().trim() == "")
 		data[4]="";
 	else
 		data[4]=PriceTf.getText().trim();
 	
-	if(!Category.isSelected())
+	if(CategoryTf.getText().trim() == "")
 		data[5]="";
 	else
 		data[5]=CategoryTf.getText().trim();
 	
-	if(!Threshold.isSelected())
+	if(ThresholdTf.getText().trim() == "")
 		data[6]="";
 	else
 		data[6]=ThresholdTf.getText().trim();
 	
-	if(!Stock.isSelected())
+	if(StockTf.getText().trim() == "")
 		data[7]="";
 	else
 		data[7]=StockTf.getText().trim();
 	
 }
 private boolean emptyTextFields(String type){
-	System.out.println("hi");
-
-	if(type.equals("modify")&&( (ISBN.isSelected()&& ISBNTf.getText().trim().isEmpty()) ||
-			( ( PIDTf.getText().trim().isEmpty())
-			&& ( TitleTf.getText().trim().isEmpty())
-			&& ( YearTf.getText().trim().isEmpty())
-			&& ( PriceTf.getText().trim().isEmpty())
-			&& ( CategoryTf.getText().trim().isEmpty())
-			&& ( ThresholdTf.getText().trim().isEmpty())
-			&& (StockTf.getText().trim().isEmpty())))
-			)
+	if(type.equals("modify")&&(  ISBNTf.getText().trim().isEmpty()))
 		return true;
 	if(type.equals("add")&&(ISBNTf.getText().trim().isEmpty()
 			|| (PIDTf.getText().trim().isEmpty())

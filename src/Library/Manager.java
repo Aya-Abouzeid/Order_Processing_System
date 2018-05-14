@@ -10,6 +10,7 @@ import Library.Book.Category;
 public class Manager extends User implements IManager {
 
 	public Manager(int id) throws SQLException, ClassNotFoundException {
+		
 		super(id);
 	}
 
@@ -23,9 +24,11 @@ public class Manager extends User implements IManager {
 					+ book.getPublisherId() + " , '" + String.valueOf(book.getYear()) + "' , "
 					+ String.valueOf(book.getSellingPrice()) + " , '" + String.valueOf(book.getCategory()) + "',"
 					+ String.valueOf(book.getStockQuantity()) + " , " + String.valueOf(book.getThreshold()) + ");";
-
+			System.out.println("heere 22");
 			return stat.executeUpdate(query);
 		} catch (SQLException e) {
+			System.out.println("heere 33");
+
 			this.ERROR_MESSAGE = e.getMessage();
 			return -1;
 		}

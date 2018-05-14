@@ -17,12 +17,12 @@ public class Book {
 	private int stockQuantity;
 	private double sellingPrice;
 	private String category;
-	private Date year;
+	private String year;
 
 	// year ---> what type?
 	// Book's Constructor
 	public Book(String title, String isbn, int pubId, int stockQuantity
-			, double price, int threshold, String cat,Date date) {
+			, double price, int threshold, String cat,String date) {
 		this.category = cat;
 		this.title = title;
 		this.isbn = isbn;
@@ -69,7 +69,7 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	public void setYear(Date date){
+	public void setYear(String date){
 		this.year=date;
 	}
 	
@@ -79,7 +79,7 @@ public class Book {
 		return title;
 	}
 	
-	public Date getYear(){
+	public String getYear(){
 		return this.year;
 	}
 
