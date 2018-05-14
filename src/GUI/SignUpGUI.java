@@ -148,7 +148,7 @@ public class SignUpGUI extends GUI{
 
 				}
 				else if(!UNameTf.getText().trim().isEmpty() && !usernamePattern.matcher(UNameTf.getText().trim()).matches()){
-					showAlert("Invalid Input" ,"Invalid UserName Provided" );
+					showAlert("Invalid Input" ,"Invalid or Short UserName Provided" );
 
 				}
 				else if(!UFNameTf.getText().trim().isEmpty() && !namePattern.matcher(UFNameTf.getText().trim()).matches()){

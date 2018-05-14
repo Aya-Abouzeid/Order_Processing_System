@@ -133,16 +133,19 @@ public class DBMaster {
 		LoggedIn.updateProfile(data);
 	}
 
-	public void addBook(String[] data, String[] authors) throws SQLException {
-		System.out.println("heere 11");
-
-		((Manager) LoggedIn).addBook(new Book(data[2], data[0], Integer.valueOf(data[1]), Integer.valueOf(data[7]),
+	public int addBook(String[] data, String[] authors) throws SQLException {
+		try{
+		int success = ((Manager) LoggedIn).addBook(new Book(data[2], data[0], Integer.valueOf(data[1]), Integer.valueOf(data[7]),
 				Double.valueOf(data[4]), Integer.valueOf(data[6]), data[5], data[3]), authors);
-	}
+		 return success;
+		}
+		catch (NumberFormatException e){
+			return -1;
+		}
+		}
 
-	public void modifyBook(String[] data) throws SQLException {
-		((Manager) LoggedIn).updateBook(data);
-
+	public int modifyBook(String[] data) throws SQLException {
+		return ((Manager) LoggedIn).updateBook(data);
 	}
 
 	public ResultSet searchBook(String[] data) throws SQLException {

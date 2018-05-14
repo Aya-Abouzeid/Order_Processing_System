@@ -30,20 +30,21 @@ public class Manager extends User implements IManager {
 			stmt.setString(6, book.getCategory());
 			stmt.setInt(7, book.getStockQuantity());
 			stmt.setInt(8, book.getThreshold());
+			System.out.println(stmt);
+
 			stmt.executeUpdate();
-			
+
 			
 			for (int i =0;i<authors.length;i++){
 				PreparedStatement stmt2 = con.prepareStatement("insert into BOOK_AUTHORS values(?,?)");
-				stmt.setString(1, book.getIsbn());
-				stmt.setString(2, authors[i]);
-				stmt.executeUpdate();
+				stmt2.setString(1, book.getIsbn());
+				stmt2.setString(2, authors[i]);
+				stmt2.executeUpdate();
 			}
 			//con.commit();
 			return 1;
 
 		} catch (SQLException e) {
-			System.out.println("heere 33");
 
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
@@ -93,8 +94,8 @@ public class Manager extends User implements IManager {
 				}
 			}
 			query += " where ISBN = " + data[0] + ";";
-			System.out.println(query);
-			return stat.executeUpdate(query);
+			stat.executeUpdate(query);
+			return 1;
 		} catch (Exception e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
@@ -128,8 +129,7 @@ public class Manager extends User implements IManager {
 
 			query += "Delete from BOOK_ORDERS where ISBN = '" + isbn + "';";
 			int number = stat.executeUpdate(query);
-			System.out.println("Confirmation return number " + number);
-			return 1;
+			return number;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
@@ -146,10 +146,8 @@ public class Manager extends User implements IManager {
 			Statement stat = con.createStatement();
 			String query = "";
 			query += "Insert into BOOK_ORDERS Values ('" + isbn + "'," + String.valueOf(qunatity) + ");";
-			System.out.println(query);
 
 			int number = stat.executeUpdate(query);
-			System.out.println("place order return number " + number);
 			return 1;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();

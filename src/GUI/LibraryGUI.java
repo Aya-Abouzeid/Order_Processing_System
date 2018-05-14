@@ -324,13 +324,17 @@ public void addFunctionality(){
 			else{
 				addData();
 				try {
-					dbm.addBook(data , authorsList);
+					int success = dbm.addBook(data , authorsList);
+					if(success != -1) {
 					showAlert("Success","New Book Added");
-					clearFields();
+					clearFields();}
+					else{
+						showAlert("Adding Failed","Error, Double Check Book's Info");
+					}
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Adding Failed","Double Check Book's Info");
+					showAlert("Adding Failed","Error, Double Check Book's Info");
 				}
 			}
 		}
@@ -346,15 +350,19 @@ public void addFunctionality(){
 			else{
 				addData();
 				try {
-					dbm.modifyBook(data);
-					//ViewerGUI x2 = new ViewerGUI(stage,CustomerScene,x);
-										
+					int success = dbm.modifyBook(data);
+					if (success != -1){
+						showAlert("Success","Book Modified");
+						clearFields();
+					}
+					else{
+						showAlert("Adding Failed","Error, Double Check Book's Info");
+					}
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-				//	showAlert("Update Failed","Username or Email already Used");
+					showAlert("Adding Failed","Error, Double Check Book's Info");
 				}
-				
 			}
 		}
 	});
