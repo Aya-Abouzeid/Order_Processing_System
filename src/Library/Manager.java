@@ -234,8 +234,8 @@ public class Manager extends User implements IManager {
 		try {
 			Statement stat = con.createStatement();
 			String query = "select BOOK.Title,t1.S from BOOK" + "join" + "(select ISBN,SUM(Quantity) AS S"
-					+ "from BOOKS_SOLD" + "group by ISBN" + ")t1" + "on t1.ISBN = BOOK.ISBN"
-					+ "ORDER BY S DESC LIMIT 5;";
+					+ " from BOOKS_SOLD" + "group by ISBN" + ")t1" + "on t1.ISBN = BOOK.ISBN"
+					+ " ORDER BY S DESC LIMIT 5;";
 
 			return stat.executeQuery(query);
 		} catch (SQLException e) {

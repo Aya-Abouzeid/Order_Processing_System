@@ -98,6 +98,24 @@ CREATE
     END$$
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE
+	TRIGGER `book_after_insert` AFTER insert 
+	ON `BOOK` 
+	FOR EACH ROW BEGIN
+	
+		IF NEW.Stock<NEW.Threshold THEN
+			SET @addQuantity = NEW.Threshold;
+            SET @ISBN = NEW.ISBN;
+            SET @PID = NEW.PID;
+            
+            INSERT INTO BOOK_ORDERS VALUES (@ISBN, @PID,@addQuantity);
+		
+		END IF;
+    
+    END$$
+DELIMITER ;
 
 
 
