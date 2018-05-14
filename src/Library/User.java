@@ -43,19 +43,33 @@ public class User {
 
 	}
 
-	protected int addInCart(String ISBN, int id, int quantity) {
+	protected List<CartItem> getCart() {
+		return cartItems;
+	}
 
-		// getting price first:
-		double price = 0;
-		for (int i = 0; i < cartItems.size(); i++) {
-			if (cartItems.get(i).getIsbn().matches(ISBN)) {
-				price = cartItems.get(i).getPrice();
-				break;
-				// add success and failure enum please xD
+	protected int addInCart(String ISBN, int quantity) throws SQLException {
+		Statement stat = con.createStatement();
+		String query = "select ISBN , stock , price from book where isbn = '" + ISBN + "' and stock = " + quantity;
+		System.out.println(query);
+		ResultSet x = stat.executeQuery(query);
+		if (x.next()) {
+			double price = x.getDouble("price");
+			int q = 0;
+			for (int i = 0; i < cartItems.size(); i++) {
+				if (cartItems.get(i).getIsbn().matches(ISBN)) {
+					q += cartItems.get(i).getQuantity();
+					break;
+					// add success and failure enum please xD
+				}
 			}
-		}
-		CartItem item = new CartItem(ISBN, quantity, id, price);
-		cartItems.add(item);
+			if (x.getInt("stock") - q - quantity >= 0) {
+				CartItem item = new CartItem(ISBN, quantity, userID, price);
+				cartItems.add(item);
+			} else
+				return -1;
+		} else
+			return -2;
+
 		return 0;
 	}
 
