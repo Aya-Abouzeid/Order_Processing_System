@@ -1,14 +1,17 @@
 package GUI;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
+import Library.DBMaster;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -30,8 +33,10 @@ public class CheckoutGUI {
 	private Button confirmPurchase = new Button();
 	private DatePicker datePicker = new DatePicker();
 	private LocalDate date;
-	
-	public CheckoutGUI( Stage primaryStage, Scene s) {
+	private DBMaster dbm;
+
+	public CheckoutGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
+		dbm = DBMaster.getDBMaster();
 		stage = primaryStage;
 		cartScene = s;
 		CartPage();
@@ -116,9 +121,19 @@ public class CheckoutGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				// TODO Auto-generated method stub
+				int x = dbm.confirmShopping();
+				if(x==1){
+					showAlert("Successful purshase","Done");
+				}
 				
 			}
 
 		});
+	}
+	private void showAlert(String title , String msg){
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(msg);
+		alert.show();
 	}
 }

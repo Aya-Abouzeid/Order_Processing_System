@@ -150,7 +150,7 @@ public class User {
 			for (int i = 0; i < cartItems.size(); i++) {
 				ISBN = cartItems.get(i).getIsbn();
 				quantity = cartItems.get(i).getQuantity();
-				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity) + "where ISBN = '1234';";
+				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity) + "where ISBN =" + cartItems.get(i).getIsbn() +";";
 				stat.executeUpdate(query);
 
 			}

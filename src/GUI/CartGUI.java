@@ -139,7 +139,12 @@ public class CartGUI {
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			CheckoutGUI checkout = new CheckoutGUI(stage , cartScene);
+			try {
+				CheckoutGUI checkout = new CheckoutGUI(stage , cartScene);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	});
 	// validate existance of book

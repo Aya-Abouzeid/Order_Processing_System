@@ -147,6 +147,9 @@ public class DBMaster {
 	public int modifyBook(String[] data) throws SQLException {
 		return ((Manager) LoggedIn).updateBook(data);
 	}
+	public int confirmShopping(){
+		return LoggedIn.confirmShopping();
+	}
 
 	public ResultSet searchBook(String[] data) throws SQLException {
 		return (ResultSet) LoggedIn.searchBook(data);
