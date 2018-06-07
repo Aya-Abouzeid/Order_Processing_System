@@ -261,7 +261,7 @@ public void addFunctionality(){
 				try {
 					int success = dbm.placeOrder(ISBNTf2.getText().trim(), Integer.valueOf(quantityTf.getText().trim()));
 					if(success <= 0){
-						showAlert("Order Failed","Invalid Book Info");
+						showAlert("Order Failed","Invalid Book Info 44");
 					}
 					else {
 						showAlert("Order Success","Order is Placed");
@@ -271,7 +271,7 @@ public void addFunctionality(){
 
 				} catch (NumberFormatException | SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Order Failed","Invalid Book Info");
+					showAlert("Order Failed","Invalid Book Info 55");
 					ISBNTf2.setText("");
 					quantityTf.setText("");
 				}
@@ -289,7 +289,7 @@ public void addFunctionality(){
 					int success = dbm.confirmOrder(ISBNTf3.getText().trim());
 				System.out.println(success);
 					if(success <= 0){
-						showAlert("Confirmation Failed","Invalid ISBN");
+						showAlert("Confirmation Failed","Invalid ISBN 1212");
 					}
 					else {
 						showAlert("Confirmation Success","Books Added to Stock");
@@ -298,7 +298,7 @@ public void addFunctionality(){
 
 				} catch (NumberFormatException | SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Confirmation Failed","Invalid ISBN");
+					showAlert("Confirmation Failed","Invalid ISBN  3423");
 					ISBNTf3.setText("");
 				}
 			}
@@ -315,7 +315,7 @@ public void addFunctionality(){
 					int success = dbm.promoteUser(Integer.valueOf(UIDTf.getText().trim()));
 				System.out.println(success);
 					if(success <= 0){
-						showAlert("Promotion Failed","Invalid User ID");
+						showAlert("Promotion Failed","Invalid User ID 678");
 					}
 					else {
 						showAlert("Promotion Success","User Promoted");
@@ -324,7 +324,7 @@ public void addFunctionality(){
 
 				} catch (NumberFormatException | SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Promotion Failed","Invalid User ID");
+					showAlert("Promotion Failed","Invalid User ID 523");
 					UIDTf.setText("");
 				}
 			}
@@ -342,8 +342,10 @@ public void addFunctionality(){
 			if(emptyTextFields("add") || (date == null) )
 				showAlert("Add Failed","Please Fill All Fields");
 			else{
-				addData();
-				if(!validateAuthors())
+				if(addData()) {
+					
+				}
+				else if(!validateAuthors())
 					showAlert("Adding Failed","Please Specify Valid Authors");
 				else {
 				try {
@@ -352,12 +354,12 @@ public void addFunctionality(){
 					showAlert("Success","New Book Added");
 					clearFields();}
 					else{
-						showAlert("Adding Failed","Error, Invalid Book's Info");
+						showAlert("Adding Failed","Error, Invalid Book's Info 99");
 					}
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Adding Failed","Error, Invalid Book's Info");
+					showAlert("Adding Failed","Error, Invalid Book's Info 56");
 				}
 				}
 			}
@@ -416,7 +418,7 @@ private boolean validateCategory(){
 	return true;
 }
 
-private void addData(){
+private boolean addData(){
 	
 authorsList = AuthorsTf.getText().trim().split(",");	
 	if(ISBNTf.getText().trim().isEmpty())
@@ -426,8 +428,12 @@ authorsList = AuthorsTf.getText().trim().split(",");
 	
 	if(PIDTf.getText().trim().isEmpty())
 		data[1]="";
-	else
-		data[1]=PIDTf.getText().trim();
+	else if(!PIDTf.getText().trim().matches("\\d+")) {
+		showAlert("Adding Failed","Publisher ID should be Integer");
+		return true;
+	}
+	else {
+		data[1]=PIDTf.getText().trim();}
 	
 	if(TitleTf.getText().trim().isEmpty())
 		data[2]="";
@@ -443,8 +449,15 @@ authorsList = AuthorsTf.getText().trim().split(",");
 	
 	if(PriceTf.getText().trim().isEmpty())
 		data[4]="";
-	else
-		data[4]=PriceTf.getText().trim();
+	else {
+		try {
+		     Float.parseFloat(PriceTf.getText().trim());
+				data[4]=PriceTf.getText().trim();
+		}
+		catch (NumberFormatException ex) {
+			showAlert("Adding Failed","Price should be a Number");
+			return true;		}
+	}
 	
 	if(comboBox.getValue().toString().isEmpty())
 		data[5]="";
@@ -453,14 +466,27 @@ authorsList = AuthorsTf.getText().trim().split(",");
 	
 	if(ThresholdTf.getText().trim().isEmpty())
 		data[6]="";
+	else if(!ThresholdTf.getText().trim().matches("\\d+")) {
+		showAlert("Adding Failed","Threshold should be Integer");
+		return true;
+	}
 	else
 		data[6]=ThresholdTf.getText().trim();
 	
 	if(StockTf.getText().trim().isEmpty())
 		data[7]="";
+	else if(!StockTf.getText().trim().matches("\\d+")) {
+		showAlert("Adding Failed","Stock should be Integer");
+		return true;
+	}
+	else if(Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim())) {
+		showAlert("Adding Failed","Stock must be larger than threshold");
+		return true;
+	}
 	else
 		data[7]=StockTf.getText().trim();
 	
+	return false;
 }
 private boolean emptyTextFields(String type){
 	if(type.equals("modify")&&(  ISBNTf.getText().trim().isEmpty()))
