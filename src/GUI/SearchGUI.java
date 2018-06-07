@@ -67,7 +67,7 @@ public class SearchGUI {
 		RadioBtnFunctionality();
 		AddImage(group);
 		group.getChildren().add(gridPane);
-		gridPane.setPadding(new Insets(49, 49, 56, 280));
+		gridPane.setPadding(new Insets(49, 49, 56, 100));
 		gridPane.setAlignment(Pos.CENTER);
 
 		gridPane.setVgap(10);
@@ -105,48 +105,49 @@ public class SearchGUI {
 		gp.add(Year, 1, 11);
 		
 		Price.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(Price, 1, 14);
+		gp.add(Price, 4, 2);
 
 		Category.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(Category, 1, 17);
+		gp.add(Category, 4, 5);
 		
 		Threshold.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(Threshold, 1, 20);
+		gp.add(Threshold, 4, 8);
 		
 		Stock.setStyle("-fx-font: normal bold 32px 'serif' ");
-		gp.add(Stock, 1, 23);
+		gp.add(Stock, 4, 11);
 		
 		ISBNTf.setVisible(false);
-		gp.add(ISBNTf, 3, 2);
+		gp.add(ISBNTf, 2, 2);
 
 		PIDTf.setVisible(false);
-		gp.add(PIDTf, 3, 5);
+		gp.add(PIDTf, 2, 5);
 		
 		TitleTf.setVisible(false);
-		gp.add(TitleTf, 3, 8);
+		gp.add(TitleTf, 2, 8);
 		
 		YearTf.setVisible(false);
-		gp.add(YearTf, 3, 11);
+		gp.add(YearTf, 2, 11);
 		
 		PriceTf.setVisible(false);
-		gp.add(PriceTf, 3, 14);
+		gp.add(PriceTf, 5, 2);
 		
 		CategoryTf.setVisible(false);
-		gp.add(CategoryTf, 3, 17);
-		
-		StockTf.setVisible(false);
-		gp.add(StockTf, 3, 20);
+		gp.add(CategoryTf, 5, 5);
 		
 		ThresholdTf.setVisible(false);
-		gp.add(ThresholdTf, 3, 23);
+		gp.add(ThresholdTf, 5, 8);
+		
+		StockTf.setVisible(false);
+		gp.add(StockTf, 5, 11);
+		
 		
 		Search.setText("Search Book");
 		Search.setPrefSize(200, 35);
-		gp.add(Search, 4, 21);
+		gp.add(Search, 5, 15);
 		
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
-		gp.add(Back, 1, 21);
+		gp.add(Back, 1, 15);
 		
 		Back.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
 		Search.setStyle("-fx-background-color: #006064; -fx-text-fill: white; -fx-font: normal bold 25px 'serif' ;");
