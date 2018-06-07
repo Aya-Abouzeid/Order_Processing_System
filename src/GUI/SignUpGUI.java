@@ -36,7 +36,7 @@ public class SignUpGUI extends GUI{
 	private TextField AddressTf = new TextField();
 	private DBMaster dbm;
 	private Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-	private Pattern usernamePattern = Pattern.compile("^[a-z0-9_-]{3,15}$");
+	private Pattern usernamePattern = Pattern.compile("^[a-z][a-z0-9_-]{3,15}$");
 	private Pattern namePattern = Pattern.compile("[aA-zZ ']+$");
 
 	public SignUpGUI( Stage primaryStage , Scene s) throws ClassNotFoundException, SQLException {

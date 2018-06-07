@@ -2,6 +2,7 @@ package GUI;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -35,12 +37,15 @@ public class InfoGUI {
 	private RadioButton Email = new RadioButton("Email");
 	private RadioButton Address = new RadioButton("Shipping Address");
 	private TextField UNameTf = new TextField();
-	private TextField UPassTf = new TextField();
+	private PasswordField UPassTf = new PasswordField();
 	private TextField FNameTf = new TextField();
 	private TextField LNameTf = new TextField();
 	private TextField EmailTf = new TextField();
 	private TextField AddressTf = new TextField();
 	private String[] data = new String[6];
+	private Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+	private Pattern usernamePattern = Pattern.compile("^[a-z][a-z0-9_-]{3,15}$");
+	private Pattern namePattern = Pattern.compile("[aA-zZ ']+$");
 
 
 	public InfoGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
@@ -238,6 +243,9 @@ public class InfoGUI {
 			public void handle(MouseEvent arg0) {
 				if(emptyTextFields())
 					showAlert("Update Failed","Please Fill All Selected Fields");
+				else if(checkPattern()){
+					
+				}
 				else{
 					addData();
 					try {
@@ -257,6 +265,37 @@ public class InfoGUI {
 		});
 	}
 	
+	private boolean checkPattern(){
+		
+		if(( UName.isSelected()&& !usernamePattern.matcher(UNameTf.getText().trim()).matches())){
+			showAlert("Update Failed","Invalid Username");
+
+			return true;
+
+		}
+				
+				if (FName.isSelected()&& !namePattern.matcher(FNameTf.getText().trim()).matches()){
+					showAlert("Update Failed","Invalid First Name");
+
+					return true;
+
+				}
+				if (LName.isSelected()&& !namePattern.matcher(LNameTf.getText().trim()).matches()){
+					showAlert("Update Failed","Invalid Last Name");
+
+					return true;
+
+				}
+				if (Email.isSelected()&& !emailPattern.matcher(EmailTf.getText().trim()).matches()){
+					showAlert("Update Failed","Invalid Email");
+
+					return true;
+
+				}
+				
+		return false;
+		
+	}
 	private void addData(){
 		if(!UName.isSelected())
 			data[0]="";

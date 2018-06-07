@@ -142,7 +142,7 @@ public class SearchGUI {
 		
 		Search.setText("Search Book");
 		Search.setPrefSize(200, 35);
-		gp.add(Search, 3, 20);
+		gp.add(Search, 4, 21);
 		
 		Back.setText("< Back");
 		Back.setPrefSize(119, 35);
