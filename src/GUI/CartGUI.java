@@ -154,8 +154,12 @@ public class CartGUI {
 		public void handle(MouseEvent arg0) {
 			if(!ISBNTf.getText().trim().isEmpty()){
 			try {
-				System.out.println("heeer");
 				double price = dbm.getItemPrice(ISBNTf.getText());
+				if(price == -1){
+				showAlert("Book Missing" , "Book Doesn't Exist In Cart");
+
+				}
+				else
 				bookPrice.setText("         "+ String.valueOf(price));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

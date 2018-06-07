@@ -49,22 +49,30 @@ public class User {
 
 	protected int addInCart(String ISBN, int quantity) throws SQLException {
 		Statement stat = con.createStatement();
-		String query = "select ISBN , stock , price from BOOK where isbn = '" + ISBN + "' and stock = " + quantity;
+		String query = "select ISBN , stock , price from BOOK where isbn = '" + ISBN + "'";
 		System.out.println(query);
 		ResultSet x = stat.executeQuery(query);
 		if (x.next()) {
 			double price = x.getDouble("price");
 			int q = 0;
+			int index = -1;
 			for (int i = 0; i < cartItems.size(); i++) {
 				if (cartItems.get(i).getIsbn().matches(ISBN)) {
 					q += cartItems.get(i).getQuantity();
+					index = i;
 					break;
 					// add success and failure enum please xD
 				}
 			}
 			if (x.getInt("stock") - q - quantity >= 0) {
+				if (index!=-1){
+					cartItems.get(index).setQuantity(q+quantity);
+					
+				}
+				else{
 				CartItem item = new CartItem(ISBN, quantity, userID, price);
 				cartItems.add(item);
+				}
 			} else
 				return -1;
 		} else

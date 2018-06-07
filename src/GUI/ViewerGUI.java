@@ -143,7 +143,7 @@ public class ViewerGUI {
 	        			resultSet.getDate("Year").toString()
 	        			));	
 	        	pagesOffset++;
-	        	if(pagesOffset==2)
+	        	if(pagesOffset==10)
 	        		break;
 	        	hasNext = resultSet.next();
 	        }
