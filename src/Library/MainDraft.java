@@ -29,15 +29,15 @@ public class MainDraft {
 		b.setSellingPrice(150);
 		b.setThreshold(10);
 		b.setStockQuantity(10);
-		b.setCategory(Book.Category.Art);
-		b.setYear(new Date(2000));
+//		b.setCategory(Book.Category.Art);
+//		b.setYear(new Date(2000));
 		
 		//m.addPublisher(18,"qqweqwesd", "asd", "asd", "12331");
 		System.out.println("passed");
 		
 		try {
-			m.addBook(b);
-		}catch (SQLException e){
+//			m.addBook(b);
+		}catch (Exception e){
 			String ex = e.getMessage();
 			System.out.println(ex);
 			
@@ -52,7 +52,7 @@ public class MainDraft {
 		//System.out.println(m.signIn("aykalb@gmail.com"));
 		
 		m.confirmShopping();
-		System.out.println(m.ERROR_MESSAGE);
+//		System.out.println(m.ERROR_MESSAGE);
 		m.getTopCustomers();
 		
 		System.out.println("good night xD");
