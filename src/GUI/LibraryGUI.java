@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 import Library.DBMaster;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,6 +19,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -69,6 +72,16 @@ public class LibraryGUI {
 	private Stage stage;
 	private Scene CustomerScene;
 	private Pattern namePattern = Pattern.compile("[aA-zZ ']+$");
+	private ObservableList<String> categories = 
+		    FXCollections.observableArrayList(
+		        "Science",
+		        "Art",
+		        "Religion",
+		        "History",
+		        "Geography"
+		    );
+	private final ComboBox comboBox = new ComboBox(categories);
+
 	
 	public LibraryGUI( Stage primaryStage, Scene s) throws ClassNotFoundException, SQLException {
 		dbm = DBMaster.getDBMaster();
@@ -156,7 +169,8 @@ public class LibraryGUI {
 		
 		gp.add(PriceTf, 3, 17);
 		
-		gp.add(CategoryTf, 3, 20);	
+		comboBox.setValue("");
+		gp.add(comboBox, 3, 20);	
 		gp.add(StockTf, 3, 23);
 		gp.add(ThresholdTf, 3, 26);
 		
@@ -321,10 +335,11 @@ public void addFunctionality(){
 
 		@Override
 		public void handle(MouseEvent arg0) {
-			 if (!validateCategory())
-				showAlert("Adding Failed","Please Specify Valid Category");
-
-		else if(emptyTextFields("add") || (date == null) )
+//			 if (!validateCategory())
+//				showAlert("Adding Failed","Please Specify Valid Category");
+//
+//		else 
+			if(emptyTextFields("add") || (date == null) )
 				showAlert("Add Failed","Please Fill All Fields");
 			else{
 				addData();
@@ -337,12 +352,12 @@ public void addFunctionality(){
 					showAlert("Success","New Book Added");
 					clearFields();}
 					else{
-						showAlert("Adding Failed","Error, Double Check Book's Info");
+						showAlert("Adding Failed","Error, Invalid Book's Info");
 					}
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					showAlert("Adding Failed","Error, Double Check Book's Info");
+					showAlert("Adding Failed","Error, Invalid Book's Info");
 				}
 				}
 			}
@@ -431,10 +446,10 @@ authorsList = AuthorsTf.getText().trim().split(",");
 	else
 		data[4]=PriceTf.getText().trim();
 	
-	if(CategoryTf.getText().trim().isEmpty())
+	if(comboBox.getValue().toString().isEmpty())
 		data[5]="";
 	else
-		data[5]=CategoryTf.getText().trim();
+		data[5]=comboBox.getValue().toString();
 	
 	if(ThresholdTf.getText().trim().isEmpty())
 		data[6]="";
@@ -460,7 +475,7 @@ private boolean emptyTextFields(String type){
 			|| (TitleTf.getText().trim().isEmpty())
 			|| (date != null && date.toString() == "")
 			|| (PriceTf.getText().trim().isEmpty())
-			|| (CategoryTf.getText().trim().isEmpty())
+			|| (comboBox.getValue().toString().isEmpty())
 			|| (ThresholdTf.getText().trim().isEmpty())
 			|| (StockTf.getText().trim().isEmpty())
 			|| (AuthorsTf.getText().trim().isEmpty()))
@@ -480,24 +495,10 @@ private void clearFields(){
 	PIDTf.setText("");
 	TitleTf.setText("");
 	PriceTf.setText("");
-	CategoryTf.setText("");
+	comboBox.setValue("");
 	AuthorsTf.setText("");
 	ThresholdTf.setText("");
 	StockTf.setText("");
 	datePicker.setValue(null);
 }
 }
-
-
-/**
-	1. Add new books
-	2. Modify existing books
-	3. Place orders for books
-	4. Confirm orders
-	5. Promote registered customers to have managers credentials
-	6. View the following reports on sales
-	a. The total sales for books in the previous month
-	b. The top 5 customers who purchase the most purchase amount in descending order for the last
-	three months
-	c. The top 10 selling books for the last three months
-	Assume that the system stores book sales and other related data for the last 3 months.*/
