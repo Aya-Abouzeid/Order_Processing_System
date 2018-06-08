@@ -245,18 +245,17 @@ public class LibraryGUI {
 						int success = dbm.placeOrder(ISBNTf2.getText().trim(),
 								Integer.valueOf(quantityTf.getText().trim()));
 						if (success <= 0) {
-							showAlert("Order Failed", "Invalid Book Info 44");
+							showAlert("Order Failed", "Invalid Book Info");
 						} else {
 							showAlert("Order Success", "Order is Placed");
+
+							ISBNTf2.setText("");
+							quantityTf.setText("");
 						}
-						ISBNTf2.setText("");
-						quantityTf.setText("");
 
 					} catch (NumberFormatException | SQLException e) {
 						// TODO Auto-generated catch block
-						showAlert("Order Failed", "Invalid Book Info 55");
-						ISBNTf2.setText("");
-						quantityTf.setText("");
+						showAlert("Order Failed", "Invalid Book Info ");
 					}
 				}
 			}
@@ -272,16 +271,15 @@ public class LibraryGUI {
 						int success = dbm.confirmOrder(ISBNTf3.getText().trim());
 						System.out.println(success);
 						if (success <= 0) {
-							showAlert("Confirmation Failed", "Invalid ISBN 1212");
+							showAlert("Confirmation Failed", "Invalid Ordered ISBN");
 						} else {
 							showAlert("Confirmation Success", "Books Added to Stock");
+							ISBNTf3.setText("");
 						}
-						ISBNTf3.setText("");
 
 					} catch (NumberFormatException | SQLException e) {
 						// TODO Auto-generated catch block
-						showAlert("Confirmation Failed", "Invalid ISBN  3423");
-						ISBNTf3.setText("");
+						showAlert("Confirmation Failed", "Invalid ISBN");
 					}
 				}
 			}
@@ -364,12 +362,12 @@ public class LibraryGUI {
 								showAlert("Success", "Book Modified");
 								clearFields();
 							} else {
-								showAlert("Modify Failed", "Error, Double Check Book's Info");
+								showAlert("Modify Failed", "Error, Check Book's Info");
 							}
 
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
-							showAlert("Modify Failed", "Error, Double Check Book's Info");
+							showAlert("Modify Failed", "Error, Check Book's Info");
 						}
 					}
 				}
