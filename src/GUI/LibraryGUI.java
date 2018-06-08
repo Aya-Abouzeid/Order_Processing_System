@@ -297,7 +297,7 @@ public class LibraryGUI {
 						int success = dbm.promoteUser(Integer.valueOf(UIDTf.getText().trim()));
 						System.out.println(success);
 						if (success <= 0) {
-							showAlert("Promotion Failed", "Invalid User ID 678");
+							showAlert("Promotion Failed", "Invalid User ID");
 						} else {
 							showAlert("Promotion Success", "User Promoted");
 						}
@@ -305,7 +305,7 @@ public class LibraryGUI {
 
 					} catch (NumberFormatException | SQLException e) {
 						// TODO Auto-generated catch block
-						showAlert("Promotion Failed", "Invalid User ID 523");
+						showAlert("Promotion Failed", "Invalid User ID");
 						UIDTf.setText("");
 					}
 				}
@@ -316,7 +316,9 @@ public class LibraryGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				if (emptyTextFields("add") || (date == null))
+				if (AuthorsTf.getText().trim().equalsIgnoreCase(","))
+					showAlert("Add Failed", "Please Specify Valid Authors");
+				else if (emptyTextFields("add") || (date == null))
 					showAlert("Add Failed", "Please Fill All Fields");
 				else {
 					if (addData()) {
@@ -345,16 +347,15 @@ public class LibraryGUI {
 
 			@Override
 			public void handle(MouseEvent arg0) {
-				if (!validateCategory())
-					showAlert("Modify Failed", "Please Specify Valid Category");
 
-				else if (AuthorsTf.getText().trim() == ",")
+				if (AuthorsTf.getText().trim().equalsIgnoreCase(",") )
 					showAlert("Modify Failed", "Please Specify Valid Authors");
 				else if (emptyTextFields("modify"))
-					showAlert("Modify Failed", "Please Specify ISBN along with one additional attribute");
+					showAlert("Modify Failed", "Please Specify ISBN along with one or more additional attribute");
 				else {
-					addData();
-					if (!validateAuthors())
+					if (addData()) {
+
+					} else if (!validateAuthors())
 						showAlert("Modify Failed", "Please Specify Valid Authors");
 					else {
 						try {
@@ -363,12 +364,12 @@ public class LibraryGUI {
 								showAlert("Success", "Book Modified");
 								clearFields();
 							} else {
-								showAlert("Modify Failed", "Error, Double Check Book's Info 1");
+								showAlert("Modify Failed", "Error, Double Check Book's Info");
 							}
 
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
-							showAlert("Modify Failed", "Error, Double Check Book's Info 2");
+							showAlert("Modify Failed", "Error, Double Check Book's Info");
 						}
 					}
 				}
@@ -388,13 +389,6 @@ public class LibraryGUI {
 		return true;
 	}
 
-	private boolean validateCategory() {
-		if (!CategoryTf.getText().trim().isEmpty() && !namePattern.matcher(CategoryTf.getText().trim()).matches())
-			return false;
-
-		return true;
-	}
-
 	private boolean addData() {
 
 		authorsList = AuthorsTf.getText().trim().split(",");
@@ -406,7 +400,7 @@ public class LibraryGUI {
 		if (PIDTf.getText().trim().isEmpty())
 			data[1] = "";
 		else if (!PIDTf.getText().trim().matches("\\d+")) {
-			showAlert("Adding Failed", "Publisher ID should be Integer");
+			showAlert("Process Failed", "Publisher ID should be Integer");
 			return true;
 		} else {
 			data[1] = PIDTf.getText().trim();
@@ -431,7 +425,7 @@ public class LibraryGUI {
 				Float.parseFloat(PriceTf.getText().trim());
 				data[4] = PriceTf.getText().trim();
 			} catch (NumberFormatException ex) {
-				showAlert("Adding Failed", "Price should be a Number");
+				showAlert("Process Failed", "Price should be a Number");
 				return true;
 			}
 		}
@@ -444,7 +438,7 @@ public class LibraryGUI {
 		if (ThresholdTf.getText().trim().isEmpty())
 			data[6] = "";
 		else if (!ThresholdTf.getText().trim().matches("\\d+")) {
-			showAlert("Adding Failed", "Threshold should be Integer");
+			showAlert("Process Failed", "Threshold should be Integer");
 			return true;
 		} else
 			data[6] = ThresholdTf.getText().trim();
@@ -452,10 +446,10 @@ public class LibraryGUI {
 		if (StockTf.getText().trim().isEmpty())
 			data[7] = "";
 		else if (!StockTf.getText().trim().matches("\\d+")) {
-			showAlert("Adding Failed", "Stock should be Integer");
+			showAlert("Process Failed", "Stock should be Integer");
 			return true;
-		} else if (Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim())) {
-			showAlert("Adding Failed", "Stock must be larger than threshold");
+		} else if (!data[6].isEmpty() &&(Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim())) ) {
+			showAlert("Process Failed", "Stock must be larger than threshold");
 			return true;
 		} else
 			data[7] = StockTf.getText().trim();
@@ -467,12 +461,12 @@ public class LibraryGUI {
 		if (type.equals("modify") && (ISBNTf.getText().trim().isEmpty()))
 			return true;
 
-		if (type.equals("add") && AuthorsTf.getText().trim() == "")
+		if (type.equals("add") && AuthorsTf.getText().trim().equalsIgnoreCase(""))
 			return true;
-		if (type.equals("add") && AuthorsTf.getText().trim() == ",")
+		if (type.equals("add") && AuthorsTf.getText().trim().equalsIgnoreCase(","))
 			return true;
 		if (type.equals("add") && (ISBNTf.getText().trim().isEmpty() || (PIDTf.getText().trim().isEmpty())
-				|| (TitleTf.getText().trim().isEmpty()) || (date != null && date.toString() == "")
+				|| (TitleTf.getText().trim().isEmpty()) || (date != null && date.toString().equalsIgnoreCase(""))
 				|| (PriceTf.getText().trim().isEmpty()) || (comboBox.getValue().toString().isEmpty())
 				|| (ThresholdTf.getText().trim().isEmpty()) || (StockTf.getText().trim().isEmpty())
 				|| (AuthorsTf.getText().trim().isEmpty()))
