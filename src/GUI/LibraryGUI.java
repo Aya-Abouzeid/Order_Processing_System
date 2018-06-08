@@ -321,7 +321,7 @@ public class LibraryGUI {
 				else {
 					if (addData()) {
 
-					} else if (!validateAuthors())
+					} else if (!validateAuthors() || authorsList.length == 0)
 						showAlert("Adding Failed", "Please Add Valid Authors");
 					else {
 						try {
@@ -357,7 +357,7 @@ public class LibraryGUI {
 						showAlert("Modify Failed", "Please Specify Valid Authors");
 					else {
 						try {
-							int success = dbm.modifyBook(data);
+							int success = dbm.modifyBook(data , authorsList);
 							if (success > 0) {
 								showAlert("Success", "Book Modified");
 								clearFields();
@@ -388,8 +388,10 @@ public class LibraryGUI {
 	}
 
 	private boolean addData() {
-
+		if(!AuthorsTf.getText().trim().isEmpty())
 		authorsList = AuthorsTf.getText().trim().split(",");
+		else
+			authorsList = new String[0];
 		if (ISBNTf.getText().trim().isEmpty())
 			data[0] = "";
 		else

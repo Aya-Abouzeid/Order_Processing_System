@@ -110,20 +110,23 @@ public class DBMaster {
 		}
 
 	}
+
 	public int confirmOrder(String isbn) throws SQLException {
 		return ((Manager) LoggedIn).confirmOrder(isbn);
 	}
+
 	public int placeOrder(String isbn, int qunatity) throws SQLException {
-		return ((Manager) LoggedIn).placeOrder(isbn,qunatity);
+		return ((Manager) LoggedIn).placeOrder(isbn, qunatity);
 	}
+
 	public int promoteUser(int userId) throws SQLException {
 		return ((Manager) LoggedIn).promoteUser(userId);
 	}
+
 	public int removeFromCart(String isbn) throws SQLException {
 		return LoggedIn.removeFromCart(isbn);
 	}
 
-	
 	public void logOut() throws SQLException {
 		LoggedIn.logout(UID);
 		LoggedIn = null;
@@ -134,20 +137,25 @@ public class DBMaster {
 	}
 
 	public int addBook(String[] data, String[] authors) throws SQLException {
-		try{
-		int success = ((Manager) LoggedIn).addBook(new Book(data[2], data[0], Integer.valueOf(data[1]), Integer.valueOf(data[7]),
-				Double.valueOf(data[4]), Integer.valueOf(data[6]), data[5], data[3]), authors);
-		 return success;
-		}
-		catch (NumberFormatException e){
+		try {
+			
+			int success = ((Manager) LoggedIn).addBook(new Book(data[2], data[0], Integer.valueOf(data[1]),
+					Integer.valueOf(data[7]), Double.valueOf(data[4]), Integer.valueOf(data[6]), data[5], data[3]),
+					authors);
+			return success;
+		} catch (NumberFormatException e) {
 			return -1;
 		}
-		}
+	}
 
-	public int modifyBook(String[] data) throws SQLException {
+	public int modifyBook(String[] data, String[] authors) throws SQLException {
+		System.out.println("here " + authors.length);
+		for(int i =0 ; i<authors.length;i++)
+			System.out.println("test> "+authors[i]);
 		return ((Manager) LoggedIn).updateBook(data);
 	}
-	public int confirmShopping(){
+
+	public int confirmShopping() {
 		return LoggedIn.confirmShopping();
 	}
 
