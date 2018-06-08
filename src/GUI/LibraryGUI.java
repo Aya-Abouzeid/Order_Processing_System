@@ -449,7 +449,7 @@ public class LibraryGUI {
 			showAlert("Process Failed", "Stock should be Integer");
 			return true;
 		} else if (!data[6].isEmpty() &&(Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim())) ) {
-			showAlert("Process Failed", "Stock must be larger than threshold");
+			showAlert("Process Failed", "Stock must be larger or equal to threshold");
 			return true;
 		} else
 			data[7] = StockTf.getText().trim();

@@ -19,8 +19,8 @@ public class Manager extends User implements IManager {
 	public int addBook(Book book, String[] authors) throws SQLException {
 
 		try {
-			
-			//con.setAutoCommit(false);
+
+			// con.setAutoCommit(false);
 			PreparedStatement stmt = con.prepareStatement("insert into BOOK values(?,?,?,?,?,?,?,?)");
 			stmt.setString(1, book.getIsbn());
 			stmt.setString(2, book.getTitle());
@@ -32,8 +32,8 @@ public class Manager extends User implements IManager {
 			stmt.setInt(8, book.getThreshold());
 
 			stmt.executeUpdate();
-			
-			for (int i =0;i<authors.length;i++){
+
+			for (int i = 0; i < authors.length; i++) {
 				PreparedStatement stmt2 = con.prepareStatement("insert into BOOK_AUTHORS values(?,?)");
 				stmt2.setString(1, book.getIsbn());
 				stmt2.setString(2, authors[i]);
@@ -67,33 +67,42 @@ public class Manager extends User implements IManager {
 
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;
-		}catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			DBMaster.ERROR_MESSAGE = "Invalid Input";
 			return -1;
 		}
 	}
 
 	@Override
-	public int updateBook(String[] data , String[] authors) {
+	public int updateBook(String[] data, String[] authors) {
 		try {
+
 			String[] attributes = { "ISBN", "PID", "Title", "Year", "Price", "Category", "Threshold", "Stock" };
+
 			Statement stat = con.createStatement();
 			String query = "update book set ";
 			int counter = 0;
-			
+
 			for (int i = 1; i < data.length; i++) {
 				if (!data[i].equals("")) {
-					if (counter != 0 )
-						query += ",";
-
-					else
-						query += attributes[i] + "='" + data[i] + "'";
+					if (counter == 0) {
+						if (i == 2 || i == 3 || i == 5)
+							query += attributes[i] + "='" + data[i] + "'";
+						else
+							query += attributes[i] + "=" + data[i];
+					} else {
+						if (i == 2 || i == 3 || i == 5)
+							query += "," + attributes[i] + "='" + data[i] + "'";
+						else
+							query += "," + attributes[i] + "=" + data[i];
+					}
 					counter++;
 				}
 			}
-			query = query.substring(0, query.length()-1);
-			query += " where ISBN = " + data[0] + ";";
-			System.out.println(query);
+
+			query = query.substring(0, query.length());
+			query += " where ISBN = '" + data[0] + "';";
+
 			int number = stat.executeUpdate(query);
 			return number;
 		} catch (Exception e) {
@@ -107,7 +116,7 @@ public class Manager extends User implements IManager {
 
 		// need other actions?
 		try {
-		
+
 			PreparedStatement stmt = con.prepareStatement("insert into MANAGER values(?)");
 			stmt.setInt(1, userId);
 			stmt.executeUpdate();

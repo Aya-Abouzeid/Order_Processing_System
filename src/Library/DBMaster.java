@@ -149,9 +149,6 @@ public class DBMaster {
 	}
 
 	public int modifyBook(String[] data, String[] authors) throws SQLException {
-		System.out.println("here " + authors.length);
-		for(int i =0 ; i<data.length;i++)
-			System.out.println("test> "+data[i]);
 		return ((Manager) LoggedIn).updateBook(data,authors);
 	}
 
