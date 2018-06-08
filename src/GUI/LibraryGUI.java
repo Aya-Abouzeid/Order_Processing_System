@@ -269,7 +269,6 @@ public class LibraryGUI {
 				else {
 					try {
 						int success = dbm.confirmOrder(ISBNTf3.getText().trim());
-						System.out.println(success);
 						if (success <= 0) {
 							showAlert("Confirmation Failed", "Invalid Ordered ISBN");
 						} else {
@@ -293,7 +292,6 @@ public class LibraryGUI {
 				else {
 					try {
 						int success = dbm.promoteUser(Integer.valueOf(UIDTf.getText().trim()));
-						System.out.println(success);
 						if (success <= 0) {
 							showAlert("Promotion Failed", "Invalid User ID");
 						} else {
@@ -346,7 +344,7 @@ public class LibraryGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 
-				if (AuthorsTf.getText().trim().equalsIgnoreCase(",") )
+				if (AuthorsTf.getText().trim().equalsIgnoreCase(","))
 					showAlert("Modify Failed", "Please Specify Valid Authors");
 				else if (emptyTextFields("modify"))
 					showAlert("Modify Failed", "Please Specify ISBN along with one or more additional attribute");
@@ -355,9 +353,11 @@ public class LibraryGUI {
 
 					} else if (!validateAuthors())
 						showAlert("Modify Failed", "Please Specify Valid Authors");
-					else {
+					else if (authorsList.length == 0 && !AuthorsTf.getText().trim().isEmpty()) {
+						showAlert("Modify Failed", "Error, Check Book's Info");
+					} else {
 						try {
-							int success = dbm.modifyBook(data , authorsList);
+							int success = dbm.modifyBook(data, authorsList);
 							if (success > 0) {
 								showAlert("Success", "Book Modified");
 								clearFields();
@@ -378,18 +378,19 @@ public class LibraryGUI {
 	private boolean validateAuthors() {
 		if (!AuthorsTf.getText().trim().isEmpty()) {
 			for (int i = 0; i < authorsList.length; i++) {
-				if (!namePattern.matcher(authorsList[i].trim()).matches()) {
+				if (!namePattern.matcher(authorsList[i].trim()).matches() || authorsList[i].trim().equals("")) {
 					return false;
 				}
 				authorsList[i] = authorsList[i].trim();
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	private boolean addData() {
-		if(!AuthorsTf.getText().trim().isEmpty())
-		authorsList = AuthorsTf.getText().trim().split(",");
+		if (!AuthorsTf.getText().trim().isEmpty())
+			authorsList = AuthorsTf.getText().trim().split(",");
 		else
 			authorsList = new String[0];
 		if (ISBNTf.getText().trim().isEmpty())
@@ -448,7 +449,8 @@ public class LibraryGUI {
 		else if (!StockTf.getText().trim().matches("\\d+")) {
 			showAlert("Process Failed", "Stock should be Integer");
 			return true;
-		} else if (!data[6].isEmpty() &&(Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim())) ) {
+		} else if (!data[6].isEmpty()
+				&& (Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim()))) {
 			showAlert("Process Failed", "Stock must be larger or equal to threshold");
 			return true;
 		} else

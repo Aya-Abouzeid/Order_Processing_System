@@ -102,9 +102,20 @@ public class Manager extends User implements IManager {
 
 			query = query.substring(0, query.length());
 			query += " where ISBN = '" + data[0] + "';";
+			if (counter != 0)
+				stat.executeUpdate(query);
+			if (authors.length > 0) {
+				String query2 = "delete from BOOK_AUTHORS where ISBN = '" + data[0] + "';";
+				stat.executeUpdate(query2);
 
-			int number = stat.executeUpdate(query);
-			return number;
+				for (int i = 0; i < authors.length; i++) {
+					PreparedStatement stmt2 = con.prepareStatement("insert into BOOK_AUTHORS values(?,?)");
+					stmt2.setString(1, data[0]);
+					stmt2.setString(2, authors[i]);
+					stmt2.executeUpdate();
+				}
+			}
+			return 1;
 		} catch (Exception e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return -1;

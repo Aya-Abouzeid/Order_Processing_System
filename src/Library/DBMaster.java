@@ -138,7 +138,7 @@ public class DBMaster {
 
 	public int addBook(String[] data, String[] authors) throws SQLException {
 		try {
-			
+
 			int success = ((Manager) LoggedIn).addBook(new Book(data[2], data[0], Integer.valueOf(data[1]),
 					Integer.valueOf(data[7]), Double.valueOf(data[4]), Integer.valueOf(data[6]), data[5], data[3]),
 					authors);
@@ -149,7 +149,7 @@ public class DBMaster {
 	}
 
 	public int modifyBook(String[] data, String[] authors) throws SQLException {
-		return ((Manager) LoggedIn).updateBook(data,authors);
+		return ((Manager) LoggedIn).updateBook(data, authors);
 	}
 
 	public int confirmShopping() {
