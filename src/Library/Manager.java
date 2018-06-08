@@ -83,7 +83,7 @@ public class Manager extends User implements IManager {
 			
 			for (int i = 1; i < data.length; i++) {
 				if (!data[i].equals("")) {
-					if (counter != 0)
+					if (counter != 0 )
 						query += ",";
 
 					else
@@ -91,8 +91,9 @@ public class Manager extends User implements IManager {
 					counter++;
 				}
 			}
+			query = query.substring(0, query.length()-1);
 			query += " where ISBN = " + data[0] + ";";
-
+			System.out.println(query);
 			int number = stat.executeUpdate(query);
 			return number;
 		} catch (Exception e) {
