@@ -152,7 +152,7 @@ public class DBMaster {
 		System.out.println("here " + authors.length);
 		for(int i =0 ; i<data.length;i++)
 			System.out.println("test> "+data[i]);
-		return ((Manager) LoggedIn).updateBook(data);
+		return ((Manager) LoggedIn).updateBook(data,authors);
 	}
 
 	public int confirmShopping() {

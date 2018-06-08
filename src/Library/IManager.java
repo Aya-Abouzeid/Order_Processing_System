@@ -19,7 +19,7 @@ public interface IManager {
 	 * 
 	 * @return true upon success,false otherwise
 	 */
-	public int updateBook(String [] data) throws SQLException;
+	public int updateBook(String [] data ,String[] authors) throws SQLException;
 
 	/*
 	 * Promotes customer to Manager

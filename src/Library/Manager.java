@@ -74,7 +74,7 @@ public class Manager extends User implements IManager {
 	}
 
 	@Override
-	public int updateBook(String[] data) {
+	public int updateBook(String[] data , String[] authors) {
 		try {
 			String[] attributes = { "ISBN", "PID", "Title", "Year", "Price", "Category", "Threshold", "Stock" };
 			Statement stat = con.createStatement();
