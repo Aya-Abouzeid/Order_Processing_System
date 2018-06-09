@@ -1,6 +1,9 @@
 package Library;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class User {
@@ -170,15 +173,38 @@ public class User {
 			con.setAutoCommit(false);
 			int quantity;
 			String ISBN;
-			String query;
+			String query="" , query2="";
+	        LocalDate currentDate = LocalDate.now();
+
 			Statement stat = con.createStatement();
 			if( cartItems.size() == 0)
 				return -1;
+			System.out.println(cartItems.size());
+			
 			for (int i = 0; i < cartItems.size(); i++) {
 				ISBN = cartItems.get(i).getIsbn();
 				quantity = cartItems.get(i).getQuantity();
-				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity) + "where ISBN =" + cartItems.get(i).getIsbn() +";";
+				query = "update BOOK set Stock = Stock - " + String.valueOf(quantity) + " where ISBN ='" + cartItems.get(i).getIsbn() +"';";
+				System.out.println(query);
+				if(((ResultSet)stat.executeQuery("select UID , ISBN from BOOKS_sOLD where UID = "+ userID +" and ISBN = " +cartItems.get(i).getIsbn())).next()){
+					
+					query2 = "update books_sold set quantity = quantity + " + cartItems.get(i).getQuantity() + " where uid = "+ userID +" and ISBN = " +cartItems.get(i).getIsbn();
+					//System.out.println(Integer.valueOf(currentDate.toString()));
+
+				}
+				else
+				query2 = "insert into BOOKS_SOLD values (" + userID + ",'" + cartItems.get(i).getIsbn()
+						  + "','" + currentDate + "',"+ cartItems.get(i).getPrice() + "," + cartItems.get(i).getQuantity()+");";
+
+			
+//				LocalDate weekLater = currentDate.plusDays ( 7 );
+//				Period period = Period.between ( currentDate , weekLater );
+//				double daysElapsed = period.getDays () / 30.0;
+//
+//				System.out.println ( "localDate: " + currentDate + " to " + weekLater + " in days: " + daysElapsed );
 				stat.executeUpdate(query);
+				stat.executeUpdate(query2);
+
 
 			}
 			con.commit();
@@ -186,6 +212,7 @@ public class User {
 			return 1;
 		} catch (SQLException e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
+			//System.out.println(e.getMessage());
 			return -1;
 
 		}
