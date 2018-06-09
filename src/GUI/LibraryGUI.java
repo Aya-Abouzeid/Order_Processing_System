@@ -351,7 +351,7 @@ public class LibraryGUI {
 				else {
 					if (addData()) {
 
-					} else if (!validateAuthors())
+					} else if (!validateAuthors() && !AuthorsTf.getText().trim().isEmpty())
 						showAlert("Modify Failed", "Please Specify Valid Authors");
 					else if (authorsList.length == 0 && !AuthorsTf.getText().trim().isEmpty()) {
 						showAlert("Modify Failed", "Error, Check Book's Info");
@@ -449,11 +449,7 @@ public class LibraryGUI {
 		else if (!StockTf.getText().trim().matches("\\d+")) {
 			showAlert("Process Failed", "Stock should be Integer");
 			return true;
-		} else if (!data[6].isEmpty()
-				&& (Integer.valueOf(StockTf.getText().trim()) < Integer.valueOf(ThresholdTf.getText().trim()))) {
-			showAlert("Process Failed", "Stock must be larger or equal to threshold");
-			return true;
-		} else
+		}  else
 			data[7] = StockTf.getText().trim();
 
 		return false;
@@ -461,6 +457,14 @@ public class LibraryGUI {
 
 	private boolean emptyTextFields(String type) {
 		if (type.equals("modify") && (ISBNTf.getText().trim().isEmpty()))
+			return true;
+		if (type.equals("modify") && ( (PIDTf.getText().trim().isEmpty())
+				&& (TitleTf.getText().trim().isEmpty()) && (date == null || date.toString().equalsIgnoreCase(""))
+				&& (PriceTf.getText().trim().isEmpty()) && (comboBox.getValue().toString().isEmpty())
+				&& (ThresholdTf.getText().trim().isEmpty()) && (StockTf.getText().trim().isEmpty())
+				&& (AuthorsTf.getText().trim().isEmpty()))
+
+		)
 			return true;
 
 		if (type.equals("add") && AuthorsTf.getText().trim().equalsIgnoreCase(""))

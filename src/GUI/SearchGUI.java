@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.Label;
 import java.io.File;
 import javafx.scene.control.DatePicker;
 
@@ -29,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.control.Label;
 
 public class SearchGUI {
 	private Button Back = new Button();
@@ -43,13 +43,17 @@ public class SearchGUI {
 	private RadioButton Price = new RadioButton("Price");
 	private RadioButton Stock = new RadioButton("Stock");
 	private RadioButton Threshold = new RadioButton("Threshold");
+	private RadioButton Author = new RadioButton("Author");
+
 	private TextField ISBNTf = new TextField();
 	private TextField PIDTf = new TextField();
 	private TextField TitleTf = new TextField();
 	private TextField PriceTf = new TextField();
 	private TextField StockTf = new TextField();
 	private TextField ThresholdTf = new TextField();
-	private String[] data = new String[8];
+	private TextField AuthorTf = new TextField();
+
+	private String[] data = new String[9];
 	private DBMaster dbm;
 	private LocalDate date;
 
@@ -115,19 +119,23 @@ public class SearchGUI {
 		Title.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Title, 1, 8);
 		
-		//Year.setStyle("-fx-font: normal bold 32px 'serif' ");
+		Year.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Year,1, 11);
+
 		gp.add(datePicker, 2, 11);
 		
 		Price.setStyle("-fx-font: normal bold 32px 'serif' ");
 
-		//Category.setStyle("-fx-font: normal bold 32px 'serif' ");
-		//gp.add(Category, 4, 5);
+		Category.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Category, 4, 5);
 		
 		Threshold.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Threshold, 4, 8);
 		
 		Stock.setStyle("-fx-font: normal bold 32px 'serif' ");
 		gp.add(Stock, 4, 11);
+		Author.setStyle("-fx-font: normal bold 32px 'serif' ");
+		gp.add(Author, 4, 14);
 		
 		ISBNTf.setVisible(false);
 		gp.add(ISBNTf, 2, 2);
@@ -156,6 +164,8 @@ public class SearchGUI {
 		StockTf.setVisible(false);
 		gp.add(StockTf, 5, 11);
 		
+		AuthorTf.setVisible(false);
+		gp.add(AuthorTf, 5, 14);
 		
 		Search.setText("Search Book");
 		Search.setPrefSize(200, 35);
@@ -279,6 +289,20 @@ public class SearchGUI {
 	            }
 	        }
 	    });
+		Author.setOnAction(new EventHandler<ActionEvent>() {
+
+
+			@Override
+	        public void handle(ActionEvent arg0) {
+	            if(Author.isSelected()){
+	            	AuthorTf.setVisible(true);
+	            }
+	            else{
+	            	AuthorTf.clear();
+	            	AuthorTf.setVisible(false);
+	            }
+	        }
+	    });
 	}
 	public void AddFunctionality(){
 		
@@ -365,10 +389,16 @@ public class SearchGUI {
 		else{
 			data[6]=ThresholdTf.getText().trim();
 		x = true;}
+		
 		if(!Stock.isSelected())
 			data[7]="";
 		else{
 			data[7]=StockTf.getText().trim();
+		x = true;}
+		if(!Author.isSelected())
+			data[8]="";
+		else{
+			data[8]=AuthorTf.getText().trim();
 		x = true;}
 		return x ;
 		
@@ -381,8 +411,9 @@ public class SearchGUI {
 				|| (Price.isSelected()&& PriceTf.getText().trim().isEmpty())
 				
 				|| (Threshold.isSelected()&& ThresholdTf.getText().trim().isEmpty())
-				|| (Stock.isSelected()&& StockTf.getText().trim().isEmpty()))
-				)
+				|| (Stock.isSelected()&& StockTf.getText().trim().isEmpty())
+				|| (Author.isSelected()&& AuthorTf.getText().trim().isEmpty())
+				))
 			return true;
 		return false;
 	}

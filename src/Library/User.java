@@ -21,9 +21,11 @@ public class User {
 	// >> newly written
 	ResultSet searchBook(String[] data) throws SQLException {
 		try {
-			String[] attributes = { "ISBN", "PID", "TITLE", "YEAR", "PRICE", "CATEGORY", "THRESHOLD", "STOCK" };
+			String[] attributes = { "ISBN", "PID", "TITLE", "YEAR", "PRICE", "CATEGORY", "THRESHOLD", "STOCK" , "AUTHOR"};
 			Statement stat = con.createStatement();
-			String query = "SELECT * FROM BOOK WHERE ";
+			String query = "";
+			if(data[8].equals("")){
+			query = "SELECT * FROM BOOK WHERE ";
 			int j = -1;
 			for (int i = 0; i < data.length; i++) {
 				if (!data[i].equals("")) {
@@ -35,7 +37,22 @@ public class User {
 			}
 			query += ";";
 
+			}
+			else {
+				query = "SELECT * FROM BOOK NATURAL JOIN BOOK_AUTHORS WHERE ";
+				int j = -1;
+				for (int i = 0; i < data.length; i++) {
+					if (!data[i].equals("")) {
+						j++;
+						if (j != 0)
+							query += " AND ";
+						query += attributes[i] + "='" + data[i] + "'";
+					}
+				}
+				query += ";";
+			}
 			return stat.executeQuery(query);
+
 		} catch (Exception e) {
 			DBMaster.ERROR_MESSAGE = e.getMessage();
 			return null;
@@ -155,6 +172,8 @@ public class User {
 			String ISBN;
 			String query;
 			Statement stat = con.createStatement();
+			if( cartItems.size() == 0)
+				return -1;
 			for (int i = 0; i < cartItems.size(); i++) {
 				ISBN = cartItems.get(i).getIsbn();
 				quantity = cartItems.get(i).getQuantity();

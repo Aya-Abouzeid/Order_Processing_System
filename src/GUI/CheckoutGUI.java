@@ -121,14 +121,48 @@ public class CheckoutGUI {
 			@Override
 			public void handle(MouseEvent arg0) {
 				// TODO Auto-generated method stub
+				if(!validateCardNumber()){
+					showAlert("Purchase Failed", "Please Add Valid Card Number");
+				}
+				else if(datePicker.getValue() == null || validateDate()){
+					showAlert("Purchase Failed", "Please Add Valid Date");
+				} else {
 				int x = dbm.confirmShopping();
 				if(x==1){
 					showAlert("Successful purshase","Done");
+				}
+				else
+				{
+					showAlert("Purchase Failed", "Empty Cart !");
+
+				}
 				}
 				
 			}
 
 		});
+	}
+	private boolean validateDate(){
+        LocalDate currentDate = LocalDate.now();
+        if(datePicker.getValue().isAfter(currentDate))
+        	return false;
+        else
+        	return true;
+	}
+	private boolean validateCardNumber(){
+		
+		try
+	    {
+			int x = Integer.parseInt(creditCardTF.getText().trim());
+			if(x > 1000000)
+	        return true;
+			else 
+				 return false;
+	    } catch (NumberFormatException ex)
+	    {
+	        return false;
+	    }
+		
 	}
 	private void showAlert(String title , String msg){
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
