@@ -1,8 +1,10 @@
 package Library;
 
 import java.sql.ResultSet;
+import java.time.Period;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.sql.PreparedStatement;
 import java.util.Set;
 
@@ -13,8 +15,37 @@ public class Manager extends User implements IManager {
 	public Manager(int id) throws SQLException, ClassNotFoundException {
 
 		super(id);
+		delete();
 	}
+	private void delete() {
+        LocalDate currentDate = LocalDate.now();
+		Statement stat;
+		try {
+			stat = con.createStatement();
+			Statement stat2 = con.createStatement();
 
+			String query = "select * from BOOKS_SOLD ;";
+			ResultSet rs = stat.executeQuery(query);
+			query = "";
+			while(rs.next()){
+				Period period = Period.between ( currentDate , rs.getDate(3).toLocalDate() );
+				int monthsElapsed = period.getMonths() ;
+				System.out.println(period.getMonths() +" "+ period.getDays()+" "+period.getYears() );
+				if(Math.abs(monthsElapsed) > 3 || (Math.abs(monthsElapsed) == 3 && 
+						period.getDays()!=0) || period.getYears() !=0)
+				{
+					query = "delete from BOOKS_SOLD where UID = "+rs.getInt(1)+" and ISBN = '"+rs.getString(2)+"' ;";
+					stat2.executeUpdate(query);
+					System.out.println(query);
+					query = "";
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	@Override
 	public int addBook(Book book, String[] authors) throws SQLException {
 
@@ -164,8 +195,19 @@ public class Manager extends User implements IManager {
 
 			Statement stat = con.createStatement();
 			String query = "";
-			query += "Insert into BOOK_ORDERS Values ('" + isbn + "'," + String.valueOf(qunatity) + ");";
+			System.out.println(" select * from book_orders where isbn = '"+ isbn+"';");
 
+			ResultSet exists = stat.executeQuery(" select * from book_orders where isbn = '"+ isbn+"' ;");
+			//System.out.println(exists);
+
+			if(exists.next()){
+				query = "update BOOK_ORDERS set quantity = quantity + "+String.valueOf(qunatity)+" where isbn = "+isbn;
+			}
+            
+		else
+			query += "Insert into BOOK_ORDERS Values ('" + isbn + "'," + String.valueOf(qunatity) + ");";
+			
+			System.out.println(query);
 			int number = stat.executeUpdate(query);
 			return 1;
 		} catch (SQLException e) {
