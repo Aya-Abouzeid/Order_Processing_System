@@ -74,11 +74,6 @@ CREATE TABLE `OrderProcessingSystem`.`BOOKS_SOLD` (
 );
 
 
-
-use OrderProcessingSystem;
-create schema OrderProcessingSystem;
-use OrderProcessingSystem;
-
 CREATE TABLE `OrderProcessingSystem`.`USER` (
 	`UID` INT NOT NULL AUTO_INCREMENT,
 	`UName` VARCHAR(100)  NOT NULL UNIQUE,
