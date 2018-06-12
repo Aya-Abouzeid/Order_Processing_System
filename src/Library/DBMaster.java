@@ -2,12 +2,12 @@ package Library;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import com.mysql.jdbc.ResultSet;
 
 public class DBMaster {
 
@@ -18,9 +18,11 @@ public class DBMaster {
 	private int MID;
 	private static Database db;
 	private static DBMaster dbm;
+	private Report report;
 
 	private DBMaster() throws SQLException, ClassNotFoundException {
 
+		report = new Report();
 	}
 
 	public static String ERROR_MESSAGE;
@@ -62,7 +64,7 @@ public class DBMaster {
 			String query2 = "";
 			query2 += "select UID from USER where UName = '" + uName + "' and Upass = MD5('" + uPass + "');";
 
-			ResultSet result = (ResultSet) stat.executeQuery(query2);
+			ResultSet result =  stat.executeQuery(query2);
 
 			if (!result.next()) { // empty set , NO SUCH USER
 				return -1;
@@ -171,5 +173,14 @@ public class DBMaster {
 	public List<CartItem> getCart() {
 		return LoggedIn.getCart();
 	}
-
+	
+	public void getTotalSales(){
+		report.getTotalSales();
+	}
+	public void getTopCustomers(){
+		report.getTopCustomers();
+	}
+	public void getBestSellingBooks(){
+		report.getBestSellingBooks();
+	}
 }

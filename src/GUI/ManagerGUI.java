@@ -124,6 +124,33 @@ public class ManagerGUI {
 	
 	public void AddFunctionality(){
 		
+		
+		viewTotalSalesThisMonth.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			 
+            @Override
+            public void handle(MouseEvent arg0) {
+               
+               dbm.getTotalSales();
+            }
+        });
+       
+        topFiveCustomers.setOnMouseClicked(new EventHandler<MouseEvent>() {
+ 
+            @Override
+            public void handle(MouseEvent arg0) {
+               
+                   dbm.getTopCustomers();
+            }
+        });
+        topTenSellingBooks.setOnMouseClicked(new EventHandler<MouseEvent>() {
+ 
+            @Override
+            public void handle(MouseEvent arg0) {
+               
+                    dbm.getBestSellingBooks();
+            }
+        });
+
 		//User Clicked Logout Btn
 		Logout.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -198,5 +225,6 @@ public class ManagerGUI {
 					}
 			}
 		});
+		
 	}
 }
